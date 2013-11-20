@@ -2,18 +2,13 @@
 
 using namespace std;
 
-Mine::Mine(int c, int l)
+Mine::Mine(int c, int r)
 {
-	int i;
-
 	this->maxc = c;
-	this->maxl = l;
-	map = new Block*[this->maxc*this->maxl];
+	this->maxr = r;
 
-	for (i=0; i<maxc*maxl; i++)
-	{
-		map[i] = new Block(i);
-	}
+	map = new Block*[this->maxc*this->maxr];
+	createBlocks();
 }
 
 Mine::~Mine()
@@ -24,6 +19,25 @@ Mine::~Mine()
 	delete [] map;
 }
 
+void Mine::createBlocks()
+{
+	int currColumn=0, currRow=0;
+	for (int i=0; i<getBlockCount(); i++)
+	{
+		map[i] = new Block(i,currColumn,currRow);
+		//Next
+		if (currColumn == this->maxc-1)
+		{
+			currColumn = 0;
+			if (currRow == this->maxr-1)
+				break; //Limit of mine
+			currRow++;
+		}
+		else
+			currColumn++;
+	}
+}
+
 Block* Mine::getBlock(int index)
 {
 	if (index >= getBlockCount())
@@ -32,7 +46,7 @@ Block* Mine::getBlock(int index)
 		return map[index];
 }
 
-Block* Mine::getBlock(int column, int line)
+Block* Mine::getBlock(int column, int row)
 {
 	//ToDo
 	return NULL;
@@ -40,5 +54,5 @@ Block* Mine::getBlock(int column, int line)
 
 int Mine::getBlockCount()
 {
-	return maxc*maxl;
+	return maxc*maxr;
 }

@@ -2,11 +2,13 @@
 
 using namespace std;
 
-Block::Block(int i, int c, int l)
+Block::Block(int i, int c, int r, int w, int h)
 {
 	this->index = i;
-	this->columns = c;
-	this->lines = l;
+	this->column = c;
+	this->row = r;
+	this->width = w;
+	this->height = h;
 }
 
 int Block::getIndex()
@@ -14,12 +16,22 @@ int Block::getIndex()
 	return this->index;
 }
 
-int Block::getColumns()
+int Block::getColumn()
 {
-	return this->columns;
+	return this->column;
 }
 
-int Block::getLines()
+int Block::getRow()
 {
-	return this->lines;
+	return this->row;
+}
+
+int Block::getWidth()
+{
+	return this->width;
+}
+
+int Block::getHeight()
+{
+	return this->height;
 }

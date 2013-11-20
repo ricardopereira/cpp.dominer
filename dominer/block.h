@@ -2,12 +2,16 @@
 
 class Block {
 	int index;
-	int columns;
-	int lines;
+	int column;
+	int row;
+	int width;
+	int height;
 public:
-	Block(int i, int c = 5, int l = 3);
+	Block(int i, int c, int r, int w = 5, int h = 3);
 
 	int getIndex();
-	int getColumns();
-	int getLines();
+	int getColumn();
+	int getRow();
+	int getWidth();
+	int getHeight();
 };

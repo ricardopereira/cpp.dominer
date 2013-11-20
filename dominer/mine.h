@@ -3,14 +3,16 @@
 #include "block.h"
 
 class Mine {
-	int maxc,maxl;
+	int maxc,maxr;
 	Block** map;
 public:
-	Mine(int c=7, int l=7);
+	Mine(int c=7, int r=7);
 	~Mine();
 
+    void createBlocks();
+
 	Block* getBlock(int index);
-	Block* getBlock(int column, int line);
+	Block* getBlock(int column, int row);
 
 	int getBlockCount();
 };

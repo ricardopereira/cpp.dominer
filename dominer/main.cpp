@@ -8,15 +8,15 @@ int main()
 {
 	Controller c;
 	Mine *m1;
-	int maxc, maxl;
+	int maxc, maxr;
 
 	cout << "Matriz (7x7):" << endl;
 	cout << "NColunas: ";
 	cin >> maxc;
 	cout << "NLinhas: ";
-	cin >> maxl;
+	cin >> maxr;
 
-	m1 = new Mine(maxc,maxl);
+	m1 = new Mine(maxc,maxr);
 
 	c.clearScreen();
 	c.print(m1);

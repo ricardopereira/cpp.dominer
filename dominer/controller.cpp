@@ -37,8 +37,8 @@ void Controller::print(Block& b)
 
 	blockIndex = b.getIndex() + 1;
 
-	for (i=y; i<y+b.getLines(); i++) //Linhas
-		for (j=blockIndex*x; j<x*blockIndex+b.getColumns(); j++) //Colunas
+	for (i=y; i<y+b.getHeight(); i++) //Linhas
+		for (j=blockIndex*x; j<x*blockIndex+b.getWidth(); j++) //Colunas
 		{
 			c.gotoxy(j,i);
 			cout << (char) 176;
