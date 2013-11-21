@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "block.h"
 #include "common.h"
 

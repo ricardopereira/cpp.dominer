@@ -1,16 +1,25 @@
 #include <iostream>
 
 #include "controller.h"
+#include "common.h"
 
 Controller::Controller()
 {
-	this->x = 5;
-	this->y = 3;
+	this->x = CELLSIZE;
+	this->y = CELLSIZE;
+
+	c.setTextSize(TEXTSIZE,TEXTSIZE);
+	c.setScreenSize(50,80);
 }
 
 Controller::~Controller()
 {
 
+}
+
+char Controller::readKey()
+{
+	return c.getch();
 }
 
 void Controller::clearScreen()
@@ -33,7 +42,6 @@ void Controller::print(Mine* m)
 		if (b->getColumn() == m->getColumnLimit()-1)
 		{
 			this->x = oldX;
-			this->y += b->getHeight();
 		}
 	}
 	this->x = oldX;
@@ -42,21 +50,28 @@ void Controller::print(Mine* m)
 
 void Controller::print(Block& b)
 {
-	int i,j,blockIndex;
+	int i,j,cidx,ridx;
 
 	//Color of Block
 	c.setTextColor(b.getColor());
-	//try
+	try
+	{
+		//Get the position, not the index
+		cidx = b.getColumn() + 1;
+		ridx = b.getRow() + 1;
 
-	blockIndex = b.getColumn() + 1;
-
-	for (i=y; i<y+b.getHeight(); i++) //Linhas
-		for (j=blockIndex*x; j<x*blockIndex+b.getWidth(); j++) //Colunas
-		{
-			c.gotoxy(j,i);
-			cout << (char) 176;
-		}
-
-	//Restore old color
-	c.setTextColor(c.BRANCO);
+		for (i=ridx*y; i<y*ridx+b.getHeight(); i++) //Linhas
+			for (j=cidx*x; j<x*cidx+b.getWidth(); j++) //Colunas
+			{
+				c.gotoxy(j,i);
+				cout << (char) 176;
+			}
+	}
+	catch (...)
+	{
+		//Restore old color
+		c.setTextColor(VERMELHO);
+	}
+	//Restore default color
+	c.setTextColor(DEFAULTCOLOR);
 }

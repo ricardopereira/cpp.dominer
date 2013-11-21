@@ -48,7 +48,13 @@ Block* Mine::getBlock(int index)
 
 Block* Mine::getBlock(int column, int row)
 {
-	//ToDo
+	Block* item;
+	for (int i=0; i<getBlockCount(); i++)
+	{
+		item = map[i];
+		if (item->getColumn() == column && item->getRow() == row)
+			return item;
+	}
 	return NULL;
 }
 

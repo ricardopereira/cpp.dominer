@@ -13,6 +13,8 @@ public:
 	Controller();
 	~Controller();
 
+	char readKey();
+
 	void clearScreen();
 
 	void print(Mine* m);

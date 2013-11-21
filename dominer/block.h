@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "common.h"
+
 using namespace std;
 
 class Block {
@@ -11,7 +13,7 @@ class Block {
 	//Attributes
 	int color;
 public:
-	Block(int i, int c, int r, int w = 5, int h = 3);
+	Block(int i, int c, int r, int w = CELLSIZE, int h = CELLSIZE);
 
 	int getIndex();
 	int getColumn();
