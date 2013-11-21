@@ -15,4 +15,6 @@ public:
 	Block* getBlock(int column, int row);
 
 	int getBlockCount();
+	int getColumnLimit();
+	int getRowLimit();
 };

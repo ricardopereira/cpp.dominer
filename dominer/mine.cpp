@@ -56,3 +56,13 @@ int Mine::getBlockCount()
 {
 	return maxc*maxr;
 }
+
+int Mine::getColumnLimit()
+{
+	return maxc;
+}
+
+int Mine::getRowLimit()
+{
+	return maxr;
+}

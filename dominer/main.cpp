@@ -21,6 +21,11 @@ int main()
 	c.clearScreen();
 	c.print(m1);
 
+	Block* b7 = m1->getBlock(7);
+	//Teste
+	b7->setColor(5);
+	c.print(*b7);
+
 	delete m1;
 	return 0;
 }

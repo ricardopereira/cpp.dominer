@@ -20,8 +20,24 @@ void Controller::clearScreen()
 
 void Controller::print(Mine* m)
 {
+	Block* b;
+	int oldX = this->x;
+	int oldY = this->y;
+
 	for (int i=0; i<m->getBlockCount(); i++)
-		print(*m->getBlock(i));
+	{
+		b = m->getBlock(i);
+		print(*b);
+
+		//Nova linha
+		if (b->getColumn() == m->getColumnLimit()-1)
+		{
+			this->x = oldX;
+			this->y += b->getHeight();
+		}
+	}
+	this->x = oldX;
+	this->y = oldY;
 }
 
 void Controller::print(Block& b)
@@ -29,13 +45,10 @@ void Controller::print(Block& b)
 	int i,j,blockIndex;
 
 	//Color of Block
-	if (b.getIndex() % 2 == 0)
-		c.setTextColor(c.VERMELHO);
-	else
-		c.setTextColor(c.VERMELHO_CLARO);
+	c.setTextColor(b.getColor());
 	//try
 
-	blockIndex = b.getIndex() + 1;
+	blockIndex = b.getColumn() + 1;
 
 	for (i=y; i<y+b.getHeight(); i++) //Linhas
 		for (j=blockIndex*x; j<x*blockIndex+b.getWidth(); j++) //Colunas
