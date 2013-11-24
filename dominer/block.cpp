@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "block.h"
-#include "common.h"
+#include "Block.h"
+#include "Common.h"
 
 using namespace std;
 
@@ -17,6 +17,11 @@ Block::Block(int i, int c, int r, int w, int h)
 		setColor(VERMELHO);
 	else
 		setColor(VERMELHO_CLARO);
+}
+
+Block::~Block()
+{
+
 }
 
 int Block::getIndex()
@@ -52,4 +57,9 @@ int Block::getColor()
 void Block::setColor(const int value)
 {
 	this->color = value;
+}
+
+char Block::getDrawInfo()
+{
+	return (char)176;
 }

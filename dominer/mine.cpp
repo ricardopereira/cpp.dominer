@@ -1,4 +1,4 @@
-#include "mine.h"
+#include "Mine.h"
 
 using namespace std;
 

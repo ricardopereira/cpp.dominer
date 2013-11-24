@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "controller.h"
-#include "common.h"
+#include "Controller.h"
+#include "Common.h"
 
 using namespace std;
 
@@ -39,54 +39,6 @@ int main()
 		     (key != CIMA)     && (key != BAIXO) ) 
 			continue;
 
-		if (key == ESQUERDA)
-		{
-			if (currBlock->getIndex() % 2 == 0)
-				currBlock->setColor(VERMELHO);
-			else
-				currBlock->setColor(VERMELHO_CLARO);
-			c.print(*currBlock);
-
-			currBlock = m1->getBlock(currBlock->getIndex()-1);
-			currBlock->setColor(AZUL);
-			c.print(*currBlock);
-		}
-		else if (key == DIREITA)
-		{
-			if (currBlock->getIndex() % 2 == 0)
-				currBlock->setColor(VERMELHO);
-			else
-				currBlock->setColor(VERMELHO_CLARO);
-			c.print(*currBlock);
-
-			currBlock = m1->getBlock(currBlock->getIndex()+1);
-			currBlock->setColor(AZUL);
-			c.print(*currBlock);
-		}
-		else if (key == CIMA)
-		{
-			if (currBlock->getIndex() % 2 == 0)
-				currBlock->setColor(VERMELHO);
-			else
-				currBlock->setColor(VERMELHO_CLARO);
-			c.print(*currBlock);
-
-			currBlock = m1->getBlock(currBlock->getIndex()-m1->getColumnLimit());
-			currBlock->setColor(AZUL);
-			c.print(*currBlock);
-		}
-		else if (key == BAIXO)
-		{
-			if (currBlock->getIndex() % 2 == 0)
-				currBlock->setColor(VERMELHO);
-			else
-				currBlock->setColor(VERMELHO_CLARO);
-			c.print(*currBlock);
-
-			currBlock = m1->getBlock(currBlock->getIndex()+m1->getColumnLimit());
-			currBlock->setColor(AZUL);
-			c.print(*currBlock);
-		}
 	}
 
 	delete m1;

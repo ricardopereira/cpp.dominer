@@ -3,7 +3,7 @@
 
 /* Pequenas correcoes. Nov. 2013 */
 
-#include "consola.h"                      
+#include "Consola.h"                      
 #include <windows.h>
 #include <stdio.h>
 

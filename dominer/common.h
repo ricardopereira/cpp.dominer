@@ -3,6 +3,7 @@
 
 #define CELLSIZE 5
 #define TEXTSIZE 8
+#define SCREENSIZE 7
 
 #define PRETO 0
 #define AZUL 1

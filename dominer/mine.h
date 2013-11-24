@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "block.h"
+#include "Block.h"
 
 class Mine {
 	int maxc,maxr;
