@@ -1,4 +1,3 @@
-
 /* Funcoes da consola. Dez 2010 */
 
 /* Pequenas correcoes. Nov. 2013 */
