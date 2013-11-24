@@ -3,11 +3,13 @@
 #include "Controller.h"
 #include "Common.h"
 
+#include "Mine.h"
+
 using namespace std;
 
 int main()
 {
-	Controller c;
+	Controller ctrl;
 	Mine *m1;
 	int maxc, maxr;
 
@@ -19,19 +21,25 @@ int main()
 
 	m1 = new Mine(maxc,maxr);
 
-	c.clearScreen();
-	c.print(m1);
+	ctrl.getScreen().clear();
 
 	//Test
 	Block* currBlock = m1->getBlock(16);
 	currBlock->setColor(AZUL);
-	c.print(*currBlock);
+
+	ctrl.getScreen().setBufferItem(0,m1->getBlock(0));
+	ctrl.getScreen().setBufferItem(48,m1->getBlock(16));
+
+	ctrl.getScreen().refresh();
+
+	//Test
+	ctrl.getScreen().print(*currBlock,4,4);
 
 	//Game
 	char key;
 	while (1)
 	{
-		key = c.readKey();
+		key = ctrl.getScreen().readKey();
 		if (key == ESCAPE)
 			break;
 

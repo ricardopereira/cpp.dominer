@@ -1,28 +1,15 @@
 #include <iostream>
 
 #include "Consola.h"
-#include "Common.h"
-#include "Mine.h"
-#include "BlockEmpty.h"
-
-using namespace std;
+#include "Screen.h"
 
 class Controller
 {
 	Consola c;
-	Block** screen;
-	BlockEmpty* empty;
-	int x,y;
-
-	void initScreen();
+	Screen* screen;
 public:
 	Controller();
 	~Controller();
 
-	char readKey();
-
-	void clearScreen();
-
-	void print(Mine* m);
-	void print(Block& b);
+	Screen& getScreen();
 };

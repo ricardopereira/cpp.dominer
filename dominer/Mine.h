@@ -2,6 +2,9 @@
 
 #include "Block.h"
 
+#ifndef __MINE_H__
+#define __MINE_H__
+
 class Mine {
 	int maxc,maxr;
 	Block** map;
@@ -18,3 +21,5 @@ public:
 	int getColumnLimit();
 	int getRowLimit();
 };
+
+#endif
