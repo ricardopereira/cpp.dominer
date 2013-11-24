@@ -1,4 +1,3 @@
-
 /* Funcoes da consola. Dez 2010 */
 
 /* Pequenas correcoes. Nov. 2013 */
@@ -75,7 +74,7 @@ void Consola::setScreenSize(int nLinhas, int nCols) {
     SetConsoleWindowInfo(hconsola, TRUE, &DisplayArea);  // isto muda o tamanho da area da janela em caracteres
 }
 
-// usar esta de preferência a não ser que se esteja no XP ou anterior
+// usar esta de preferï¿½ncia a nï¿½o ser que se esteja no XP ou anterior
 void Consola::setTextSize(int x, int y) {
 	CONSOLE_FONT_INFOEX cfont;
 
@@ -114,11 +113,11 @@ char Consola::getch(void) {
 }
 
 
-// setTextSize - Usar isto apenas se a outra não funcionar (XP ou menos)
-// O método de funcionamento é bastante força-bruta
+// setTextSize - Usar isto apenas se a outra nï¿½o funcionar (XP ou menos)
+// O mï¿½todo de funcionamento ï¿½ bastante forï¿½a-bruta
 //   Procura uma fonte que cumpra os requisitos do novo tamanho
-//   e muda para essa fonte (ou seja, muda tambéma fonte)
-// Funções que a MS nem se deu ao trabalho de documentar
+//   e muda para essa fonte (ou seja, muda tambï¿½ma fonte)
+// Funï¿½ï¿½es que a MS nem se deu ao trabalho de documentar
 // Help: http://blogs.microsoft.co.il/blogs/pavely/archive/2009/07/23/changing-console-fonts.aspx
 typedef BOOL (WINAPI * SetConsoleFont_)(HANDLE ConsoleOutput, DWORD FontIndex); // kernel32!SetConsoleFont
 typedef BOOL (WINAPI * GetConsoleFontInfo_)(HANDLE ConsoleOutput, BOOL Unknown1, DWORD Unknown2, PCONSOLE_FONT_INFO ConsoleFontInfo); // kernel32!GetConsoleFontInfo
@@ -126,7 +125,7 @@ typedef DWORD (WINAPI * GetNumberOfConsoleFonts_)(); // kernel32!GetNumberOfCons
 
 
 void Consola::setTextSizeXP(int x, int y){
-	// Configura acesso às funções "secretas" do Windows
+	// Configura acesso ï¿½s funï¿½ï¿½es "secretas" do Windows
     SetConsoleFont_ SetConsoleFont = reinterpret_cast<SetConsoleFont_>(GetProcAddress(GetModuleHandle(L"kernel32.dll"), "SetConsoleFont"));
     GetConsoleFontInfo_ GetConsoleFontInfo = reinterpret_cast<GetConsoleFontInfo_>(GetProcAddress(GetModuleHandle(L"kernel32.dll"), "GetConsoleFontInfo"));
     GetNumberOfConsoleFonts_ GetNumberOfConsoleFonts = reinterpret_cast<GetNumberOfConsoleFonts_>(GetProcAddress(GetModuleHandle(L"kernel32.dll"), "GetNumberOfConsoleFonts"));
@@ -140,12 +139,12 @@ void Consola::setTextSizeXP(int x, int y){
     // obtem info das fontes todas
 	GetConsoleFontInfo(hconsola, FALSE, NumFonts, ConsoleInfo);
 
-    // percorre-as todas. O melhor é não chamar isto muitas vezes
+    // percorre-as todas. O melhor ï¿½ nï¿½o chamar isto muitas vezes
     for (size_t i = 0; i < NumFonts; ++i) {
-		// Indaga o tamanho (suportado) da fonte. Pode não haver nenhuma para esse tamanho
+		// Indaga o tamanho (suportado) da fonte. Pode nï¿½o haver nenhuma para esse tamanho
 		ConsoleInfo[i].dwFontSize = GetConsoleFontSize(GetStdHandle(STD_OUTPUT_HANDLE), ConsoleInfo[i].nFont);
 
-		// Encontrou uma. muda para essa e já está (mesmo que haja outras)
+		// Encontrou uma. muda para essa e jï¿½ estï¿½ (mesmo que haja outras)
 		if (ConsoleInfo[i].dwFontSize.X == x && ConsoleInfo[i].dwFontSize.Y == y) {
 			// x,y = tamanho desejado (se houver)
 			// muda para essa fonte e sai
@@ -160,7 +159,7 @@ void Consola::setTextSizeXP(int x, int y){
 
 
 // estas funcoes servem para pouco a nao ser que nao se tape/destape a janela
-// o refresh da janela da consola não reactualiza isto
+// o refresh da janela da consola nï¿½o reactualiza isto
 // por esse motivo nao achei que valesse apena optimizar certos aspectos delas
 void Consola::drawLine(int x1,int y1,int x2,int y2,int cor){
 	HDC DrawHDC;
