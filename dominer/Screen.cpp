@@ -61,7 +61,7 @@ void Screen::setBufferItem(int index, Block* item)
 void Screen::printBuffer()
 {
 	Block* b;
-	int cidx=1, ridx=1;
+	int col=1, row=1;
 	int oldX = this->x;
 	int oldY = this->y;
 
@@ -71,27 +71,27 @@ void Screen::printBuffer()
 		//Print block
 		if (!b)
 		{
-			print(*emptyBlock,cidx,ridx);
+			print(*emptyBlock,col,row);
 		}
 		else
 		{
-			print(*b,cidx,ridx);
+			print(*b,col,row);
 		}
 
 		//Check if is a new line
 		if (i % SCREENSIZE == 0)
 		{
-			cidx = 1;
-			ridx++;
+			col = 1;
+			row++;
 		}
 		else
-			cidx++;
+			col++;
 	}
 	this->x = oldX;
 	this->y = oldY;
 }
 
-void Screen::print(Block& b, int cidx, int ridx)
+void Screen::print(Block& b, int col, int row)
 {
 	int i,j;
 
@@ -99,8 +99,8 @@ void Screen::print(Block& b, int cidx, int ridx)
 	c->setTextColor(b.getColor());
 	try
 	{
-		for (i=ridx*y; i<y*ridx+b.getHeight(); i++) //Linhas
-			for (j=cidx*x; j<x*cidx+b.getWidth(); j++) //Colunas
+		for (i=row*y; i<y*row+b.getHeight(); i++) //Linhas
+			for (j=col*x; j<x*col+b.getWidth(); j++) //Colunas
 			{
 				c->gotoxy(j,i);
 				cout << b.getDrawInfo();

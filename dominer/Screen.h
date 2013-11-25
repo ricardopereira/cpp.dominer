@@ -27,7 +27,7 @@ public:
 
 	char readKey();
 
-	void print(Block& b, int cidx, int ridx);
+	void print(Block& b, int col, int row);
 
 	void refresh();
 	void clear();

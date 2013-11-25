@@ -40,22 +40,21 @@ void Mine::createBlocks()
 
 Block* Mine::getBlock(int index)
 {
-	if (index >= getBlockCount())
-		return NULL;
-	else
+	if (index < getBlockCount())
 		return map[index];
+	else
+		return NULL;
 }
 
-Block* Mine::getBlock(int column, int row)
+Block* Mine::getBlock(int cidx, int ridx)
 {
-	Block* item;
-	for (int i=0; i<getBlockCount(); i++)
-	{
-		item = map[i];
-		if (item->getColumn() == column && item->getRow() == row)
-			return item;
-	}
-	return NULL;
+	if (cidx > maxc-1 || ridx > maxr-1 || cidx < 0 || ridx < 0)
+		return NULL;
+	if (cidx*ridx < getBlockCount())
+		// map[ridx][cidx] is then rewritten as
+		return map[ridx*this->maxc+cidx];
+	else
+		return NULL;
 }
 
 int Mine::getBlockCount()

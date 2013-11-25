@@ -15,7 +15,7 @@ public:
     void createBlocks();
 
 	Block* getBlock(int index);
-	Block* getBlock(int column, int row);
+	Block* getBlock(int cidx, int ridx);
 
 	int getBlockCount();
 	int getColumnLimit();
