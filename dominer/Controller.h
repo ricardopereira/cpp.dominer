@@ -2,6 +2,10 @@
 
 #include "Consola.h"
 #include "Screen.h"
+#include "Game.h"
+
+#ifndef __CONTROLLER_H__
+#define __CONTROLLER_H__
 
 class Controller
 {
@@ -13,3 +17,5 @@ public:
 
 	Screen& getScreen();
 };
+
+#endif

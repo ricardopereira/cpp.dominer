@@ -4,8 +4,18 @@
 
 using namespace std;
 
+void hideCursor()
+{
+   HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+   CONSOLE_CURSOR_INFO info;
+   info.dwSize = 10;
+   info.bVisible = false;
+   SetConsoleCursorInfo(consoleHandle, &info);
+}
+
 Screen::Screen(Consola* c)
 {
+	hideCursor();
 	this->c = c;
 	buffer = new Block*[SCREENSIZE*SCREENSIZE];
 	emptyBlock = new BlockEmpty;
