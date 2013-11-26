@@ -10,6 +10,7 @@ Playground::~Playground()
 
 void Playground::newGame(int maxc, int maxr)
 {
+	const int minerPosition = (int)ceil((double)SCREENSIZE/2);
 	// Se existir um jogo aberto, e' para parar
 	if (game)
 		stopGame();
@@ -27,25 +28,21 @@ void Playground::newGame(int maxc, int maxr)
 	// Limpar o ecra
 	ctrl.getScreen().clear();
 
-	//Vai tirar o primeiro elemento para o jogar!
-	Block* currBlock = game->getMineBlock(0);
-	currBlock->setColor(AZUL);
-
 	//Inicia tabuleiro inicial
 	buildGame(0,0);
 	ctrl.getScreen().refresh();
 
-	//Test
-	//O Elemento [4,4] é o centro do ecrã que tem que ficar fixo
-	currBlock = game->getMineBlock(0);
-	ctrl.getScreen().print(*currBlock,1,(int)ceil((double)SCREENSIZE/2));
+	// Mineiro
+	Player* miner = game->getMiner();
+	if (miner)
+		ctrl.getScreen().print(*miner,minerPosition,minerPosition);
 }
 
 void Playground::startGame()
 {
 	int shiftH=0, shiftV=0;
+	const int minerPosition = (int)ceil((double)SCREENSIZE/2);
 	char key;
-	Block* currBlock;
 	//Game
 	while (1)
 	{
@@ -77,9 +74,14 @@ void Playground::startGame()
 		buildGame(shiftH,shiftV);
 		ctrl.getScreen().refresh();
 
+		//Test
+		Block* b1 = ctrl.getScreen().getBufferItem((minerPosition-1)*SCREENSIZE+(minerPosition-1));
+		cout << b1->getColumn() << "," << b1->getRow();
+
 		// Mineiro fixo no centro
-		currBlock = game->getMineBlock(0);
-		ctrl.getScreen().print(*currBlock,1,(int)ceil((double)SCREENSIZE/2));
+		Player* miner = game->getMiner();
+		if (miner)
+			ctrl.getScreen().print(*miner,minerPosition,minerPosition);
 	}
 }
 

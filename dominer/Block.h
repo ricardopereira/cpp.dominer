@@ -14,6 +14,7 @@ class Block {
 	int width;
 	int height;
 	//Attributes
+protected:
 	int color;
 public:
 	Block(int i, int c, int r, int w = CELLSIZE, int h = CELLSIZE);

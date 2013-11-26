@@ -4,5 +4,5 @@
 
 char BlockEmpty::getDrawInfo()
 {
-	return ' ';
+	return (char)219;
 }
