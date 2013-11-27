@@ -1,4 +1,10 @@
+#include <iostream>
+#include <time.h>
+
 #include "Mine.h"
+
+#include "Soil.h"
+#include "Rock.h"
 
 using namespace std;
 
@@ -22,9 +28,21 @@ Mine::~Mine()
 void Mine::createBlocks()
 {
 	int currColumn=0, currRow=0;
+
+	//Test
+	int prob;
+	srand((unsigned int)time(NULL));
+
 	for (int i=0; i<getBlockCount(); i++)
 	{
-		map[i] = new Block(i,currColumn,currRow);
+		prob = rand() % 100;
+		if (prob <= 5)
+		{
+			map[i] = new Rock(i);
+		}
+		else
+			map[i] = new Soil(i);
+		
 		//Next
 		if (currColumn == this->maxc-1)
 		{

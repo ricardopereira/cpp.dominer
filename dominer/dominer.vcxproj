@@ -81,11 +81,14 @@
     <ClCompile Include="Consola.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Ladder.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mine.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Playground.cpp" />
+    <ClCompile Include="Rock.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="Soil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
@@ -94,10 +97,13 @@
     <ClInclude Include="Consola.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Ladder.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Playground.h" />
+    <ClInclude Include="Rock.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="Soil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

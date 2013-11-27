@@ -69,6 +69,6 @@ char Block::getDrawInfo()
 string Block::getAsString() const
 {
 	ostringstream out;
-	out << "(" << column << "," << row << ")";
+	out << className() << "(" << column << "," << row << ")";
 	return out.str();
 }

@@ -33,7 +33,7 @@ public:
 
 	string getAsString() const;
 
-	virtual const char* classname() { return "Block"; }
+	virtual const char* className() const { return "Block"; }
 };
 
 #endif
