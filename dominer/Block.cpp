@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string.h>
+#include <sstream>
 
 #include "Block.h"
 #include "Common.h"
@@ -62,4 +64,11 @@ void Block::setColor(const int value)
 char Block::getDrawInfo()
 {
 	return (char)176;
+}
+
+string Block::getAsString() const
+{
+	ostringstream out;
+	out << "(" << column << "," << row << ")";
+	return out.str();
 }

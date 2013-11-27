@@ -76,7 +76,10 @@ void Playground::startGame()
 
 		//Test
 		Block* b1 = ctrl.getScreen().getBufferItem((minerPosition-1)*SCREENSIZE+(minerPosition-1));
-		cout << b1->getColumn() << "," << b1->getRow();
+		if (b1)
+			ctrl.getScreen().printText(b1->getAsString());
+		else
+			ctrl.getScreen().clearText();
 
 		// Mineiro fixo no centro
 		Player* miner = game->getMiner();

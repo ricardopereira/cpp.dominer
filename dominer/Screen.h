@@ -28,6 +28,8 @@ public:
 	char readKey();
 
 	void print(Block& b, int col, int row);
+	void printText(string t);
+	void clearText();
 
 	void refresh();
 	void clear();

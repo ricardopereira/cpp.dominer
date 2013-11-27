@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 
 #include "Common.h"
 
@@ -29,6 +30,10 @@ public:
 
 	int getColor();
 	void setColor(const int value);
+
+	string getAsString() const;
+
+	virtual const char* classname() { return "Block"; }
 };
 
 #endif

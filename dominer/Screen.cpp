@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "Screen.h"
 
@@ -123,6 +124,21 @@ void Screen::print(Block& b, int col, int row)
 	}
 	//Restore default color
 	c->setTextColor(DEFAULTCOLOR);
+}
+
+void Screen::printText(string t)
+{
+	c->gotoxy(CELLSIZE,9*CELLSIZE);
+	cout << t;
+}
+
+void Screen::clearText()
+{
+	for (int i=CELLSIZE; i<80; i++)
+	{
+		c->gotoxy(i,9*CELLSIZE);
+		cout << " ";
+	}
 }
 
 void Screen::refresh()
