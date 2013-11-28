@@ -10,7 +10,6 @@ Playground::~Playground()
 
 void Playground::newGame(int maxc, int maxr)
 {
-	const int minerPosition = (int)ceil((double)SCREENSIZE/2);
 	// Se existir um jogo aberto, e' para parar
 	if (game)
 		stopGame();
@@ -28,22 +27,25 @@ void Playground::newGame(int maxc, int maxr)
 	// Limpar o ecra
 	ctrl.getScreen().clear();
 
-	//Inicia tabuleiro inicial
-	buildGame(0,0);
-	ctrl.getScreen().refresh();
-
 	// Mineiro
 	Player* miner = game->getMiner();
 	if (miner)
-		ctrl.getScreen().print(*miner,minerPosition,minerPosition);
+	{
+		//Inicia tabuleiro inicial com deslocação inicial
+		setGameBuffer(0,(-1)*miner->getRow());
+		ctrl.getScreen().refresh();
+	}
 }
 
 void Playground::startGame()
 {
 	int shiftH=0, shiftV=0;
 	char key;
-	// Sense
-	const int minerPosition = (int)ceil((double)SCREENSIZE/2);
+
+	// Deslocação inicial
+	Player* miner = game->getMiner();
+	if (miner)
+	  shiftV = (-1)*miner->getRow();
 
 	// Game
 	while (1)
@@ -59,18 +61,18 @@ void Playground::startGame()
 		if (key == ESQUERDA)
 		{
 			// Test
-			Block* leftBlock = ctrl.getScreen().getBufferItem((minerPosition-1)*SCREENSIZE+(minerPosition-2));
-			if (!leftBlock)
-				continue;
+			//Block* leftBlock = ctrl.getScreen().getBufferItem((miner->getIndex())*SCREENSIZE+(miner->getIndex()-1));
+			//if (!leftBlock)
+			//	continue;
 
 			shiftH--;
 		}
 		else if (key == DIREITA)
 		{
 			// Test
-			Block* rightBlock = ctrl.getScreen().getBufferItem((minerPosition-1)*SCREENSIZE+(minerPosition));
-			if (!rightBlock)
-				continue;
+			//Block* rightBlock = ctrl.getScreen().getBufferItem((miner->getIndex())*SCREENSIZE+(miner->getIndex()+1));
+			//if (!rightBlock)
+			//	continue;
 
 			shiftH++;
 		}
@@ -93,20 +95,16 @@ void Playground::startGame()
 			shiftV++;
 		}
 		// Imprime o jogo no tabuleiro
-		buildGame(shiftH,shiftV);
+		setGameBuffer(shiftH,shiftV);
 		ctrl.getScreen().refresh();
 
 		//Test: Índice do Mineiro
-		Block* b1 = ctrl.getScreen().getBufferItem((minerPosition-1)*SCREENSIZE+(minerPosition-1));
+		//Block* b1 = ctrl.getScreen().getBufferItem(miner->getIndex());
+		Block* b1 = game->getMineBlock(miner->getIndexOnMine());
 		if (b1)
 			ctrl.getScreen().printText(b1->getAsString());
 		else
 			ctrl.getScreen().clearText();
-
-		// Mineiro fixo no centro
-		Player* miner = game->getMiner();
-		if (miner)
-			ctrl.getScreen().print(*miner,minerPosition,minerPosition);
 	}
 }
 
@@ -121,28 +119,43 @@ void Playground::pause()
 
 }
 
-void Playground::buildGame(int shiftH, int shiftV)
+void Playground::setGameBuffer(int shiftH, int shiftV)
 {
 	Block* currBlock;
-	for (int i=0, col=0, row=0; i<ctrl.getScreen().getSize(); i++)
+	Player* miner = game->getMiner();
+	if (!miner) return;
+
+	// Indices
+	for (int i=0, cidx=0, ridx=0; i<ctrl.getScreen().getSize(); i++)
 	{
 		// Verificar quebra de linha
 		if (i != 0)
 		{
 			if (i % SCREENSIZE == 0)
 			{
-				col = 0;
-				row++;
+				cidx = 0;
+				ridx++;
 			}
 			else
-				col++;
+				cidx++;
 		}
 
-		// Obter bloco conforme a deslocacao
-		currBlock = game->getMineBlock(shiftH+col,shiftV+row);
-		if (!currBlock)
-			ctrl.getScreen().setBufferItem(i,NULL);
+		// Mineiro fixo no centro
+		if (cidx == miner->getColumn() && ridx == miner->getRow())
+		{
+			// Indice do mineiro na Mina
+			miner->setIndexOnMine((shiftV+ridx)*game->getMaxColumn()+(shiftH+cidx));
+			// Mineiro no buffer do ecra de jogo
+			ctrl.getScreen().setBufferItem(i,miner);
+		}
 		else
-			ctrl.getScreen().setBufferItem(i,currBlock);
+		{
+			// Obter bloco conforme a deslocacao
+			currBlock = game->getMineBlock(shiftH+cidx,shiftV+ridx);
+			if (!currBlock)
+				ctrl.getScreen().setBufferItem(i,NULL);
+			else
+				ctrl.getScreen().setBufferItem(i,currBlock);
+		}
 	}
 }

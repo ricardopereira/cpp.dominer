@@ -9,13 +9,12 @@ using namespace std;
 #define __BLOCK_H__
 
 class Block {
-	int index;
-	int column;
-	int row;
 	int width;
 	int height;
-	//Attributes
 protected:
+	int index;
+	int column; //Indice
+	int row; //Indice
 	int color;
 public:
 	Block(int i, int c, int r, int w = CELLSIZE, int h = CELLSIZE);

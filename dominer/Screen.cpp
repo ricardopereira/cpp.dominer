@@ -61,12 +61,14 @@ void Screen::clear()
 
 Block* Screen::getBufferItem(int index)
 {
-	return buffer[index];
+	if (index >= 0 && index < getSize())
+		return buffer[index];
 }
 
 void Screen::setBufferItem(int index, Block* item)
 {
-	buffer[index] = item;
+	if (index >= 0 && index < getSize())
+		buffer[index] = item;
 }
 
 void Screen::printBuffer()

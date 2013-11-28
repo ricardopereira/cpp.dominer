@@ -30,3 +30,13 @@ Player* Game::getMiner()
 {
 	return miner;
 }
+
+int Game::getMaxColumn()
+{
+	return cmax;
+}
+
+int Game::getMaxRow()
+{
+	return rmax;
+}

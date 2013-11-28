@@ -13,3 +13,13 @@ char Player::getDrawInfo(int index)
 	else
 		return ' '; //(char)219
 }
+
+void Player::setIndexOnMine(const int index)
+{
+	indexOnMine = index;
+}
+
+int Player::getIndexOnMine()
+{
+	 return indexOnMine;
+}

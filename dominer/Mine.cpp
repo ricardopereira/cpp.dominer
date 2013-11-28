@@ -58,7 +58,7 @@ void Mine::createBlocks()
 
 Block* Mine::getBlock(int index)
 {
-	if (index < getBlockCount())
+	if (index >= 0 && index < getBlockCount())
 		return map[index];
 	else
 		return NULL;

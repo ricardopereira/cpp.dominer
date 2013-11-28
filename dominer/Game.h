@@ -20,6 +20,9 @@ public:
 	Block* getMineBlock(int cidx, int ridx);
 
 	Player* getMiner();
+
+	int getMaxColumn();
+	int getMaxRow();
 };
 
 #endif

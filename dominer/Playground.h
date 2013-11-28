@@ -11,7 +11,7 @@ class Playground
 	Controller& ctrl;
 	Game* game;
 
-	void buildGame(int shiftH, int shiftV);
+	void setGameBuffer(int shiftH, int shiftV);
 public:
 	Playground(Controller& c) : ctrl(c) { game = NULL; }
 	~Playground();
