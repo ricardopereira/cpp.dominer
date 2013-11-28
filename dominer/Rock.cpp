@@ -2,7 +2,7 @@
 
 #include "Rock.h"
 
-char Rock::getDrawInfo()
+char Rock::getDrawInfo(int index)
 {
 	return (char)219;
 }

@@ -9,9 +9,9 @@
 class Rock: public Block
 {
 public:
-	Rock(int i) : Block(i,0,0) { color = CINZENTO; }
+	Rock(int i, int c, int r) : Block(i,c,r) { color = CINZENTO; }
 
-	char getDrawInfo();
+	char getDrawInfo(int index);
 	const char* className() const { return "Rock"; }
 };
 

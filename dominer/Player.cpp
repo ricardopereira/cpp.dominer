@@ -2,7 +2,14 @@
 
 #include "Player.h"
 
-char Player::getDrawInfo()
+char Player::getDrawInfo(int index)
 {
-	return (char)219;
+	if (index == 7)
+		return (char)220;
+	else if (index == 12)
+		return (char)194;
+	else if (index == 17)
+		return (char)179;
+	else
+		return ' '; //(char)219
 }

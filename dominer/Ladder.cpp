@@ -2,7 +2,7 @@
 
 #include "Ladder.h"
 
-char Ladder::getDrawInfo()
+char Ladder::getDrawInfo(int index)
 {
 	return (char)176;
 }

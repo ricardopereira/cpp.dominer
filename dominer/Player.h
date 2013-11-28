@@ -11,7 +11,7 @@ class Player: public Block
 public:
 	Player() : Block(0,0,0) { this->color = BRANCO; }
 
-	char getDrawInfo();
+	char getDrawInfo(int index);
 };
 
 #endif

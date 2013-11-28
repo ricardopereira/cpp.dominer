@@ -9,9 +9,9 @@
 class Soil: public Block
 {
 public:
-	Soil(int i) : Block(i,0,0) { color = VERMELHO_CLARO; }
+	Soil(int i, int c, int r) : Block(i,c,r) { color = VERMELHO_CLARO; }
 
-	char getDrawInfo();
+	char getDrawInfo(int index);
 	const char* className() const { return "Soil"; }
 };
 

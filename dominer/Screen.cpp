@@ -104,7 +104,7 @@ void Screen::printBuffer()
 
 void Screen::print(Block& b, int col, int row)
 {
-	int i,j;
+	int i,j,idx=0;
 
 	//Color of Block
 	c->setTextColor(b.getColor());
@@ -114,7 +114,8 @@ void Screen::print(Block& b, int col, int row)
 			for (j=col*x; j<x*col+b.getWidth(); j++) //Colunas
 			{
 				c->gotoxy(j,i);
-				cout << b.getDrawInfo();
+				cout << b.getDrawInfo(idx);
+				idx++;
 			}
 	}
 	catch (...)

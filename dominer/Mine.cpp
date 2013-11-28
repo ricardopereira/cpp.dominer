@@ -38,10 +38,10 @@ void Mine::createBlocks()
 		prob = rand() % 100;
 		if (prob <= 5)
 		{
-			map[i] = new Rock(i);
+			map[i] = new Rock(i,currColumn,currRow);
 		}
 		else
-			map[i] = new Soil(i);
+			map[i] = new Soil(i,currColumn,currRow);
 		
 		//Next
 		if (currColumn == this->maxc-1)

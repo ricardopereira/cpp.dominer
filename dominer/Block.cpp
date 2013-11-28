@@ -61,7 +61,7 @@ void Block::setColor(const int value)
 	this->color = value;
 }
 
-char Block::getDrawInfo()
+char Block::getDrawInfo(int index)
 {
 	return (char)176;
 }

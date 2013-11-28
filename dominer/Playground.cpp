@@ -41,9 +41,11 @@ void Playground::newGame(int maxc, int maxr)
 void Playground::startGame()
 {
 	int shiftH=0, shiftV=0;
-	const int minerPosition = (int)ceil((double)SCREENSIZE/2);
 	char key;
-	//Game
+	// Sense
+	const int minerPosition = (int)ceil((double)SCREENSIZE/2);
+
+	// Game
 	while (1)
 	{
 		key = ctrl.getScreen().readKey();
@@ -56,25 +58,45 @@ void Playground::startGame()
 
 		if (key == ESQUERDA)
 		{
+			// Test
+			Block* leftBlock = ctrl.getScreen().getBufferItem((minerPosition-1)*SCREENSIZE+(minerPosition-2));
+			if (!leftBlock)
+				continue;
+
 			shiftH--;
 		}
 		else if (key == DIREITA)
 		{
+			// Test
+			Block* rightBlock = ctrl.getScreen().getBufferItem((minerPosition-1)*SCREENSIZE+(minerPosition));
+			if (!rightBlock)
+				continue;
+
 			shiftH++;
 		}
 		else if (key == CIMA)
 		{
+			// Test
+			//Block* upBlock = ctrl.getScreen().getBufferItem((minerPosition-1)*(SCREENSIZE+1)+(minerPosition-1));
+			//if (!upBlock)
+			//	continue;
+
 			shiftV--;
 		}
 		else if (key == BAIXO)
 		{
+			// Test
+			//Block* downBlock = ctrl.getScreen().getBufferItem((minerPosition-1)*(SCREENSIZE)+(minerPosition-1));
+			//if (!downBlock)
+			//	continue;
+
 			shiftV++;
 		}
 		// Imprime o jogo no tabuleiro
 		buildGame(shiftH,shiftV);
 		ctrl.getScreen().refresh();
 
-		//Test
+		//Test: Índice do Mineiro
 		Block* b1 = ctrl.getScreen().getBufferItem((minerPosition-1)*SCREENSIZE+(minerPosition-1));
 		if (b1)
 			ctrl.getScreen().printText(b1->getAsString());

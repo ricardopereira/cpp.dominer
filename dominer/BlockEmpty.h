@@ -11,7 +11,7 @@ class BlockEmpty: public Block
 public:
 	BlockEmpty() : Block(0,0,0) { color = CYAN; }
 
-	char getDrawInfo();
+	char getDrawInfo(int index);
 };
 
 #endif

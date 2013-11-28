@@ -26,7 +26,7 @@ public:
 	int getRow();
 	int getWidth();
 	int getHeight();
-	virtual char getDrawInfo();
+	virtual char getDrawInfo(int index);
 
 	int getColor();
 	void setColor(const int value);

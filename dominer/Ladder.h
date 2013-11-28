@@ -9,9 +9,9 @@
 class Ladder: public Block
 {
 public:
-	Ladder() : Block(0,0,0) { color = AMARELO; }
+	Ladder(int i, int c, int r) : Block(i,c,r) { color = AMARELO; }
 
-	char getDrawInfo();
+	char getDrawInfo(int index);
 	const char* className() const { return "Ladder"; }
 };
 
