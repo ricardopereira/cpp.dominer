@@ -9,7 +9,7 @@
 class BlockEmpty: public Block
 {
 public:
-	BlockEmpty() : Block(0,0,0) { color = CYAN; }
+	BlockEmpty() : Block(0,0,0) { color = VERMELHO_CLARO; }
 
 	char getDrawInfo(int index);
 };

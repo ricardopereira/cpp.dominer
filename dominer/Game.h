@@ -16,13 +16,19 @@ public:
 	Game(int cmax, int rmax);
 	~Game();
 
+	int getMaxColumn();
+	int getMaxRow();
+
 	Block* getMineBlock(int index);
 	Block* getMineBlock(int cidx, int ridx);
 
+	// Mineiro
 	Player* getMiner();
-
-	int getMaxColumn();
-	int getMaxRow();
+	// Percepcoes do Mineiro
+	Block* getMinerLeftBlock();
+	Block* getMinerRightBlock();
+	Block* getMinerUpBlock();
+	Block* getMinerDownBlock();
 };
 
 #endif

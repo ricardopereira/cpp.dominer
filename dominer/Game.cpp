@@ -40,3 +40,35 @@ int Game::getMaxRow()
 {
 	return rmax;
 }
+
+Block* Game::getMinerLeftBlock()
+{
+	if (miner)
+		return getMineBlock(miner->getColumnOnMine()-1,miner->getRowOnMine());
+	else
+		return NULL;
+}
+
+Block* Game::getMinerRightBlock()
+{
+	if (miner)
+		return getMineBlock(miner->getColumnOnMine()+1,miner->getRowOnMine());
+	else
+		return NULL;
+}
+
+Block* Game::getMinerUpBlock()
+{
+	if (miner)
+		return getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine()-1);
+	else
+		return NULL;
+}
+
+Block* Game::getMinerDownBlock()
+{
+	if (miner)
+		return getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine()+1);
+	else
+		return NULL;
+}

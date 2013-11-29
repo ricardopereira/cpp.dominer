@@ -81,6 +81,7 @@
     <ClCompile Include="Consola.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Hometown.cpp" />
     <ClCompile Include="Ladder.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mine.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="Consola.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Hometown.h" />
     <ClInclude Include="Ladder.h" />
     <ClInclude Include="Mine.h" />
     <ClInclude Include="Player.h" />

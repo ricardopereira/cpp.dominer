@@ -12,6 +12,7 @@ public:
 	Sky() : Block(0,0,0) { color = CYAN; }
 
 	char getDrawInfo(int index);
+	const char* className() const { return "Sky"; }
 };
 
 #endif

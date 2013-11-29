@@ -63,6 +63,8 @@ Block* Screen::getBufferItem(int index)
 {
 	if (index >= 0 && index < getSize())
 		return buffer[index];
+	else
+		return NULL;
 }
 
 void Screen::setBufferItem(int index, Block* item)
@@ -131,6 +133,7 @@ void Screen::print(Block& b, int col, int row)
 
 void Screen::printText(string t)
 {
+	clearText();
 	c->gotoxy(CELLSIZE,9*CELLSIZE);
 	cout << t;
 }

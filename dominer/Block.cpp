@@ -14,11 +14,7 @@ Block::Block(int i, int c, int r, int w, int h)
 	this->row = r;
 	this->width = w;
 	this->height = h;
-
-	if (i % 2 == 0)
-		setColor(VERMELHO);
-	else
-		setColor(VERMELHO_CLARO);
+	setColor(BRANCO);
 }
 
 Block::~Block()

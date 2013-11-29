@@ -43,12 +43,12 @@ void Playground::startGame()
 	char key;
 	Block* b;
 
-	// Deslocação inicial
+	// Deslocacao inicial
 	Player* miner = game->getMiner();
 	if (miner)
 	  shiftV = (-1)*miner->getRow();
 
-	// Game
+	// Let's play a game
 	while (1)
 	{
 		key = ctrl.getScreen().readKey();
@@ -62,32 +62,28 @@ void Playground::startGame()
 		if (key == ESQUERDA)
 		{
 			// Verificar limite
-			b = game->getMineBlock(miner->getColumnOnMine()-1,miner->getRowOnMine());
-			if (!b) continue;
+			if (!game->getMinerLeftBlock()) continue;
 
 			shiftH--;
 		}
 		else if (key == DIREITA)
 		{
 			// Verificar limite
-			b = game->getMineBlock(miner->getColumnOnMine()+1,miner->getRowOnMine());
-			if (!b) continue;
+			if (!game->getMinerRightBlock()) continue;
 
 			shiftH++;
 		}
 		else if (key == CIMA)
 		{
 			// Verificar limite
-			b = game->getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine()-1);
-			if (!b) continue;
+			if (! game->getMinerUpBlock()) continue;
 
 			shiftV--;
 		}
 		else if (key == BAIXO)
 		{
 			// Verificar limite
-			b = game->getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine()+1);
-			if (!b) continue;
+			if (!game->getMinerDownBlock()) continue;
 
 			shiftV++;
 		}
@@ -149,14 +145,9 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 		else
 		{
 			// Ceu
-			if (shiftV+ridx < 0)
+			if (shiftH+cidx < 0 || shiftV+ridx < 0 || shiftH+cidx >= game->getMaxColumn() || shiftV+ridx >= game->getMaxRow())
 			{
-				ctrl.getScreen().setBufferItem(i,&skyBlock);
-			}
-			// Mundo
-			else if (shiftH+cidx < 0)
-			{
-				ctrl.getScreen().setBufferItem(i,&worldBlock);
+				ctrl.getScreen().setBufferItem(i,&sky);
 			}
 			else
 			{

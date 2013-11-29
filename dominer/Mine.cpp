@@ -5,6 +5,7 @@
 
 #include "Soil.h"
 #include "Rock.h"
+#include "Hometown.h"
 
 using namespace std;
 
@@ -27,7 +28,7 @@ Mine::~Mine()
 
 void Mine::createBlocks()
 {
-	int currColumn=0, currRow=0;
+	int cidx=0, ridx=0;
 
 	//Test
 	int prob;
@@ -35,24 +36,30 @@ void Mine::createBlocks()
 
 	for (int i=0; i<getBlockCount(); i++)
 	{
+		//Test
 		prob = rand() % 100;
-		if (prob <= 5)
+		// Linha da Superficie
+		if (ridx == 0)
 		{
-			map[i] = new Rock(i,currColumn,currRow);
+			map[i] = new Hometown(i,cidx,ridx);
+		}
+		else if (prob <= 5)
+		{
+			map[i] = new Rock(i,cidx,ridx);
 		}
 		else
-			map[i] = new Soil(i,currColumn,currRow);
+			map[i] = new Soil(i,cidx,ridx);
 		
 		//Next
-		if (currColumn == this->maxc-1)
+		if (cidx == this->maxc-1)
 		{
-			currColumn = 0;
-			if (currRow == this->maxr-1)
+			cidx = 0;
+			if (ridx == this->maxr-1)
 				break; //Limit of mine
-			currRow++;
+			ridx++;
 		}
 		else
-			currColumn++;
+			cidx++;
 	}
 }
 
