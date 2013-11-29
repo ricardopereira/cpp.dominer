@@ -4,14 +4,12 @@
 
 char Player::getDrawInfo(int index)
 {
-	if (index == 7)
-		return (char)220;
-	else if (index == 12)
-		return (char)194;
-	else if (index == 17)
-		return (char)179;
+	if (index == 6 || index == 8)
+		return (char)219;
+	else if (index == 16 || index == 17 || index == 18)
+		return (char)223;
 	else
-		return ' '; //(char)219
+		return ' ';
 }
 
 void Player::setIndexOnMine(const int index)
@@ -22,4 +20,24 @@ void Player::setIndexOnMine(const int index)
 int Player::getIndexOnMine()
 {
 	 return indexOnMine;
+}
+
+void Player::setColumnOnMine(const int cidx)
+{
+	columnOnMine = cidx;
+}
+
+int Player::getColumnOnMine()
+{
+	return columnOnMine;
+}
+
+void Player::setRowOnMine(const int ridx)
+{
+	rowOnMine = ridx;
+}
+
+int Player::getRowOnMine()
+{
+	return rowOnMine;
 }

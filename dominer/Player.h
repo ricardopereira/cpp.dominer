@@ -9,6 +9,8 @@
 class Player: public Block
 {
 	int indexOnMine;
+	int columnOnMine;
+	int rowOnMine;
 public:
 	Player() : Block(0,0,0)
 	{ 
@@ -23,6 +25,10 @@ public:
 
 	void setIndexOnMine(const int index);
 	int getIndexOnMine();
+	void setColumnOnMine(const int cidx);
+	int getColumnOnMine();
+	void setRowOnMine(const int ridx);
+	int getRowOnMine();
 };
 
 #endif

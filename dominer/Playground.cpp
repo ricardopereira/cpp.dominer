@@ -41,6 +41,7 @@ void Playground::startGame()
 {
 	int shiftH=0, shiftV=0;
 	char key;
+	Block* b;
 
 	// Deslocação inicial
 	Player* miner = game->getMiner();
@@ -60,37 +61,33 @@ void Playground::startGame()
 
 		if (key == ESQUERDA)
 		{
-			// Test
-			//Block* leftBlock = ctrl.getScreen().getBufferItem((miner->getIndex())*SCREENSIZE+(miner->getIndex()-1));
-			//if (!leftBlock)
-			//	continue;
+			// Verificar limite
+			b = game->getMineBlock(miner->getColumnOnMine()-1,miner->getRowOnMine());
+			if (!b) continue;
 
 			shiftH--;
 		}
 		else if (key == DIREITA)
 		{
-			// Test
-			//Block* rightBlock = ctrl.getScreen().getBufferItem((miner->getIndex())*SCREENSIZE+(miner->getIndex()+1));
-			//if (!rightBlock)
-			//	continue;
+			// Verificar limite
+			b = game->getMineBlock(miner->getColumnOnMine()+1,miner->getRowOnMine());
+			if (!b) continue;
 
 			shiftH++;
 		}
 		else if (key == CIMA)
 		{
-			// Test
-			//Block* upBlock = ctrl.getScreen().getBufferItem((minerPosition-1)*(SCREENSIZE+1)+(minerPosition-1));
-			//if (!upBlock)
-			//	continue;
+			// Verificar limite
+			b = game->getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine()-1);
+			if (!b) continue;
 
 			shiftV--;
 		}
 		else if (key == BAIXO)
 		{
-			// Test
-			//Block* downBlock = ctrl.getScreen().getBufferItem((minerPosition-1)*(SCREENSIZE)+(minerPosition-1));
-			//if (!downBlock)
-			//	continue;
+			// Verificar limite
+			b = game->getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine()+1);
+			if (!b) continue;
 
 			shiftV++;
 		}
@@ -99,10 +96,9 @@ void Playground::startGame()
 		ctrl.getScreen().refresh();
 
 		//Test: Índice do Mineiro
-		//Block* b1 = ctrl.getScreen().getBufferItem(miner->getIndex());
-		Block* b1 = game->getMineBlock(miner->getIndexOnMine());
-		if (b1)
-			ctrl.getScreen().printText(b1->getAsString());
+		b = game->getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine());
+		if (b)
+			ctrl.getScreen().printText(b->getAsString());
 		else
 			ctrl.getScreen().clearText();
 	}
@@ -144,18 +140,33 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 		if (cidx == miner->getColumn() && ridx == miner->getRow())
 		{
 			// Indice do mineiro na Mina
-			miner->setIndexOnMine((shiftV+ridx)*game->getMaxColumn()+(shiftH+cidx));
+			miner->setColumnOnMine(shiftH+cidx);
+			miner->setRowOnMine(shiftV+ridx);
+			miner->setIndexOnMine(miner->getRowOnMine()*game->getMaxColumn()+miner->getColumnOnMine());
 			// Mineiro no buffer do ecra de jogo
 			ctrl.getScreen().setBufferItem(i,miner);
 		}
 		else
 		{
-			// Obter bloco conforme a deslocacao
-			currBlock = game->getMineBlock(shiftH+cidx,shiftV+ridx);
-			if (!currBlock)
-				ctrl.getScreen().setBufferItem(i,NULL);
+			// Ceu
+			if (shiftV+ridx < 0)
+			{
+				ctrl.getScreen().setBufferItem(i,&skyBlock);
+			}
+			// Mundo
+			else if (shiftH+cidx < 0)
+			{
+				ctrl.getScreen().setBufferItem(i,&worldBlock);
+			}
 			else
-				ctrl.getScreen().setBufferItem(i,currBlock);
+			{
+				// Obter bloco conforme a deslocacao
+				currBlock = game->getMineBlock(shiftH+cidx,shiftV+ridx);
+				if (!currBlock)
+					ctrl.getScreen().setBufferItem(i,NULL);
+				else
+					ctrl.getScreen().setBufferItem(i,currBlock);
+			}
 		}
 	}
 }
