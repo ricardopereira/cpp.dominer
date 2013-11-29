@@ -26,6 +26,16 @@ Block* Game::getMineBlock(int cidx, int ridx)
 	return mine->getBlock(cidx,ridx);
 }
 
+void Game::byeMineBlock(int index)
+{
+	mine->doBlockNull(index);
+}
+
+void Game::byeMineBlock(int cidx, int ridx)
+{
+	mine->doBlockNull(cidx,ridx);
+}
+
 Player* Game::getMiner()
 {
 	return miner;

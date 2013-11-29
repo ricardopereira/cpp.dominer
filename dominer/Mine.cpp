@@ -63,6 +63,14 @@ void Mine::createBlocks()
 	}
 }
 
+int Mine::isValidRange(int cidx, int ridx)
+{
+	if (cidx > maxc-1 || ridx > maxr-1 || cidx < 0 || ridx < 0)
+		return 1;
+	else
+		return 0;
+}
+
 Block* Mine::getBlock(int index)
 {
 	if (index >= 0 && index < getBlockCount())
@@ -73,13 +81,28 @@ Block* Mine::getBlock(int index)
 
 Block* Mine::getBlock(int cidx, int ridx)
 {
-	if (cidx > maxc-1 || ridx > maxr-1 || cidx < 0 || ridx < 0)
+	if (isValidRange(cidx,ridx))
 		return NULL;
 	if (cidx*ridx < getBlockCount())
 		// map[ridx][cidx] is then rewritten as
 		return map[ridx*this->maxc+cidx];
 	else
 		return NULL;
+}
+
+void Mine::doBlockNull(int index)
+{
+	Block* b = getBlock(index);
+	if (!b) return;
+	delete b;
+	map[index] = NULL;
+}
+
+void Mine::doBlockNull(int cidx, int ridx)
+{
+	if (isValidRange(cidx,ridx))
+		return;
+	doBlockNull(ridx*this->maxc+cidx);
 }
 
 int Mine::getBlockCount()

@@ -76,7 +76,7 @@ void Playground::startGame()
 		else if (key == CIMA)
 		{
 			// Verificar limite
-			if (! game->getMinerUpBlock()) continue;
+			if (!game->getMinerUpBlock()) continue;
 
 			shiftV--;
 		}
@@ -141,6 +141,10 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 			miner->setIndexOnMine(miner->getRowOnMine()*game->getMaxColumn()+miner->getColumnOnMine());
 			// Mineiro no buffer do ecra de jogo
 			ctrl.getScreen().setBufferItem(i,miner);
+			// Escavar: Test
+			currBlock = game->getMineBlock(shiftH+cidx,shiftV+ridx);
+			if (currBlock != NULL && currBlock->className() != "Hometown")
+				game->byeMineBlock(shiftH+cidx,shiftV+ridx);
 		}
 		else
 		{

@@ -8,6 +8,8 @@
 class Mine {
 	int maxc,maxr;
 	Block** map;
+
+	int isValidRange(int cidx, int ridx);
 public:
 	Mine(int c=7, int r=7);
 	~Mine();
@@ -16,6 +18,9 @@ public:
 
 	Block* getBlock(int index);
 	Block* getBlock(int cidx, int ridx);
+
+	void doBlockNull(int index);
+	void doBlockNull(int cidx, int ridx);
 
 	int getBlockCount();
 	int getColumnLimit();
