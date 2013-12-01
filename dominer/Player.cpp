@@ -62,3 +62,13 @@ void Player::destroyLastBlock()
 		delete b;
 	setLastBlock(NULL);
 }
+
+int Player::getEnergy()
+{
+	return energy;
+}
+
+int Player::getMoney()
+{
+	return money;
+}

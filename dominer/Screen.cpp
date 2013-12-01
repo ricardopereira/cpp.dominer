@@ -17,15 +17,15 @@ void configCursor(int show)
 
 Screen::Screen(Consola* c)
 {
-	this->c = c;
-	buffer = new Block*[SCREENSIZE*SCREENSIZE];
-	emptyBlock = new BlockEmpty;
-	this->x = 0; //CELLSIZE
+	buffer = NULL;
+	this->x = 0;
 	this->y = 0;
-	//Configure command line
+	this->c = c;
+	emptyBlock = new BlockEmpty;
+	// Configure command line
 	c->setTextSize(TEXTSIZE,TEXTSIZE);
 	c->setScreenSize(50,80);
-	//Initialization
+	// Initialization
 	initScreen();
 }
 
@@ -55,7 +55,7 @@ void Screen::hideCursor()
 
 int Screen::getBufferSize()
 {
-	return SCREENSIZE*SCREENSIZE;
+	return getSize()*getSize();
 }
 
 char Screen::readKey()
@@ -65,6 +65,13 @@ char Screen::readKey()
 
 void Screen::initScreen()
 {
+	this->x = 0;
+	this->y = 0;
+
+	delete [] buffer;
+	// Buffer of Screen
+	buffer = new Block*[getBufferSize()];
+
 	for (int i=0; i<getBufferSize(); i++)
 		buffer[i] = NULL;
 }
@@ -107,7 +114,7 @@ void Screen::printBuffer()
 		}
 
 		//Check if is a new line
-		if (i % SCREENSIZE == 0)
+		if (i % getSize() == 0)
 		{
 			col = 1;
 			row++;
@@ -171,4 +178,24 @@ void Screen::setLastText(string value)
 string Screen::getLastText()
 {
 	return lastText;
+}
+
+void Screen::printEnergy(const int value)
+{
+	c->gotoxy(CELLSIZE,2);
+	c->setTextColor(VERMELHO_CLARO);
+	cout << (char)3;
+	//Restore default color
+	c->setTextColor(DEFAULTCOLOR);
+	cout << " " << value;
+}
+
+void Screen::printMoney(const int value)
+{
+	c->gotoxy(CELLSIZE*2,2);
+	c->setTextColor(AMARELO_CLARO);
+	cout << (char)4;
+	//Restore default color
+	c->setTextColor(DEFAULTCOLOR);
+	cout << " " << value;
 }

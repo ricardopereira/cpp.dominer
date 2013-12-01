@@ -12,6 +12,11 @@ class Player: public Block
 	int columnOnMine;
 	int rowOnMine;
 	Block* lastBlock;
+
+	int money;
+	int energy;
+	//lista de utensilios
+	//mochila: lista de minerais
 public:
 	Player() : Block(0,0,0)
 	{ 
@@ -21,6 +26,9 @@ public:
 		this->index = this->row*SCREENSIZE+this->column;
 		this->color = BRANCO;
 		this->lastBlock = NULL;
+
+		this->money = 200;
+		this->energy = 50;
 	}
 
 	char getDrawInfo(int index);
@@ -35,6 +43,9 @@ public:
 	void setLastBlock(Block* b);
 	Block* getLastBlock();
 	void destroyLastBlock();
+
+	int getEnergy();
+	int getMoney();
 
 	const int isProtected() const { return 1; };
 	const char* className() const { return "Player"; }

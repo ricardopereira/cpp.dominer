@@ -40,6 +40,9 @@ public:
 	void printText(string t);
 	void clearText();
 	string getLastText(); //?
+
+	void printEnergy(const int value);
+	void printMoney(const int value);
 };
 
 #endif

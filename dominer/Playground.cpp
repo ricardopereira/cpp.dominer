@@ -16,13 +16,14 @@ void Playground::newGame(int maxc, int maxr)
 	if (game)
 		stopGame();
 
+	int size = ctrl.getScreen().getSize();
 	// Criar o objecto Game e verificar minimos de tabuleiro
-	if (maxc < SCREENSIZE && maxr < SCREENSIZE)
-		game = new Game(SCREENSIZE,SCREENSIZE);
-	else if (maxc < SCREENSIZE)
-		game = new Game(SCREENSIZE,maxr);
-	else if (maxr < SCREENSIZE)
-		game = new Game(maxc,SCREENSIZE);
+	if (maxc < size && maxr < size)
+		game = new Game(size,size);
+	else if (maxc < size)
+		game = new Game(size,maxr);
+	else if (maxr < size)
+		game = new Game(maxc,size);
 	else
 		game = new Game(maxc,maxr);
 
@@ -37,6 +38,9 @@ void Playground::newGame(int maxc, int maxr)
 		setGameBuffer(0,(-1)*miner->getRow());
 		ctrl.getScreen().refresh();
 	}
+
+	ctrl.getScreen().printEnergy(miner->getEnergy());
+	ctrl.getScreen().printMoney(miner->getMoney());
 }
 
 void Playground::openCommand()
@@ -153,13 +157,14 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 	Player* miner = game->getMiner();
 	if (!miner) return;
 
+	int size = ctrl.getScreen().getSize();
 	// Indices
 	for (int i=0, cidx=0, ridx=0; i<ctrl.getScreen().getBufferSize(); i++)
 	{
 		// Verificar quebra de linha
 		if (i != 0)
 		{
-			if (i % SCREENSIZE == 0)
+			if (i % size == 0)
 			{
 				cidx = 0;
 				ridx++;
