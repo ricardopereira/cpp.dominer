@@ -14,9 +14,12 @@ class Screen
 	Block** buffer;
 	BlockEmpty* emptyBlock;
 	int x,y;
+	string lastText;
 
 	void initScreen();
 	void printBuffer();
+
+	void setLastText(string value);
 public:
 	Screen(Consola* c);
 	~Screen();
@@ -33,6 +36,8 @@ public:
 
 	void refresh();
 	void clear();
+
+	string getLastText();
 };
 
 #endif

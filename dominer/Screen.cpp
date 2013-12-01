@@ -133,6 +133,7 @@ void Screen::print(Block& b, int col, int row)
 
 void Screen::printText(string t)
 {
+	setLastText(t);
 	clearText();
 	c->gotoxy(CELLSIZE,9*CELLSIZE);
 	cout << t;
@@ -150,4 +151,14 @@ void Screen::clearText()
 void Screen::refresh()
 {
 	printBuffer();
+}
+
+void Screen::setLastText(string value)
+{
+	lastText = value;
+}
+
+string Screen::getLastText()
+{
+	return lastText;
 }

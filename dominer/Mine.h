@@ -19,6 +19,7 @@ public:
 	Block* getBlock(int index);
 	Block* getBlock(int cidx, int ridx);
 
+	void doBlockNull(Block* b);
 	void doBlockNull(int index);
 	void doBlockNull(int cidx, int ridx);
 

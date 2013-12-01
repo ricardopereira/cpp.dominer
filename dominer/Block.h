@@ -32,6 +32,7 @@ public:
 
 	string getAsString() const;
 
+	virtual const int isProtected() const { return 0; };
 	virtual const char* className() const { return "Block"; }
 };
 

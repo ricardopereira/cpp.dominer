@@ -26,13 +26,21 @@ Block* Game::getMineBlock(int cidx, int ridx)
 	return mine->getBlock(cidx,ridx);
 }
 
-void Game::byeMineBlock(int index)
+void Game::breakMineBlock(Block* b)
 {
+	// NULL na mina, ou seja, quebrou o bloco
+	mine->doBlockNull(b);
+}
+
+void Game::breakMineBlock(int index)
+{
+	// NULL na mina, ou seja, quebrou o bloco
 	mine->doBlockNull(index);
 }
 
-void Game::byeMineBlock(int cidx, int ridx)
+void Game::breakMineBlock(int cidx, int ridx)
 {
+	// NULL na mina, ou seja, quebrou o bloco
 	mine->doBlockNull(cidx,ridx);
 }
 
@@ -81,4 +89,36 @@ Block* Game::getMinerDownBlock()
 		return getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine()+1);
 	else
 		return NULL;
+}
+
+int Game::isMinerOnFirstColumn()
+{
+	if (miner)
+		return miner->getColumnOnMine() == 0;
+	else
+		return 0;
+}
+
+int Game::isMinerOnLastColumn()
+{
+	if (miner)
+		return miner->getColumnOnMine() == this->cmax-1;
+	else
+		return 0;
+}
+
+int Game::isMinerOnFirstRow()
+{
+	if (miner)
+		return miner->getRowOnMine() == 0;
+	else
+		return 0;
+}
+
+int Game::isMinerOnLastRow()
+{
+	if (miner)
+		return miner->getRowOnMine() == this->rmax-1;
+	else
+		return 0;
 }

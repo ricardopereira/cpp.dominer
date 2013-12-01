@@ -16,6 +16,11 @@ class Playground
 	Sky sky;
 
 	void setGameBuffer(int shiftH, int shiftV);
+
+	int canMoveLeft();
+	int canMoveRight();
+	int canMoveUp();
+	int canMoveDown();
 public:
 	Playground(Controller& c) : ctrl(c)
 	{ 
@@ -27,6 +32,8 @@ public:
 	void startGame();
 	void stopGame();
 	void pause();
+
+	void openCommand();
 };
 
 #endif

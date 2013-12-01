@@ -12,6 +12,8 @@ public:
 	Ladder(int i, int c, int r) : Block(i,c,r) { color = AMARELO; }
 
 	char getDrawInfo(int index);
+
+	const int isProtected() const { return 1; };
 	const char* className() const { return "Ladder"; }
 };
 

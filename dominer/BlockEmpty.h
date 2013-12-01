@@ -12,6 +12,8 @@ public:
 	BlockEmpty() : Block(0,0,0) { color = VERMELHO_CLARO; }
 
 	char getDrawInfo(int index);
+	const int isProtected() const { return 1; };
+	const char* className() const { return "BlockEmpty"; }
 };
 
 #endif

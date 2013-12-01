@@ -22,8 +22,9 @@ public:
 	Block* getMineBlock(int index);
 	Block* getMineBlock(int cidx, int ridx);
 
-	void byeMineBlock(int index);
-	void byeMineBlock(int cidx, int ridx);
+	void breakMineBlock(Block* b);
+	void breakMineBlock(int index);
+	void breakMineBlock(int cidx, int ridx);
 
 	// Mineiro
 	Player* getMiner();
@@ -32,6 +33,11 @@ public:
 	Block* getMinerRightBlock();
 	Block* getMinerUpBlock();
 	Block* getMinerDownBlock();
+	//Limites
+	int isMinerOnFirstColumn();
+	int isMinerOnLastColumn();
+	int isMinerOnFirstRow();
+	int isMinerOnLastRow();
 };
 
 #endif

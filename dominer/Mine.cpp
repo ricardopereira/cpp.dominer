@@ -66,9 +66,9 @@ void Mine::createBlocks()
 int Mine::isValidRange(int cidx, int ridx)
 {
 	if (cidx > maxc-1 || ridx > maxr-1 || cidx < 0 || ridx < 0)
-		return 1;
-	else
 		return 0;
+	else
+		return 1;
 }
 
 Block* Mine::getBlock(int index)
@@ -81,7 +81,7 @@ Block* Mine::getBlock(int index)
 
 Block* Mine::getBlock(int cidx, int ridx)
 {
-	if (isValidRange(cidx,ridx))
+	if (!isValidRange(cidx,ridx))
 		return NULL;
 	if (cidx*ridx < getBlockCount())
 		// map[ridx][cidx] is then rewritten as
@@ -90,17 +90,22 @@ Block* Mine::getBlock(int cidx, int ridx)
 		return NULL;
 }
 
+void Mine::doBlockNull(Block* b)
+{
+	if (!b) return;
+	// Se não for um bloco protegido pode remover da mina
+	if (!b->isProtected())
+		map[b->getIndex()] = NULL;
+}
+
 void Mine::doBlockNull(int index)
 {
-	Block* b = getBlock(index);
-	if (!b) return;
-	delete b;
-	map[index] = NULL;
+	doBlockNull(getBlock(index));
 }
 
 void Mine::doBlockNull(int cidx, int ridx)
 {
-	if (isValidRange(cidx,ridx))
+	if (!isValidRange(cidx,ridx))
 		return;
 	doBlockNull(ridx*this->maxc+cidx);
 }

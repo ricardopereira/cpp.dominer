@@ -11,6 +11,7 @@ class Player: public Block
 	int indexOnMine;
 	int columnOnMine;
 	int rowOnMine;
+	Block* lastBlock;
 public:
 	Player() : Block(0,0,0)
 	{ 
@@ -19,6 +20,7 @@ public:
 		this->row = this->column; //Indice
 		this->index = this->row*SCREENSIZE+this->column;
 		this->color = BRANCO;
+		this->lastBlock = NULL;
 	}
 
 	char getDrawInfo(int index);
@@ -29,6 +31,13 @@ public:
 	int getColumnOnMine();
 	void setRowOnMine(const int ridx);
 	int getRowOnMine();
+
+	void setLastBlock(Block* b);
+	Block* getLastBlock();
+	void destroyLastBlock();
+
+	const int isProtected() const { return 1; };
+	const char* className() const { return "Player"; }
 };
 
 #endif

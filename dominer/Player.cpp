@@ -41,3 +41,24 @@ int Player::getRowOnMine()
 {
 	return rowOnMine;
 }
+
+void Player::setLastBlock(Block* b)
+{
+	lastBlock = b;
+}
+
+Block* Player::getLastBlock()
+{
+	return lastBlock;
+}
+
+void Player::destroyLastBlock()
+{
+	// Ultimo bloco
+	Block* b = getLastBlock();
+	//Verificar se é um bloco protegido
+	if (b && !b->isProtected())
+		// Remove o ultimo bloco quebrado da memória
+		delete b;
+	setLastBlock(NULL);
+}

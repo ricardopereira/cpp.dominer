@@ -37,6 +37,24 @@ void Playground::newGame(int maxc, int maxr)
 	}
 }
 
+void Playground::openCommand()
+{
+	char key;
+	string lastText = ctrl.getScreen().getLastText();
+
+	ctrl.getScreen().printText("dominer>");
+	while (1)
+	{
+		key = ctrl.getScreen().readKey();
+		if (key == ESCAPE)
+			break;
+
+
+	}
+	ctrl.getScreen().printText(lastText);
+	return;
+}
+
 void Playground::startGame()
 {
 	int shiftH=0, shiftV=0;
@@ -55,6 +73,10 @@ void Playground::startGame()
 		if (key == ESCAPE)
 			break;
 
+		//Test
+		if (key == 'c' || key == 'C')
+			openCommand();
+
 		if ( (key != ESQUERDA) && (key != DIREITA) &&
 		     (key != CIMA)     && (key != BAIXO) ) 
 			continue;
@@ -62,29 +84,33 @@ void Playground::startGame()
 		if (key == ESQUERDA)
 		{
 			// Verificar limite
-			if (!game->getMinerLeftBlock()) continue;
-
+			if (game->isMinerOnFirstColumn()) continue;
+			// Validar movimento
+			if (!canMoveLeft()) continue;
 			shiftH--;
 		}
 		else if (key == DIREITA)
 		{
 			// Verificar limite
-			if (!game->getMinerRightBlock()) continue;
-
+			if (game->isMinerOnLastColumn()) continue;
+			// Validar movimento
+			if (!canMoveRight()) continue;
 			shiftH++;
 		}
 		else if (key == CIMA)
 		{
 			// Verificar limite
-			if (!game->getMinerUpBlock()) continue;
-
+			if (game->isMinerOnFirstRow()) continue;
+			// Validar movimento
+			if (!canMoveUp()) continue;
 			shiftV--;
 		}
 		else if (key == BAIXO)
 		{
 			// Verificar limite
-			if (!game->getMinerDownBlock()) continue;
-
+			if (game->isMinerOnLastRow()) continue;
+			// Validar movimento
+			if (!canMoveDown()) continue;
 			shiftV++;
 		}
 		// Imprime o jogo no tabuleiro
@@ -92,7 +118,7 @@ void Playground::startGame()
 		ctrl.getScreen().refresh();
 
 		//Test: Índice do Mineiro
-		b = game->getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine());
+		b = miner->getLastBlock();
 		if (b)
 			ctrl.getScreen().printText(b->getAsString());
 		else
@@ -141,10 +167,17 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 			miner->setIndexOnMine(miner->getRowOnMine()*game->getMaxColumn()+miner->getColumnOnMine());
 			// Mineiro no buffer do ecra de jogo
 			ctrl.getScreen().setBufferItem(i,miner);
-			// Escavar: Test
+
+			// Tratamento do Bloco
 			currBlock = game->getMineBlock(shiftH+cidx,shiftV+ridx);
-			if (currBlock != NULL && currBlock->className() != "Hometown")
-				game->byeMineBlock(shiftH+cidx,shiftV+ridx);
+			// Ultimo bloco onde o mineiro esteve
+			if (!currBlock)
+				miner->destroyLastBlock();
+			// Guarda o bloco no mineiro
+			miner->setLastBlock(currBlock);
+
+			// Quebra bloco
+			game->breakMineBlock(currBlock);
 		}
 		else
 		{
@@ -164,4 +197,32 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 			}
 		}
 	}
+}
+
+int Playground::canMoveLeft()
+{
+	Block* b = game->getMinerLeftBlock();
+	if (!b) return 1;
+	return 1;
+}
+
+int Playground::canMoveRight()
+{
+	Block* b = game->getMinerRightBlock();
+	if (!b) return 1;
+	return 1;
+}
+
+int Playground::canMoveUp()
+{
+	Block* b = game->getMinerUpBlock();
+	if (!b) return 0;
+	return 1;
+}
+
+int Playground::canMoveDown()
+{
+	Block* b = game->getMinerDownBlock();
+	if (!b) return 1;
+	return 1;
 }
