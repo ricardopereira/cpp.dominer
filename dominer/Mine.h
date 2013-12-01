@@ -10,6 +10,7 @@ class Mine {
 	Block** map;
 
 	int isValidRange(int cidx, int ridx);
+	int isValidRange(int index);
 public:
 	Mine(int c=7, int r=7);
 	~Mine();
@@ -18,6 +19,7 @@ public:
 
 	Block* getBlock(int index);
 	Block* getBlock(int cidx, int ridx);
+	void setBlock(int index, Block* b);
 
 	void doBlockNull(Block* b);
 	void doBlockNull(int index);

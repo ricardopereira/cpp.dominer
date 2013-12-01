@@ -14,8 +14,6 @@ class Consola {
 	HWND hwnd;
 
 public:
-	const static int BLABLA          =  0;
-
 	// para usar nas cores
 	const static int PRETO          =  0;
 	const static int AZUL           =  1;

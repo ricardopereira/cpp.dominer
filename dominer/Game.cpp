@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Game.h"
+#include "Ladder.h"
 
 Game::Game(int cmax, int rmax)
 {
@@ -61,64 +62,65 @@ int Game::getMaxRow()
 
 Block* Game::getMinerLeftBlock()
 {
-	if (miner)
-		return getMineBlock(miner->getColumnOnMine()-1,miner->getRowOnMine());
-	else
-		return NULL;
+	return getMineBlock(miner->getColumnOnMine()-1,miner->getRowOnMine());
 }
 
 Block* Game::getMinerRightBlock()
 {
-	if (miner)
-		return getMineBlock(miner->getColumnOnMine()+1,miner->getRowOnMine());
-	else
-		return NULL;
+	return getMineBlock(miner->getColumnOnMine()+1,miner->getRowOnMine());
 }
 
 Block* Game::getMinerUpBlock()
 {
-	if (miner)
-		return getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine()-1);
-	else
-		return NULL;
+	return getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine()-1);
 }
 
 Block* Game::getMinerDownBlock()
 {
-	if (miner)
-		return getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine()+1);
-	else
-		return NULL;
+	return getMineBlock(miner->getColumnOnMine(),miner->getRowOnMine()+1);
 }
 
 int Game::isMinerOnFirstColumn()
 {
-	if (miner)
-		return miner->getColumnOnMine() == 0;
-	else
-		return 0;
+	return miner->getColumnOnMine() == 0;
 }
 
 int Game::isMinerOnLastColumn()
 {
-	if (miner)
-		return miner->getColumnOnMine() == this->cmax-1;
-	else
-		return 0;
+	return miner->getColumnOnMine() == this->cmax-1;
 }
 
 int Game::isMinerOnFirstRow()
 {
-	if (miner)
-		return miner->getRowOnMine() == 0;
-	else
-		return 0;
+	return miner->getRowOnMine() == 0;
 }
 
 int Game::isMinerOnLastRow()
 {
-	if (miner)
-		return miner->getRowOnMine() == this->rmax-1;
-	else
-		return 0;
+	return miner->getRowOnMine() == this->rmax-1;
+}
+
+//template<class T> Block* doBlock()
+//{	return new T(); }
+
+void Game::createLadder()
+{
+	//miner->doBlock<Ladder>(miner->getIndexOnMine())
+
+	// Se já existir uma escada?
+	if (miner->getLastBlock() && miner->getLastBlock()->className() == "Ladder")
+		return;
+
+	Block* b = new Ladder(miner->getIndexOnMine(),miner->getColumnOnMine(),miner->getRowOnMine());
+	mine->setBlock(miner->getIndexOnMine(),b);
+	// Coloca a escada à disposicao do mineiro
+	if (!miner->getLastBlock())
+		miner->destroyLastBlock();
+	// Colocar a escada como último bloco
+	miner->setLastBlock(b);
+}
+
+int Game::isMinerOnLadder()
+{
+	return getMiner()->getLastBlock() && getMiner()->getLastBlock()->className() == "Ladder";
 }

@@ -26,6 +26,9 @@ public:
 	void breakMineBlock(int index);
 	void breakMineBlock(int cidx, int ridx);
 
+	void createLadder();
+	int isMinerOnLadder();
+
 	// Mineiro
 	Player* getMiner();
 	// Percepcoes do Mineiro

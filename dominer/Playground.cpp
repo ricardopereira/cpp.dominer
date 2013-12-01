@@ -73,9 +73,15 @@ void Playground::startGame()
 		if (key == ESCAPE)
 			break;
 
-		//Test
+		// Linha de Comandos
 		if (key == 'c' || key == 'C')
 			openCommand();
+
+		if (key == ESPACO)
+		{
+			//Test: Create ladder
+			game->createLadder();
+		}
 
 		if ( (key != ESQUERDA) && (key != DIREITA) &&
 		     (key != CIMA)     && (key != BAIXO) ) 
@@ -203,26 +209,43 @@ int Playground::canMoveLeft()
 {
 	Block* b = game->getMinerLeftBlock();
 	if (!b) return 1;
-	return 1;
+	if (b->className() == "Rock")
+		return 0;
+	else
+		return 1;
 }
 
 int Playground::canMoveRight()
 {
 	Block* b = game->getMinerRightBlock();
 	if (!b) return 1;
-	return 1;
+	if (b->className() == "Rock")
+		return 0;
+	else
+		return 1;
 }
 
 int Playground::canMoveUp()
 {
 	Block* b = game->getMinerUpBlock();
-	if (!b) return 0;
-	return 1;
+	if (!b || b->className() != "Rock")
+	{
+		// Verificar se tem escada para subir
+		if (game->isMinerOnLadder())
+			return 1;
+		else
+			return 0;
+	}
+	else
+		return 0;
 }
 
 int Playground::canMoveDown()
 {
 	Block* b = game->getMinerDownBlock();
 	if (!b) return 1;
-	return 1;
+	if (b->className() == "Rock")
+		return 0;
+	else
+		return 1;
 }

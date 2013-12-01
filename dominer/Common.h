@@ -28,6 +28,7 @@
 #define BAIXO 4
 #define ENTER 13
 #define ESCAPE 27
+#define ESPACO 32
 
 #define DEFAULTCOLOR BRANCO
 
