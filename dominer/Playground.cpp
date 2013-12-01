@@ -10,6 +10,8 @@ Playground::~Playground()
 
 void Playground::newGame(int maxc, int maxr)
 {
+	ctrl.getScreen().hideCursor();
+
 	// Se existir um jogo aberto, e' para parar
 	if (game)
 		stopGame();
@@ -43,6 +45,7 @@ void Playground::openCommand()
 	string lastText = ctrl.getScreen().getLastText();
 
 	ctrl.getScreen().printText("dominer>");
+	ctrl.getScreen().showCursor();
 	while (1)
 	{
 		key = ctrl.getScreen().readKey();
@@ -51,6 +54,7 @@ void Playground::openCommand()
 
 
 	}
+	ctrl.getScreen().hideCursor();
 	ctrl.getScreen().printText(lastText);
 	return;
 }
@@ -150,7 +154,7 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 	if (!miner) return;
 
 	// Indices
-	for (int i=0, cidx=0, ridx=0; i<ctrl.getScreen().getSize(); i++)
+	for (int i=0, cidx=0, ridx=0; i<ctrl.getScreen().getBufferSize(); i++)
 	{
 		// Verificar quebra de linha
 		if (i != 0)

@@ -25,6 +25,12 @@ public:
 	~Screen();
 
 	int getSize();
+	void refresh();
+	void clear();
+	void showCursor();
+	void hideCursor();
+
+	int getBufferSize();
 	Block* getBufferItem(int index);
 	void setBufferItem(int index, Block* item);
 
@@ -33,11 +39,7 @@ public:
 	void print(Block& b, int col, int row);
 	void printText(string t);
 	void clearText();
-
-	void refresh();
-	void clear();
-
-	string getLastText();
+	string getLastText(); //?
 };
 
 #endif

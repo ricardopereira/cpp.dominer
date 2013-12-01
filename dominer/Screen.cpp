@@ -5,23 +5,23 @@
 
 using namespace std;
 
-void hideCursor()
+// Retirado do amigo Google
+void configCursor(int show)
 {
    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
    CONSOLE_CURSOR_INFO info;
    info.dwSize = 10;
-   info.bVisible = false;
+   info.bVisible = show;
    SetConsoleCursorInfo(consoleHandle, &info);
 }
 
 Screen::Screen(Consola* c)
 {
-	hideCursor();
 	this->c = c;
 	buffer = new Block*[SCREENSIZE*SCREENSIZE];
 	emptyBlock = new BlockEmpty;
-	this->x = CELLSIZE;
-	this->y = CELLSIZE;
+	this->x = 0; //CELLSIZE
+	this->y = 0;
 	//Configure command line
 	c->setTextSize(TEXTSIZE,TEXTSIZE);
 	c->setScreenSize(50,80);
@@ -40,6 +40,21 @@ Screen::~Screen()
 
 int Screen::getSize()
 {
+	return SCREENSIZE;
+}
+
+void Screen::showCursor()
+{
+	configCursor(1);
+}
+
+void Screen::hideCursor()
+{
+	configCursor(0);
+}
+
+int Screen::getBufferSize()
+{
 	return SCREENSIZE*SCREENSIZE;
 }
 
@@ -50,7 +65,7 @@ char Screen::readKey()
 
 void Screen::initScreen()
 {
-	for (int i=0; i<getSize(); i++)
+	for (int i=0; i<getBufferSize(); i++)
 		buffer[i] = NULL;
 }
 
@@ -61,7 +76,7 @@ void Screen::clear()
 
 Block* Screen::getBufferItem(int index)
 {
-	if (index >= 0 && index < getSize())
+	if (index >= 0 && index < getBufferSize())
 		return buffer[index];
 	else
 		return NULL;
@@ -69,7 +84,7 @@ Block* Screen::getBufferItem(int index)
 
 void Screen::setBufferItem(int index, Block* item)
 {
-	if (index >= 0 && index < getSize())
+	if (index >= 0 && index < getBufferSize())
 		buffer[index] = item;
 }
 
@@ -77,10 +92,8 @@ void Screen::printBuffer()
 {
 	Block* b;
 	int col=1, row=1;
-	int oldX = this->x;
-	int oldY = this->y;
 
-	for (int i=1; i<=getSize(); i++)
+	for (int i=1; i<=getBufferSize(); i++)
 	{
 		b = getBufferItem(i-1);
 		//Print block
@@ -102,8 +115,6 @@ void Screen::printBuffer()
 		else
 			col++;
 	}
-	this->x = oldX;
-	this->y = oldY;
 }
 
 void Screen::print(Block& b, int col, int row)
@@ -114,12 +125,11 @@ void Screen::print(Block& b, int col, int row)
 	c->setTextColor(b.getColor());
 	try
 	{
-		for (i=row*y; i<y*row+b.getHeight(); i++) //Linhas
-			for (j=col*x; j<x*col+b.getWidth(); j++) //Colunas
+		for (i=row*b.getHeight(); i<row*b.getHeight()+b.getHeight(); i++) //Linhas
+			for (j=col*b.getWidth(); j<col*b.getWidth()+b.getWidth(); j++,idx++) //Colunas
 			{
-				c->gotoxy(j,i);
+				c->gotoxy(x+j,y+i);
 				cout << b.getDrawInfo(idx);
-				idx++;
 			}
 	}
 	catch (...)
