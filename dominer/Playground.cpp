@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 
 #include "Playground.h"
 #include "Common.h"
@@ -47,18 +48,47 @@ void Playground::newGame(int maxc, int maxr)
 
 void Playground::openCommand()
 {
-	char key;
+	//char key;
 	string lastText = ctrl.getScreen().getLastText();
+
+	//Test: Shell.obj
 
 	ctrl.getScreen().printText("dominer>");
 	ctrl.getScreen().showCursor();
 	while (1)
 	{
-		key = ctrl.getScreen().readKey();
-		if (key == ESCAPE)
+		char command[128];
+		cin.getline(command,128);
+
+		vector<char*> args;
+		char *next_token1 = NULL;
+		char* prog = strtok_s(command," ",&next_token1);
+		char* tmp = prog;
+		while (tmp != NULL)
+		{
+		  args.push_back(tmp);
+		  tmp = strtok_s(NULL," ",&next_token1);
+		}
+
+		char** argv = new char*[args.size()+1];
+		for (int k = 0; k < (int)args.size(); k++)
+		  argv[k] = args[k];
+
+		argv[args.size()] = NULL;
+
+		if (strcmp(command,"exit") == 0)
+		{
 			break;
+		}
+		else if (strcmp(argv[0],"autor") == 0)
+		{
+			lastText = "Ricardo Pereira";
+			break;
+		}
 
-
+		//key = ctrl.getScreen().readKey();
+		//if (key == ESCAPE)
+		//	break;
 	}
 	ctrl.getScreen().hideCursor();
 	ctrl.getScreen().printText(lastText);

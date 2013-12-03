@@ -9,9 +9,39 @@ int main()
 {
 	Controller ctrl;
 	Playground playground(ctrl);
+	// Menu
+	char key;
+	int option = 1;
 
-	playground.newGame(21,21);
-	playground.startGame();
+	ctrl.getScreen().hideCursor();
+	while(1)
+	{
+		ctrl.getScreen().clear();
+		ctrl.getScreen().printMenu(option);
+		key = ctrl.getScreen().readKey();
 
-	return 0;
+		switch (key)
+		{
+		case CIMA:
+			{
+				option = 1;
+				break;
+			}
+
+		case BAIXO:
+			{
+				option = 2;
+				break;
+			}
+
+		case ENTER:
+			{
+				playground.newGame(21,21);
+				playground.startGame();
+				return 0;
+			}
+		default:
+			continue;
+		}
+	}
 }

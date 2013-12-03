@@ -80,8 +80,10 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockEmpty.cpp" />
     <ClCompile Include="Coal.cpp" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="Consola.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="DB.cpp" />
     <ClCompile Include="Diamond.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gold.cpp" />
@@ -95,6 +97,7 @@
     <ClCompile Include="Playground.cpp" />
     <ClCompile Include="Rock.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="Shell.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="Soil.cpp" />
     <ClCompile Include="Tool.cpp" />
@@ -106,8 +109,10 @@
     <ClInclude Include="BlockEmpty.h" />
     <ClInclude Include="Coal.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="Consola.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="DB.h" />
     <ClInclude Include="Diamond.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gold.h" />
@@ -120,6 +125,7 @@
     <ClInclude Include="Playground.h" />
     <ClInclude Include="Rock.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="Shell.h" />
     <ClInclude Include="Sky.h" />
     <ClInclude Include="Soil.h" />
     <ClInclude Include="Tool.h" />

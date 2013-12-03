@@ -200,3 +200,66 @@ void Screen::printMoney(const int value)
 	c->setTextColor(DEFAULTCOLOR);
 	cout << " " << value;
 }
+
+void Screen::printButton(const string& name, int x, int y, int withBox)
+{
+	int i;
+
+	if (withBox)
+	{
+		c->gotoxy(x,y);
+		cout << (char)218;
+		for (i=0; i<(int)name.length(); i++)
+			cout << (char)196;
+		cout << (char)191;
+
+		c->gotoxy(x,y+1);
+		cout << (char)179;
+		for (i=0; i<(int)name.length(); i++)
+			cout << (char)' ';
+		cout << (char)179;
+
+		c->gotoxy(x,y+2);
+		cout << (char)179;
+	}
+	else
+		c->gotoxy(x,y+2);
+
+	if (withBox)
+		cout << name;
+	else
+		cout << ' ' << name << ' ';
+
+	if (withBox)
+	{
+		cout << (char)179;
+
+		c->gotoxy(x,y+3);
+		cout << (char)179;
+		for (i=0; i<(int)name.length(); i++)
+			cout << (char)' ';
+		cout << (char)179;
+
+		c->gotoxy(x,y+4);
+		cout << (char)192;
+		for (i=0; i<(int)name.length(); i++)
+			cout << (char)196;
+		cout << (char)217;
+	}
+}
+
+void Screen::printMenu(const int option)
+{
+	int initX = CELLSIZE*6+2;
+
+	if (option == 1)
+	{
+		printButton("  start game  ",initX,16,1);
+		printButton("     exit     ",initX,22);
+	}
+	else
+	{
+		printButton("  start game  ",initX,16);
+		printButton("     exit     ",initX,22,1);
+	}
+}

@@ -36,6 +36,9 @@ public:
 
 	char readKey();
 
+	void printMenu(const int option);
+	void printButton(const string& name, int x, int y, int withBox=0);
+
 	void print(Block& b, int col, int row);
 	void printText(string t);
 	void clearText();

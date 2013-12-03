@@ -108,6 +108,15 @@
     <ClCompile Include="Gold.cpp">
       <Filter>Source Files\Blocks\Materials</Filter>
     </ClCompile>
+    <ClCompile Include="Shell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
@@ -178,6 +187,15 @@
     </ClInclude>
     <ClInclude Include="Gold.h">
       <Filter>Header Files\Blocks\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Shell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DB.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
