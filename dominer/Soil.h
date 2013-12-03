@@ -6,12 +6,25 @@
 #ifndef __SOIL_H__
 #define __SOIL_H__
 
+enum soilType {stSoft, stHard};
+
 class Soil: public Block
 {
+	soilType type;
+	int hardness;
 public:
-	Soil(int i, int c, int r) : Block(i,c,r) { color = VERMELHO; }
+	Soil(int i, int c, int r) : Block(i,c,r)
+	{ 
+		type = stSoft;
+	}
 
-	char getDrawInfo(int index);
+	void setSoilType(const soilType t);
+	soilType getSoilType();
+	void setHardness(const int h);
+	int getHardness();
+
+	char getDrawInfo(const int index);
+	int getColor(const int index);
 	const char* className() const { return "Soil"; }
 };
 

@@ -2,7 +2,12 @@
 
 #include "Sky.h"
 
-char Sky::getDrawInfo(int index)
+char Sky::getDrawInfo(const int index)
 {
 	return (char)219;
+}
+
+int Sky::getColor(const int index)
+{
+	return CYAN;
 }

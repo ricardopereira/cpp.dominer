@@ -128,23 +128,24 @@ void Screen::print(Block& b, int col, int row)
 {
 	int i,j,idx=0;
 
-	//Color of Block
-	c->setTextColor(b.getColor());
 	try
 	{
 		for (i=row*b.getHeight(); i<row*b.getHeight()+b.getHeight(); i++) //Linhas
 			for (j=col*b.getWidth(); j<col*b.getWidth()+b.getWidth(); j++,idx++) //Colunas
 			{
+				// Cor do Bloco
+				c->setTextColor(b.getColor(idx));
+				// Caracter
 				c->gotoxy(x+j,y+i);
 				cout << b.getDrawInfo(idx);
 			}
 	}
 	catch (...)
 	{
-		//Restore old color
-		c->setTextColor(VERMELHO);
+		// Indicacao de erro
+		cout << "E";
 	}
-	//Restore default color
+	// Repor para cor por defeito
 	c->setTextColor(DEFAULTCOLOR);
 }
 
@@ -194,7 +195,7 @@ void Screen::printMoney(const int value)
 {
 	c->gotoxy(CELLSIZE*2,2);
 	c->setTextColor(AMARELO_CLARO);
-	cout << (char)4;
+	cout << (char)36;
 	//Restore default color
 	c->setTextColor(DEFAULTCOLOR);
 	cout << " " << value;

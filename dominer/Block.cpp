@@ -14,7 +14,6 @@ Block::Block(int i, int c, int r, int w, int h)
 	this->row = r;
 	this->width = w;
 	this->height = h;
-	setColor(BRANCO);
 }
 
 Block::~Block()
@@ -47,17 +46,12 @@ int Block::getHeight()
 	return this->height;
 }
 
-int Block::getColor()
+int Block::getColor(const int index)
 {
-	return this->color;
+	return PRETO;
 }
 
-void Block::setColor(const int value)
-{
-	this->color = value;
-}
-
-char Block::getDrawInfo(int index)
+char Block::getDrawInfo(const int index)
 {
 	return (char)176;
 }

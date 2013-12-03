@@ -13,21 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Blocks">
+      <UniqueIdentifier>{93880815-6b16-4e6e-a43b-537d61b85931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Blocks">
+      <UniqueIdentifier>{820f300b-4c01-4fb1-8c25-afa4253c0517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gameplay">
+      <UniqueIdentifier>{d5dadaf5-2483-418c-9126-cd6ff387adb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gameplay">
+      <UniqueIdentifier>{19b6fdbc-de62-4deb-9478-043f7c933bd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Blocks\Materials">
+      <UniqueIdentifier>{b7553576-7269-482c-a322-24add73236f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Blocks\Materials">
+      <UniqueIdentifier>{082745e7-6c40-4c57-8f15-0e6442045b82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Blocks\Tools">
+      <UniqueIdentifier>{92a89464-4795-4456-a9e4-02e386a8673f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Blocks\Tools">
+      <UniqueIdentifier>{4e77399e-e2d7-4c62-9ba8-0fbdb9bf2131}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BlockEmpty.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Consola.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
@@ -36,44 +51,65 @@
     <ClCompile Include="Screen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Block.cpp">
+      <Filter>Source Files\Blocks</Filter>
     </ClCompile>
-    <ClCompile Include="Playground.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Rock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Soil.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Ladder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Sky.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="BlockEmpty.cpp">
+      <Filter>Source Files\Blocks</Filter>
     </ClCompile>
     <ClCompile Include="Hometown.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Rock.cpp">
+      <Filter>Source Files\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Sky.cpp">
+      <Filter>Source Files\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Soil.cpp">
+      <Filter>Source Files\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files\Blocks</Filter>
+    </ClCompile>
+    <ClCompile Include="Playground.cpp">
+      <Filter>Source Files\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Mine.cpp">
+      <Filter>Source Files\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Aluminum.cpp">
+      <Filter>Source Files\Blocks\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\Blocks\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Coal.cpp">
+      <Filter>Source Files\Blocks\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Iron.cpp">
+      <Filter>Source Files\Blocks\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Diamond.cpp">
+      <Filter>Source Files\Blocks\Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="Tool.cpp">
+      <Filter>Source Files\Blocks\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Ladder.cpp">
+      <Filter>Source Files\Blocks\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Gold.cpp">
+      <Filter>Source Files\Blocks\Materials</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BlockEmpty.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -83,35 +119,65 @@
     <ClInclude Include="Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Screen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Playground.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Block.h">
+      <Filter>Header Files\Blocks</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Rock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Soil.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ladder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sky.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BlockEmpty.h">
+      <Filter>Header Files\Blocks</Filter>
     </ClInclude>
     <ClInclude Include="Hometown.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>Header Files\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Sky.h">
+      <Filter>Header Files\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Soil.h">
+      <Filter>Header Files\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Rock.h">
+      <Filter>Header Files\Blocks</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Mine.h">
+      <Filter>Header Files\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Playground.h">
+      <Filter>Header Files\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Aluminum.h">
+      <Filter>Header Files\Blocks\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\Blocks\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Coal.h">
+      <Filter>Header Files\Blocks\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Iron.h">
+      <Filter>Header Files\Blocks\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Diamond.h">
+      <Filter>Header Files\Blocks\Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="Tool.h">
+      <Filter>Header Files\Blocks\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
+      <Filter>Header Files\Blocks\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Gold.h">
+      <Filter>Header Files\Blocks\Materials</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

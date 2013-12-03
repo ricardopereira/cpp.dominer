@@ -10,6 +10,7 @@ Playground::~Playground()
 
 void Playground::newGame(int maxc, int maxr)
 {
+	// Esconde o cursor
 	ctrl.getScreen().hideCursor();
 
 	// Se existir um jogo aberto, e' para parar
@@ -39,6 +40,7 @@ void Playground::newGame(int maxc, int maxr)
 		ctrl.getScreen().refresh();
 	}
 
+	// Informacao de jogo
 	ctrl.getScreen().printEnergy(miner->getEnergy());
 	ctrl.getScreen().printMoney(miner->getMoney());
 }

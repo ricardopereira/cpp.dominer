@@ -2,7 +2,7 @@
 
 #include "Ladder.h"
 
-char Ladder::getDrawInfo(int index)
+char Ladder::getDrawInfo(const int index)
 {
 	if (index == 1 || index == 6 || index == 11 || index == 16 || index == 21)
 		return (char)219;
@@ -12,4 +12,9 @@ char Ladder::getDrawInfo(int index)
 		return (char)223;
 	else
 		return ' ';
+}
+
+int Ladder::getColor(const int index)
+{
+	return AMARELO;
 }

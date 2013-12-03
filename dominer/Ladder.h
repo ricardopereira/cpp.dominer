@@ -9,10 +9,10 @@
 class Ladder: public Block
 {
 public:
-	Ladder(int i, int c, int r) : Block(i,c,r) { color = AMARELO; }
+	Ladder(int i, int c, int r) : Block(i,c,r) {}
 
 	char getDrawInfo(int index);
-
+	int getColor(const int index);
 	const int isProtected() const { return 1; };
 	const char* className() const { return "Ladder"; }
 };

@@ -6,6 +6,11 @@
 #include "Soil.h"
 #include "Rock.h"
 #include "Hometown.h"
+#include "Iron.h"
+#include "Gold.h"
+#include "Aluminum.h"
+#include "Coal.h"
+#include "Diamond.h"
 
 using namespace std;
 
@@ -29,26 +34,52 @@ Mine::~Mine()
 void Mine::createBlocks()
 {
 	int cidx=0, ridx=0;
-
-	//Test
+	// Probabilidades
 	int prob;
+	// Randomize
 	srand((unsigned int)time(NULL));
 
 	for (int i=0; i<getBlockCount(); i++)
 	{
-		//Test
 		prob = rand() % 100;
-		// Linha da Superficie
+		// Criacao da mina
 		if (ridx == 0)
 		{
+			// Linha da superficie
 			map[i] = new Hometown(i,cidx,ridx);
 		}
-		else if (prob <= 5)
+		else if (prob <= 2)
+		{
+			map[i] = new Diamond(i,cidx,ridx);
+		}
+		else if (prob <= 4)
+		{
+			map[i] = new Gold(i,cidx,ridx);
+		}
+		else if (prob <= 8)
+		{
+			map[i] = new Aluminum(i,cidx,ridx);
+		}
+		else if (prob <= 15)
+		{
+			map[i] = new Iron(i,cidx,ridx);
+		}
+		else if (prob <= 30)
+		{
+			map[i] = new Coal(i,cidx,ridx);
+		}
+		else if (prob <= 45)
 		{
 			map[i] = new Rock(i,cidx,ridx);
 		}
 		else
+		{
 			map[i] = new Soil(i,cidx,ridx);
+			prob = rand() % 100;
+			// 20% de Probabilidade de criar solo duro, restante fica mole
+			if (prob <= 20)
+				((Soil*)map[i])->setSoilType(stHard);
+		}
 		
 		//Next
 		if (cidx == this->maxc-1)

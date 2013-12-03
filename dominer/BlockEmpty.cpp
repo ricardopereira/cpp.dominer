@@ -2,7 +2,7 @@
 
 #include "BlockEmpty.h"
 
-char BlockEmpty::getDrawInfo(int index)
+char BlockEmpty::getDrawInfo(const int index)
 {
 	return (char)219;
 }

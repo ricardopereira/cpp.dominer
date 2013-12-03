@@ -9,9 +9,10 @@
 class World: public Block
 {
 public:
-	World() : Block(0,0,0) { color = VERMELHO; }
+	World() : Block(0,0,0) {}
 
-	char getDrawInfo(int index);
+	char getDrawInfo(const int index);
+	int getColor(const int index);
 	const char* className() const { return "World"; }
 };
 

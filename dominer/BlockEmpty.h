@@ -9,9 +9,9 @@
 class BlockEmpty: public Block
 {
 public:
-	BlockEmpty() : Block(0,0,0) { color = PRETO; }
+	BlockEmpty() : Block(0,0,0) {}
 
-	char getDrawInfo(int index);
+	char getDrawInfo(const int index);
 	const int isProtected() const { return 1; };
 	const char* className() const { return "BlockEmpty"; }
 };

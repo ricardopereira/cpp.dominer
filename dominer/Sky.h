@@ -9,9 +9,10 @@
 class Sky: public Block
 {
 public:
-	Sky() : Block(0,0,0) { color = CYAN; }
+	Sky() : Block(0,0,0) {}
 
-	char getDrawInfo(int index);
+	char getDrawInfo(const int index);
+	int getColor(const int index);
 	const char* className() const { return "Sky"; }
 };
 

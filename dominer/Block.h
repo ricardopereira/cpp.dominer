@@ -15,7 +15,6 @@ protected:
 	int index;
 	int column; //Indice
 	int row; //Indice
-	int color;
 public:
 	Block(int i, int c, int r, int w = CELLSIZE, int h = CELLSIZE);
 	~Block();
@@ -25,10 +24,9 @@ public:
 	int getRow();
 	int getWidth();
 	int getHeight();
-	virtual char getDrawInfo(int index);
 
-	int getColor();
-	void setColor(const int value);
+	virtual char getDrawInfo(const int index);
+	virtual int getColor(const int index);
 
 	string getAsString() const;
 

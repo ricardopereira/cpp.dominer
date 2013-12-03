@@ -2,7 +2,7 @@
 
 #include "Player.h"
 
-char Player::getDrawInfo(int index)
+char Player::getDrawInfo(const int index)
 {
 	if (index == 6 || index == 8)
 		return (char)219;
@@ -10,6 +10,11 @@ char Player::getDrawInfo(int index)
 		return (char)223;
 	else
 		return ' ';
+}
+
+int Player::getColor(const int index)
+{
+	return BRANCO;
 }
 
 void Player::setIndexOnMine(const int index)

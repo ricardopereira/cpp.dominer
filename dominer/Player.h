@@ -24,14 +24,14 @@ public:
 		this->column = (int)ceil((double)SCREENSIZE/2)-1; //Indice
 		this->row = this->column; //Indice
 		this->index = this->row*SCREENSIZE+this->column;
-		this->color = BRANCO;
 		this->lastBlock = NULL;
 
 		this->money = 200;
 		this->energy = 50;
 	}
 
-	char getDrawInfo(int index);
+	char getDrawInfo(const int index);
+	int getColor(const int index);
 
 	void setIndexOnMine(const int index);
 	int getIndexOnMine();
