@@ -25,7 +25,8 @@ public:
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);
-	const char* className() const { return "Soil"; }
+	const int canBreak(Tool* t) const;
+	const int classIs(const string& className) const { return className.compare("Soil") == 0; };
 };
 
 #endif

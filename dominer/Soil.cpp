@@ -36,3 +36,8 @@ int Soil::getHardness()
 {
 	return hardness;
 }
+
+const int Soil::canBreak(Tool* t) const
+{
+	return 1;
+}

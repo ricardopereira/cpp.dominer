@@ -3,6 +3,7 @@
 
 #include "Playground.h"
 #include "Common.h"
+#include "Shell.h"
 
 Playground::~Playground()
 {
@@ -40,58 +41,50 @@ void Playground::newGame(int maxc, int maxr)
 		setGameBuffer(0,(-1)*miner->getRow());
 		ctrl.getScreen().refresh();
 	}
-
 	// Informacao de jogo
-	ctrl.getScreen().printEnergy(miner->getEnergy());
-	ctrl.getScreen().printMoney(miner->getMoney());
+	refreshInfo();
+}
+
+void Playground::refreshInfo()
+{
+	Player* miner = game->getMiner();
+	if (miner)
+	{
+		ctrl.getScreen().printEnergy(miner->getEnergy());
+		ctrl.getScreen().printMoney(miner->getMoney());
+		ctrl.getScreen().printLives(miner->getLives());
+	}
+}
+
+void Playground::checkMiner()
+{
+	// Decrementa a energia do mineiro
+	if (!game->isMinerOnHometown())	
+		game->getMiner()->consumeEnergy();
 }
 
 void Playground::openCommand()
 {
-	//char key;
-	string lastText = ctrl.getScreen().getLastText();
+	Shell* shell = new Shell(&ctrl.getScreen());
 
-	//Test: Shell.obj
-
-	ctrl.getScreen().printText("dominer>");
-	ctrl.getScreen().showCursor();
-	while (1)
+	shell->open(0,0);
+	do
 	{
-		char command[128];
-		cin.getline(command,128);
+		// Ponteiro
+		shell->readCommand();
 
-		vector<char*> args;
-		char *next_token1 = NULL;
-		char* prog = strtok_s(command," ",&next_token1);
-		char* tmp = prog;
-		while (tmp != NULL)
+		// Validar comando recebido
+		if (shell->getArgs().size() > 0)
 		{
-		  args.push_back(tmp);
-		  tmp = strtok_s(NULL," ",&next_token1);
+			for (vector<string>::const_iterator it = shell->getArgs().begin(); it != shell->getArgs().end(); ++it)
+			{
+				//
+			}
 		}
+		
+	} while (!shell->toExit());
 
-		char** argv = new char*[args.size()+1];
-		for (int k = 0; k < (int)args.size(); k++)
-		  argv[k] = args[k];
-
-		argv[args.size()] = NULL;
-
-		if (strcmp(command,"exit") == 0)
-		{
-			break;
-		}
-		else if (strcmp(argv[0],"autor") == 0)
-		{
-			lastText = "Ricardo Pereira";
-			break;
-		}
-
-		//key = ctrl.getScreen().readKey();
-		//if (key == ESCAPE)
-		//	break;
-	}
-	ctrl.getScreen().hideCursor();
-	ctrl.getScreen().printText(lastText);
+	delete shell;
 	return;
 }
 
@@ -134,6 +127,7 @@ void Playground::startGame()
 			// Validar movimento
 			if (!canMoveLeft()) continue;
 			shiftH--;
+			checkMiner();
 		}
 		else if (key == DIREITA)
 		{
@@ -142,6 +136,7 @@ void Playground::startGame()
 			// Validar movimento
 			if (!canMoveRight()) continue;
 			shiftH++;
+			checkMiner();
 		}
 		else if (key == CIMA)
 		{
@@ -150,6 +145,7 @@ void Playground::startGame()
 			// Validar movimento
 			if (!canMoveUp()) continue;
 			shiftV--;
+			checkMiner();
 		}
 		else if (key == BAIXO)
 		{
@@ -158,10 +154,14 @@ void Playground::startGame()
 			// Validar movimento
 			if (!canMoveDown()) continue;
 			shiftV++;
+			checkMiner();
 		}
+
 		// Imprime o jogo no tabuleiro
 		setGameBuffer(shiftH,shiftV);
 		ctrl.getScreen().refresh();
+		// Informacao de jogo
+		refreshInfo();
 
 		//Test: Índice do Mineiro
 		b = miner->getLastBlock();
@@ -250,26 +250,20 @@ int Playground::canMoveLeft()
 {
 	Block* b = game->getMinerLeftBlock();
 	if (!b) return 1;
-	if (b->className() == "Rock")
-		return 0;
-	else
-		return 1;
+	return b->canBreak(NULL);
 }
 
 int Playground::canMoveRight()
 {
 	Block* b = game->getMinerRightBlock();
 	if (!b) return 1;
-	if (b->className() == "Rock")
-		return 0;
-	else
-		return 1;
+	return b->canBreak(NULL);
 }
 
 int Playground::canMoveUp()
 {
 	Block* b = game->getMinerUpBlock();
-	if (!b || b->className() != "Rock")
+	if (!b || b->canBreak(NULL))
 	{
 		// Verificar se tem escada para subir
 		if (game->isMinerOnLadder())
@@ -285,8 +279,5 @@ int Playground::canMoveDown()
 {
 	Block* b = game->getMinerDownBlock();
 	if (!b) return 1;
-	if (b->className() == "Rock")
-		return 0;
-	else
-		return 1;
+	return b->canBreak(NULL);
 }

@@ -2,6 +2,7 @@
 
 #include "Block.h"
 #include "Common.h"
+#include "Material.h"
 
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
@@ -15,6 +16,7 @@ class Player: public Block
 
 	int money;
 	int energy;
+	int lives;
 	//lista de utensilios
 	//mochila: lista de minerais
 public:
@@ -28,6 +30,7 @@ public:
 
 		this->money = 200;
 		this->energy = 50;
+		this->lives = 3;
 	}
 
 	char getDrawInfo(const int index);
@@ -45,10 +48,14 @@ public:
 	void destroyLastBlock();
 
 	int getEnergy();
+	int getLives();
 	int getMoney();
 
+	void consumeEnergy();
+	void addMaterial(Material* m);
+
 	const int isProtected() const { return 1; };
-	const char* className() const { return "Player"; }
+	const int classIs(const string& className) const { return className.compare("Player") == 0; };
 };
 
 #endif

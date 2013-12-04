@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include <sstream>
+#include <typeinfo>
 
 #include "Block.h"
 #include "Common.h"
@@ -59,6 +60,7 @@ char Block::getDrawInfo(const int index)
 string Block::getAsString() const
 {
 	ostringstream out;
-	out << className() << "(" << column << "," << row << ")";
+	// Obter o nome da class apenas para debug
+	out << typeid(*this).name() << "(" << column << "," << row << ")";
 	return out.str();
 }

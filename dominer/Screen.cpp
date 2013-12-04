@@ -106,11 +106,11 @@ void Screen::printBuffer()
 		//Print block
 		if (!b)
 		{
-			print(*emptyBlock,col,row);
+			printBlock(*emptyBlock,col,row);
 		}
 		else
 		{
-			print(*b,col,row);
+			printBlock(*b,col,row);
 		}
 
 		//Check if is a new line
@@ -124,7 +124,7 @@ void Screen::printBuffer()
 	}
 }
 
-void Screen::print(Block& b, int col, int row)
+void Screen::printBlock(Block& b, int col, int row)
 {
 	int i,j,idx=0;
 
@@ -151,17 +151,18 @@ void Screen::print(Block& b, int col, int row)
 
 void Screen::printText(string t)
 {
+	t.resize(40);
 	setLastText(t);
 	clearText();
-	c->gotoxy(CELLSIZE,9*CELLSIZE);
+	c->gotoxy(BLOCKSIZE,2);
 	cout << t;
 }
 
 void Screen::clearText()
 {
-	for (int i=CELLSIZE; i<80; i++)
+	for (int i=BLOCKSIZE; i<40; i++)
 	{
-		c->gotoxy(i,9*CELLSIZE);
+		c->gotoxy(i,2);
 		cout << " ";
 	}
 }
@@ -169,6 +170,12 @@ void Screen::clearText()
 void Screen::refresh()
 {
 	printBuffer();
+}
+
+void Screen::restoreColor()
+{
+	// Restaurar cor por defeito
+	c->setTextColor(DEFAULTCOLOR);
 }
 
 void Screen::setLastText(string value)
@@ -181,23 +188,35 @@ string Screen::getLastText()
 	return lastText;
 }
 
+void Screen::gotoPanelInfo(int line)
+{
+	c->gotoxy((getSize()+2)*BLOCKSIZE,BLOCKSIZE+(line-1)*2);
+}
+
 void Screen::printEnergy(const int value)
 {
-	c->gotoxy(CELLSIZE,2);
+	gotoPanelInfo(1);
 	c->setTextColor(VERMELHO_CLARO);
 	cout << (char)3;
-	//Restore default color
-	c->setTextColor(DEFAULTCOLOR);
+	restoreColor();
+	cout << " " << value;
+}
+
+void Screen::printLives(const int value)
+{
+	gotoPanelInfo(2);
+	c->setTextColor(AZUL_CLARO);
+	cout << (char)1;
+	restoreColor();
 	cout << " " << value;
 }
 
 void Screen::printMoney(const int value)
 {
-	c->gotoxy(CELLSIZE*2,2);
+	gotoPanelInfo(3);
 	c->setTextColor(AMARELO_CLARO);
 	cout << (char)36;
-	//Restore default color
-	c->setTextColor(DEFAULTCOLOR);
+	restoreColor();
 	cout << " " << value;
 }
 
@@ -250,7 +269,7 @@ void Screen::printButton(const string& name, int x, int y, int withBox)
 
 void Screen::printMenu(const int option)
 {
-	int initX = CELLSIZE*6+2;
+	int initX = BLOCKSIZE*6+2;
 
 	if (option == 1)
 	{
@@ -262,4 +281,45 @@ void Screen::printMenu(const int option)
 		printButton("  start game  ",initX,16);
 		printButton("     exit     ",initX,22,1);
 	}
+}
+
+void Screen::printLevels()
+{
+
+}
+
+void Screen::printCommandPanel()
+{
+
+}
+
+void Screen::clearCommandPanel()
+{
+
+}
+
+void Screen::printCommandLine(const string& text)
+{
+	clearCommandLine();
+	c->gotoxy(BLOCKSIZE,BLOCKSIZE*9);
+	cout << text;
+}
+
+void Screen::clearCommandLine()
+{
+	for (int i=BLOCKSIZE; i<80; i++)
+	{
+		c->gotoxy(i,2);
+		cout << " ";
+	}
+}
+
+void Screen::printCommandInfo(const string& info)
+{
+
+}
+
+void Screen::clearCommandInfo()
+{
+
 }

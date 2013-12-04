@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Game.h"
+#include "Material.h"
 #include "Ladder.h"
 
 Game::Game(int cmax, int rmax)
@@ -29,6 +30,11 @@ Block* Game::getMineBlock(int cidx, int ridx)
 
 void Game::breakMineBlock(Block* b)
 {
+	// Verifica mineral
+	Material* m = dynamic_cast<Material*>(b);
+	if (m)
+		miner->addMaterial(m);
+
 	// NULL na mina, ou seja, quebrou o bloco
 	mine->doBlockNull(b);
 }
@@ -108,7 +114,7 @@ void Game::createLadder()
 	//miner->doBlock<Ladder>(miner->getIndexOnMine())
 
 	// Se já existir uma escada?
-	if (miner->getLastBlock() && miner->getLastBlock()->className() == "Ladder")
+	if (miner->getLastBlock() && miner->getLastBlock()->classIs("Ladder"))
 		return;
 
 	Block* b = new Ladder(miner->getIndexOnMine(),miner->getColumnOnMine(),miner->getRowOnMine());
@@ -120,7 +126,17 @@ void Game::createLadder()
 	miner->setLastBlock(b);
 }
 
+int Game::isMinerOnBlock(const string& blockname)
+{
+	return getMiner()->getLastBlock() && getMiner()->getLastBlock()->classIs(blockname);
+}
+
 int Game::isMinerOnLadder()
 {
-	return getMiner()->getLastBlock() && getMiner()->getLastBlock()->className() == "Ladder";
+	return isMinerOnBlock("Ladder");
+}
+
+int Game::isMinerOnHometown()
+{
+	return isMinerOnBlock("Hometown");
 }

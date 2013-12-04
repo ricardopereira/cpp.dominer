@@ -38,7 +38,9 @@ int main()
 			{
 				playground.newGame(21,21);
 				playground.startGame();
-				return 0;
+
+				ctrl.getScreen().clear();
+				exit(0);
 			}
 		default:
 			continue;

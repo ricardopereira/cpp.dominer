@@ -33,6 +33,10 @@ public:
 	void stopGame();
 	void pause();
 
+	//?
+	void checkMiner();
+
+	void refreshInfo();
 	void openCommand();
 };
 

@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include "Common.h"
+#include "Tool.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ protected:
 	int column; //Indice
 	int row; //Indice
 public:
-	Block(int i, int c, int r, int w = CELLSIZE, int h = CELLSIZE);
+	Block(int i, int c, int r, int w = BLOCKSIZE, int h = BLOCKSIZE);
 	~Block();
 
 	int getIndex();
@@ -30,8 +31,9 @@ public:
 
 	string getAsString() const;
 
+	virtual const int canBreak(Tool* t) const { return 1; };
 	virtual const int isProtected() const { return 0; };
-	virtual const char* className() const { return "Block"; }
+	virtual const int classIs(const string& className) const = 0; //abstract
 };
 
 #endif

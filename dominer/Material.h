@@ -11,8 +11,10 @@ class Material: public Soil
 public:
 	Material(int i, int c, int r) : Soil(i,c,r) {}
 
+	virtual int getWeight() { return 1; };
+
 	char getDrawInfo(const int index);
-	const char* className() const { return "Material"; }
+	const int classIs(const string& className) const { return className.compare("Material") == 0; };
 };
 
 #endif

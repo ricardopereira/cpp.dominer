@@ -13,7 +13,7 @@ public:
 
 	char getDrawInfo(const int index);
 	const int isProtected() const { return 1; };
-	const char* className() const { return "BlockEmpty"; }
+	const int classIs(const string& className) const { return className.compare("BlockEmpty") == 0; };
 };
 
 #endif

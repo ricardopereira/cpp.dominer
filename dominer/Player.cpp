@@ -73,7 +73,24 @@ int Player::getEnergy()
 	return energy;
 }
 
+int Player::getLives()
+{
+	return lives;
+}
+
 int Player::getMoney()
 {
 	return money;
+}
+
+void Player::consumeEnergy()
+{
+	energy--;
+}
+
+void Player::addMaterial(Material* m)
+{
+	if (!m) return;
+	// ToDo
+	money += m->getWeight();
 }

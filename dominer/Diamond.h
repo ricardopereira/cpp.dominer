@@ -13,7 +13,7 @@ public:
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);
-	const char* className() const { return "Diamond"; }
+	const int classIs(const string& className) const { return className.compare("Diamond") == 0; };
 };
 
 #endif

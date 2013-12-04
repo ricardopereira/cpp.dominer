@@ -12,6 +12,8 @@ class Game
 	int cmax;
 	int rmax;
 	Player* miner;
+
+	int isMinerOnBlock(const string& blockname);
 public:
 	Game(int cmax, int rmax);
 	~Game();
@@ -28,6 +30,7 @@ public:
 
 	void createLadder();
 	int isMinerOnLadder();
+	int isMinerOnHometown();
 
 	// Mineiro
 	Player* getMiner();

@@ -18,7 +18,7 @@
 //  else cout << "Unable to open file";
 //  return 0;
 //}
-//
+
 //// reading a text file
 //int main ()
 //{

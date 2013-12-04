@@ -1,7 +1,7 @@
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
-#define CELLSIZE 5
+#define BLOCKSIZE 5
 #define TEXTSIZE 8
 #define SCREENSIZE 7
 
