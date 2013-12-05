@@ -33,130 +33,12 @@ void Playground::newGame(int maxc, int maxr)
 	// Limpar o ecra
 	ctrl.getScreen().clear();
 
-	// Mineiro
-	Player* miner = game->getMiner();
-	if (miner)
-	{
-		//Inicia tabuleiro inicial com deslocação inicial
-		setGameBuffer(0,(-1)*miner->getRow());
-		ctrl.getScreen().refresh();
-	}
-	// Informacao de jogo
-	refreshInfo();
+	// Inicializar o jogo
+	initGame();
 }
 
-void Playground::refreshInfo()
+void Playground::initGame()
 {
-	Player* miner = game->getMiner();
-	if (miner)
-	{
-		ctrl.getScreen().printEnergy(miner->getEnergy());
-		ctrl.getScreen().printMoney(miner->getMoney());
-		ctrl.getScreen().printLives(miner->getLives());
-	}
-}
-
-void Playground::checkMiner()
-{
-	// Decrementa a energia do mineiro
-	if (!game->getMiner()->onHometown())	
-		game->getMiner()->consumeEnergy();
-}
-
-void Playground::openCommand()
-{
-	Shell* shell = new Shell(&ctrl.getScreen());
-	shell->open();
-	do
-	{
-		// Ler comando
-		if (shell->readCommand())
-		{
-			// Verificar comando
-			if (shell->isCommand("help"))
-			{
-				
-			}
-			else if (shell->isCommand("u"))
-			{
-				//u <nome_utensilio> - Só funciona se o Mineiro à superficie e tiver moedas suficientes.
-
-				if (!game->getMiner()->onHometown())
-					ctrl.getScreen().printCommandInfo("Can't shopping on underground");
-				//Test
-				else if (!game->getMiner()->buyTool(0))
-					ctrl.getScreen().printCommandInfo("Not enough money...");
-				else
-					ctrl.getScreen().printCommandInfo("You bought...");
-			}
-			else if (shell->isCommand("b"))
-			{
-				//b <tipo> <linha> <coluna> - Coloca um bloco do tipo especificado nas coordenadas indicadas (tipo: P, TM, TD, …)
-
-				// Proteger para a posicao do Mineiro! - setLastBlock
-
-				//Block* b = new Ladder(miner->getIndexOnMine(),miner->getColumnOnMine(),miner->getRowOnMine());
-				//mine->setBlock(miner->getIndexOnMine(),b);
-			}
-			else if (shell->isCommand("t"))
-			{
-				//t <linha> <coluna> - Move o Mineiro para as coordenadas indicadas
-				shiftH = shell->getArgumentAsInt(0);
-				shiftV = shell->getArgumentAsInt(1);
-
-				// Imprime o jogo no tabuleiro
-				setGameBuffer(shiftH,shiftV);
-				ctrl.getScreen().refresh();
-
-				//Test: Índice do Mineiro
-				Block* b = game->getMiner()->getLastBlock();
-				if (b)
-					ctrl.getScreen().printText(b->getAsString());
-				else
-					ctrl.getScreen().clearText();
-
-				shell->close();
-			}
-			else if (shell->isCommand("g"))
-			{
-				//g <valor> - O valor das moedas passa a ter o valor indicado
-			}
-			else if (shell->isCommand("e"))
-			{
-				//e <valor> - O valor da energia passa a ter o valor indicado
-			}
-			else if (shell->isCommand("c"))
-			{
-				//c <novo_nome> - Cria uma cópia do jogo actual (construtor por cópia) e passa o anterior para memória
-			}
-			else if (shell->isCommand("f"))
-			{
-				//f <nome> - Muda para o jogo que tem o nome indicado
-			}
-			else if (shell->isCommand("a"))
-			{
-				//a <nome_origem nome_dest> - Copia a mina para uma nova (previamente criada - ex: tecla c), e a atribuição deve ser feita pelo operador atribuição
-			}
-			else if (shell->isCommand("x"))
-			{
-				//x - Desistência
-			}
-			else if (shell->isCommand("j"))
-			{
-				//j - Regressa ao modo de jogo normal (sai da consola)
-			}
-		}
-	} while (!shell->toExit());
-
-	delete shell;
-	return;
-}
-
-void Playground::startGame()
-{
-	char key;
-	Block* b;
-
 	shiftH = 0;
 	shiftV = 0;
 
@@ -165,8 +47,42 @@ void Playground::startGame()
 	if (!miner)
 		throw invalid_argument( " miner can't be NULL" );
 
-	// Deslocacao inicial
-	shiftV = (-1) * miner->getRow();
+	// Tabuleiro inicial
+	moveTo(3,0);
+}
+
+int Playground::canMove(int cidx, int ridx)
+{
+	return (cidx >= 0 && cidx < game->getMine()->getColumnLimit() && ridx >= 0 && ridx < game->getMine()->getRowLimit());
+}
+
+void Playground::moveTo(int cidx, int ridx, int refresh)
+{
+	// Se nao for valido, nao faz nada
+	if (!canMove(cidx,ridx)) return;
+	// Deslocacao
+	shiftH = cidx - 3;
+	shiftV = ridx - 3;
+	// Movimenta tabuleiro com deslocação
+	setGameBuffer(shiftH,shiftV);
+	// Actualizar
+	if (refresh)
+		this->refresh();
+}
+
+void Playground::refresh()
+{
+	ctrl.getScreen().refresh();
+	// Informacao de jogo
+	refreshInfo();
+}
+
+void Playground::startGame()
+{
+	char key;
+	// Proxy
+	Player* miner = game->getMiner();
+
 	// Let's play a game
 	while (1)
 	{
@@ -176,7 +92,9 @@ void Playground::startGame()
 
 		// Linha de Comandos
 		if (key == 'c' || key == 'C')
-			openCommand();
+		{
+			openShell();
+		}
 
 		if (key == ESPACO)
 		{
@@ -184,59 +102,31 @@ void Playground::startGame()
 			game->createLadder();
 		}
 
+		// Ignorar restantes teclas
 		if ( (key != ESQUERDA) && (key != DIREITA) &&
 		     (key != CIMA)     && (key != BAIXO) ) 
 			continue;
 
 		if (key == ESQUERDA)
 		{
-			// Verificar limite
-			if (miner->onFirstColumn()) continue;
-			// Validar movimento
-			if (!canMoveLeft()) continue;
-			shiftH--;
-			checkMiner();
+			if (!moveLeft()) continue;
 		}
 		else if (key == DIREITA)
 		{
-			// Verificar limite
-			if (miner->onLastColumn()) continue;
-			// Validar movimento
-			if (!canMoveRight()) continue;
-			shiftH++;
-			checkMiner();
+			if (!moveRight()) continue;
 		}
 		else if (key == CIMA)
 		{
-			// Verificar limite
-			if (miner->onFirstRow()) continue;
-			// Validar movimento
-			if (!canMoveUp()) continue;
-			shiftV--;
-			checkMiner();
+			if (!moveUp()) continue;
 		}
 		else if (key == BAIXO)
 		{
-			// Verificar limite
-			if (miner->onLastRow()) continue;
-			// Validar movimento
-			if (!canMoveDown()) continue;
-			shiftV++;
-			checkMiner();
+			if (!moveDown()) continue;
 		}
 
 		// Imprime o jogo no tabuleiro
 		setGameBuffer(shiftH,shiftV);
-		ctrl.getScreen().refresh();
-		// Informacao de jogo
-		refreshInfo();
-
-		//Test: Índice do Mineiro
-		b = miner->getLastBlock();
-		if (b)
-			ctrl.getScreen().printText(b->getAsString());
-		else
-			ctrl.getScreen().clearText();
+		refresh();
 	}
 }
 
@@ -249,6 +139,54 @@ void Playground::stopGame()
 void Playground::pause()
 {
 
+}
+
+int Playground::moveLeft()
+{
+	// Verificar limite
+	if (!game->getMiner()) return 0;
+	if (game->getMiner()->onFirstColumn()) return 0;
+	// Validar movimento
+	if (!canMoveLeft()) return 0;
+	shiftH--;
+	moveEvent();
+	return 1;
+}
+
+int Playground::moveRight()
+{
+	// Verificar limite
+	if (!game->getMiner()) return 0;
+	if (game->getMiner()->onLastColumn()) return 0;
+	// Validar movimento
+	if (!canMoveRight()) return 0;
+	shiftH++;
+	moveEvent();
+	return 1;
+}
+
+int Playground::moveUp()
+{
+	// Verificar limite
+	if (!game->getMiner()) return 0;
+	if (game->getMiner()->onFirstRow()) return 0;
+	// Validar movimento
+	if (!canMoveUp()) return 0;
+	shiftV--;
+	moveEvent();
+	return 1;
+}
+
+int Playground::moveDown()
+{
+	// Verificar limite
+	if (!game->getMiner()) return 0;
+	if (game->getMiner()->onLastRow()) return 0;
+	// Validar movimento
+	if (!canMoveDown()) return 0;
+	shiftV++;
+	moveEvent();
+	return 1;
 }
 
 void Playground::setGameBuffer(int shiftH, int shiftV)
@@ -287,9 +225,9 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 			currBlock = game->getMine()->getBlock(shiftH+cidx,shiftV+ridx);
 			// Ultimo bloco onde o mineiro esteve
 			if (!currBlock)
-				miner->destroyLastBlock();
+				miner->destroyCurrentBlock();
 			// Guarda o bloco no mineiro
-			miner->setLastBlock(currBlock);
+			miner->setCurrentBlock(currBlock);
 
 			// Quebra bloco
 			game->breakMineBlock(currBlock);
@@ -297,7 +235,7 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 		else
 		{
 			// Ceu
-			if (shiftH+cidx < 0 || shiftV+ridx < 0 || shiftH+cidx >= game->getMine()->getColumnLimit() || shiftV+ridx >= game->getMine()->getRowLimit())
+			if (!canMove(shiftH+cidx,shiftV+ridx))
 			{
 				ctrl.getScreen().setBufferItem(i,&sky);
 			}
@@ -348,4 +286,100 @@ int Playground::canMoveDown()
 	Block* b = game->getMiner()->getDownBlock();
 	if (!b) return 1;
 	return b->canBreak(NULL);
+}
+
+void Playground::refreshInfo()
+{
+	Player* miner = game->getMiner();
+	if (miner)
+	{
+		ctrl.getScreen().printEnergy(miner->getEnergy());
+		ctrl.getScreen().printMoney(miner->getMoney());
+		ctrl.getScreen().printLives(miner->getLives());
+		// Debug: Índice do Mineiro
+		ctrl.getScreen().printText(miner->getCurrentAsString());
+	}
+}
+
+void Playground::moveEvent()
+{
+	// Decrementa a energia do mineiro
+	if (!game->getMiner()->onHometown())	
+		game->getMiner()->consumeEnergy();
+}
+
+void Playground::openShell()
+{
+	Shell* shell = new Shell(&ctrl.getScreen());
+	shell->open();
+	do
+	{
+		// Ler comando
+		if (shell->readCommand())
+		{
+			// Verificar comando
+			if (shell->isCommand("help"))
+			{
+				
+			}
+			else if (shell->isCommand("u"))
+			{
+				//u <nome_utensilio> - Só funciona se o Mineiro à superficie e tiver moedas suficientes.
+
+				if (!game->getMiner()->onHometown())
+					ctrl.getScreen().printCommandInfo("Can't shopping on underground");
+				//Test
+				else if (!game->getMiner()->buyTool(0))
+					ctrl.getScreen().printCommandInfo("Not enough money...");
+				else
+					ctrl.getScreen().printCommandInfo("You bought...");
+			}
+			else if (shell->isCommand("b"))
+			{
+				//b <tipo> <linha> <coluna> - Coloca um bloco do tipo especificado nas coordenadas indicadas (tipo: P, TM, TD, …)
+
+				// Proteger para a posicao do Mineiro! - setLastBlock
+
+				//Block* b = new Ladder(miner->getIndexOnMine(),miner->getColumnOnMine(),miner->getRowOnMine());
+				//mine->setBlock(miner->getIndexOnMine(),b);
+			}
+			else if (shell->isCommand("t"))
+			{
+				//t <coluna> <linha> - Move o Mineiro para as coordenadas indicadas
+				moveTo(shell->getArgumentAsInt(0),shell->getArgumentAsInt(1));
+				shell->close();
+			}
+			else if (shell->isCommand("g"))
+			{
+				//g <valor> - O valor das moedas passa a ter o valor indicado
+			}
+			else if (shell->isCommand("e"))
+			{
+				//e <valor> - O valor da energia passa a ter o valor indicado
+			}
+			else if (shell->isCommand("c"))
+			{
+				//c <novo_nome> - Cria uma cópia do jogo actual (construtor por cópia) e passa o anterior para memória
+			}
+			else if (shell->isCommand("f"))
+			{
+				//f <nome> - Muda para o jogo que tem o nome indicado
+			}
+			else if (shell->isCommand("a"))
+			{
+				//a <nome_origem nome_dest> - Copia a mina para uma nova (previamente criada - ex: tecla c), e a atribuição deve ser feita pelo operador atribuição
+			}
+			else if (shell->isCommand("x"))
+			{
+				//x - Desistência
+			}
+			else if (shell->isCommand("j"))
+			{
+				//j - Regressa ao modo de jogo normal (sai da consola)
+			}
+		}
+	} while (!shell->toExit());
+
+	delete shell;
+	return;
 }

@@ -151,6 +151,11 @@ void Screen::printBlock(Block& b, int col, int row)
 
 void Screen::printText(string t)
 {
+	if (t.empty())
+	{
+		clearText();
+		return;
+	}
 	t.resize(40);
 	setLastText(t);
 	clearText();

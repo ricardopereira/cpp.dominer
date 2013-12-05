@@ -14,12 +14,16 @@ class Playground
 	Controller& ctrl;
 	Game* game;
 	Sky sky;
-
+	// Para os movimentos: Deslocacao Horizontal e Vertical
 	int shiftH;
 	int shiftV;
 
+	void initGame();
 	void setGameBuffer(int shiftH, int shiftV);
+	void refreshInfo();
+	void openShell();
 
+	int canMove(int cidx, int ridx);
 	int canMoveLeft();
 	int canMoveRight();
 	int canMoveUp();
@@ -34,13 +38,16 @@ public:
 	void newGame(int maxc, int maxr);
 	void startGame();
 	void stopGame();
+	void refresh();
 	void pause();
 
-	//?
-	void checkMiner();
-
-	void refreshInfo();
-	void openCommand();
+	// Movimentos
+	void moveTo(int cidx, int ridx, int refresh=1);
+	int moveLeft();
+	int moveRight();
+	int moveUp();
+	int moveDown();
+	void moveEvent();
 };
 
 #endif

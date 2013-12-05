@@ -14,7 +14,7 @@ class Player: public Block
 	int indexOnMine;
 	int columnOnMine;
 	int rowOnMine;
-	Block* lastBlock;
+	Block* currentBlock;
 
 	int money;
 	int energy;
@@ -22,7 +22,7 @@ class Player: public Block
 	//lista de utensilios
 	//mochila: lista de minerais
 
-	int onBlock(const string& blockname);
+	int onBlock(const string& blockName);
 public:
 	Player(Mine* m) : Block(0,0,0)
 	{ 
@@ -31,7 +31,7 @@ public:
 		this->column = (int)ceil((double)SCREENBUFFERSIZE/2)-1; //Indice
 		this->row = this->column; //Indice
 		this->index = this->row*SCREENBUFFERSIZE+this->column;
-		this->lastBlock = NULL;
+		this->currentBlock = NULL;
 
 		this->money = 200;
 		this->energy = 50;
@@ -49,9 +49,10 @@ public:
 	void setRowOnMine(const int ridx);
 	int getRowOnMine();
 
-	void setLastBlock(Block* b);
-	Block* getLastBlock();
-	void destroyLastBlock();
+	void setCurrentBlock(Block* b);
+	Block* getCurrentBlock();
+	void destroyCurrentBlock();
+	string getCurrentAsString();
 
 	int getEnergy();
 	int getLives();

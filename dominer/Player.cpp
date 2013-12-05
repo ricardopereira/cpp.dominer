@@ -52,25 +52,34 @@ int Player::getRowOnMine()
 	return rowOnMine;
 }
 
-void Player::setLastBlock(Block* b)
+void Player::setCurrentBlock(Block* b)
 {
-	lastBlock = b;
+	currentBlock = b;
 }
 
-Block* Player::getLastBlock()
+Block* Player::getCurrentBlock()
 {
-	return lastBlock;
+	return currentBlock;
 }
 
-void Player::destroyLastBlock()
+void Player::destroyCurrentBlock()
 {
 	// Ultimo bloco
-	Block* b = getLastBlock();
+	Block* b = getCurrentBlock();
 	//Verificar se é um bloco protegido
 	if (b && !b->isProtected())
 		// Remove o ultimo bloco quebrado da memória
 		delete b;
-	setLastBlock(NULL);
+	setCurrentBlock(NULL);
+}
+
+string Player::getCurrentAsString()
+{
+	Block* b = getCurrentBlock();
+	if (b)
+		return b->getAsString();
+	else
+		return "";
 }
 
 int Player::getEnergy()
@@ -148,9 +157,9 @@ int Player::onLastRow()
 	return getRowOnMine() == mine->getRowLimit()-1;
 }
 
-int Player::onBlock(const string& blockname)
+int Player::onBlock(const string& blockName)
 {
-	return getLastBlock() && getLastBlock()->classIs(blockname);
+	return getCurrentBlock() && getCurrentBlock()->classIs(blockName);
 }
 
 int Player::onLadder()

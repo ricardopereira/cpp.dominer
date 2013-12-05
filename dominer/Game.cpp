@@ -58,8 +58,8 @@ void Game::createLadder()
 	Block* b = new Ladder(miner->getIndexOnMine(),miner->getColumnOnMine(),miner->getRowOnMine());
 	mine->setBlock(miner->getIndexOnMine(),b);
 	// Coloca a escada à disposicao do mineiro
-	if (!miner->getLastBlock())
-		miner->destroyLastBlock();
+	if (!miner->getCurrentBlock())
+		miner->destroyCurrentBlock();
 	// Colocar a escada como último bloco
-	miner->setLastBlock(b);
+	miner->setCurrentBlock(b);
 }
