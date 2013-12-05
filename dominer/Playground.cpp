@@ -59,7 +59,7 @@ void Playground::refreshInfo()
 void Playground::checkMiner()
 {
 	// Decrementa a energia do mineiro
-	if (!game->isMinerOnHometown())	
+	if (!game->getMiner()->onHometown())	
 		game->getMiner()->consumeEnergy();
 }
 
@@ -81,17 +81,41 @@ void Playground::openCommand()
 			{
 				//u <nome_utensilio> - Só funciona se o Mineiro à superficie e tiver moedas suficientes.
 
-				//game->getMiner()->
-
-				ctrl.getScreen().printCommandInfo(shell->getArgument(0));
+				if (!game->getMiner()->onHometown())
+					ctrl.getScreen().printCommandInfo("Can't shopping on underground");
+				//Test
+				else if (!game->getMiner()->buyTool(0))
+					ctrl.getScreen().printCommandInfo("Not enough money...");
+				else
+					ctrl.getScreen().printCommandInfo("You bought...");
 			}
 			else if (shell->isCommand("b"))
 			{
 				//b <tipo> <linha> <coluna> - Coloca um bloco do tipo especificado nas coordenadas indicadas (tipo: P, TM, TD, …)
+
+				// Proteger para a posicao do Mineiro! - setLastBlock
+
+				//Block* b = new Ladder(miner->getIndexOnMine(),miner->getColumnOnMine(),miner->getRowOnMine());
+				//mine->setBlock(miner->getIndexOnMine(),b);
 			}
 			else if (shell->isCommand("t"))
 			{
 				//t <linha> <coluna> - Move o Mineiro para as coordenadas indicadas
+				shiftH = shell->getArgumentAsInt(0);
+				shiftV = shell->getArgumentAsInt(1);
+
+				// Imprime o jogo no tabuleiro
+				setGameBuffer(shiftH,shiftV);
+				ctrl.getScreen().refresh();
+
+				//Test: Índice do Mineiro
+				Block* b = game->getMiner()->getLastBlock();
+				if (b)
+					ctrl.getScreen().printText(b->getAsString());
+				else
+					ctrl.getScreen().clearText();
+
+				shell->close();
 			}
 			else if (shell->isCommand("g"))
 			{
@@ -130,15 +154,19 @@ void Playground::openCommand()
 
 void Playground::startGame()
 {
-	int shiftH=0, shiftV=0;
 	char key;
 	Block* b;
 
-	// Deslocacao inicial
-	Player* miner = game->getMiner();
-	if (miner)
-	  shiftV = (-1)*miner->getRow();
+	shiftH = 0;
+	shiftV = 0;
 
+	// Verificar se existe jogador
+	Player* miner = game->getMiner();
+	if (!miner)
+		throw invalid_argument( " miner can't be NULL" );
+
+	// Deslocacao inicial
+	shiftV = (-1) * miner->getRow();
 	// Let's play a game
 	while (1)
 	{
@@ -163,7 +191,7 @@ void Playground::startGame()
 		if (key == ESQUERDA)
 		{
 			// Verificar limite
-			if (game->isMinerOnFirstColumn()) continue;
+			if (miner->onFirstColumn()) continue;
 			// Validar movimento
 			if (!canMoveLeft()) continue;
 			shiftH--;
@@ -172,7 +200,7 @@ void Playground::startGame()
 		else if (key == DIREITA)
 		{
 			// Verificar limite
-			if (game->isMinerOnLastColumn()) continue;
+			if (miner->onLastColumn()) continue;
 			// Validar movimento
 			if (!canMoveRight()) continue;
 			shiftH++;
@@ -181,7 +209,7 @@ void Playground::startGame()
 		else if (key == CIMA)
 		{
 			// Verificar limite
-			if (game->isMinerOnFirstRow()) continue;
+			if (miner->onFirstRow()) continue;
 			// Validar movimento
 			if (!canMoveUp()) continue;
 			shiftV--;
@@ -190,7 +218,7 @@ void Playground::startGame()
 		else if (key == BAIXO)
 		{
 			// Verificar limite
-			if (game->isMinerOnLastRow()) continue;
+			if (miner->onLastRow()) continue;
 			// Validar movimento
 			if (!canMoveDown()) continue;
 			shiftV++;
@@ -251,12 +279,12 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 			// Indice do mineiro na Mina
 			miner->setColumnOnMine(shiftH+cidx);
 			miner->setRowOnMine(shiftV+ridx);
-			miner->setIndexOnMine(miner->getRowOnMine()*game->getMaxColumn()+miner->getColumnOnMine());
+			miner->setIndexOnMine(miner->getRowOnMine()*game->getMine()->getColumnLimit()+miner->getColumnOnMine());
 			// Mineiro no buffer do ecra de jogo
 			ctrl.getScreen().setBufferItem(i,miner);
 
 			// Tratamento do Bloco
-			currBlock = game->getMineBlock(shiftH+cidx,shiftV+ridx);
+			currBlock = game->getMine()->getBlock(shiftH+cidx,shiftV+ridx);
 			// Ultimo bloco onde o mineiro esteve
 			if (!currBlock)
 				miner->destroyLastBlock();
@@ -269,14 +297,14 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 		else
 		{
 			// Ceu
-			if (shiftH+cidx < 0 || shiftV+ridx < 0 || shiftH+cidx >= game->getMaxColumn() || shiftV+ridx >= game->getMaxRow())
+			if (shiftH+cidx < 0 || shiftV+ridx < 0 || shiftH+cidx >= game->getMine()->getColumnLimit() || shiftV+ridx >= game->getMine()->getRowLimit())
 			{
 				ctrl.getScreen().setBufferItem(i,&sky);
 			}
 			else
 			{
 				// Obter bloco conforme a deslocacao
-				currBlock = game->getMineBlock(shiftH+cidx,shiftV+ridx);
+				currBlock = game->getMine()->getBlock(shiftH+cidx,shiftV+ridx);
 				if (!currBlock)
 					ctrl.getScreen().setBufferItem(i,NULL);
 				else
@@ -288,25 +316,25 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 
 int Playground::canMoveLeft()
 {
-	Block* b = game->getMinerLeftBlock();
+	Block* b = game->getMiner()->getLeftBlock();
 	if (!b) return 1;
 	return b->canBreak(NULL);
 }
 
 int Playground::canMoveRight()
 {
-	Block* b = game->getMinerRightBlock();
+	Block* b = game->getMiner()->getRightBlock();
 	if (!b) return 1;
 	return b->canBreak(NULL);
 }
 
 int Playground::canMoveUp()
 {
-	Block* b = game->getMinerUpBlock();
+	Block* b = game->getMiner()->getUpBlock();
 	if (!b || b->canBreak(NULL))
 	{
 		// Verificar se tem escada para subir
-		if (game->isMinerOnLadder())
+		if (game->getMiner()->onLadder())
 			return 1;
 		else
 			return 0;
@@ -317,7 +345,7 @@ int Playground::canMoveUp()
 
 int Playground::canMoveDown()
 {
-	Block* b = game->getMinerDownBlock();
+	Block* b = game->getMiner()->getDownBlock();
 	if (!b) return 1;
 	return b->canBreak(NULL);
 }

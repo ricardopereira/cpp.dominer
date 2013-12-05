@@ -2,6 +2,11 @@
 
 #include "Player.h"
 
+Player::~Player()
+{
+	mine = NULL;
+}
+
 char Player::getDrawInfo(const int index)
 {
 	if (index == 6 || index == 8)
@@ -93,4 +98,72 @@ void Player::addMaterial(Material* m)
 	if (!m) return;
 	// ToDo
 	money += m->getWeight();
+}
+
+Block* Player::getLeftBlock()
+{
+	if (!mine) return NULL;
+	return mine->getBlock(getColumnOnMine()-1,getRowOnMine());
+}
+
+Block* Player::getRightBlock()
+{
+	if (!mine) return NULL;
+	return mine->getBlock(getColumnOnMine()+1,getRowOnMine());
+}
+
+Block* Player::getUpBlock()
+{
+	if (!mine) return NULL;
+	return mine->getBlock(getColumnOnMine(),getRowOnMine()-1);
+}
+
+Block* Player::getDownBlock()
+{
+	if (!mine) return NULL;
+	return mine->getBlock(getColumnOnMine(),getRowOnMine()+1);
+}
+
+int Player::onFirstColumn()
+{
+	if (!mine) return 0;
+	return getColumnOnMine() == 0;
+}
+
+int Player::onLastColumn()
+{
+	if (!mine) return 0;
+	return getColumnOnMine() == mine->getColumnLimit()-1;
+}
+
+int Player::onFirstRow()
+{
+	if (!mine) return 0;
+	return getRowOnMine() == 0;
+}
+
+int Player::onLastRow()
+{
+	if (!mine) return 0;
+	return getRowOnMine() == mine->getRowLimit()-1;
+}
+
+int Player::onBlock(const string& blockname)
+{
+	return getLastBlock() && getLastBlock()->classIs(blockname);
+}
+
+int Player::onLadder()
+{
+	return onBlock("Ladder");
+}
+
+int Player::onHometown()
+{
+	return onBlock("Hometown");
+}
+
+int Player::buyTool(int id)
+{
+	return 0;
 }

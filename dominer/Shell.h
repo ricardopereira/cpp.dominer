@@ -16,6 +16,7 @@ class Shell
 	vector<CommandItem>* listCommands;
 	static const string noCommand;
 	static const string noArgument;
+	int closing;
 
 	int isValid();
 	void notFound(const string& c);
@@ -27,6 +28,7 @@ public:
 	~Shell();
 
 	void open();
+	void close();
 	int readCommand();
 	int toExit();
 
@@ -34,6 +36,7 @@ public:
 	int isCommand(const string& c);
 	const string& getCommand();
 	const string& getArgument(int index);
+	int getArgumentAsInt(int index);
 };
 
 class CommandItem

@@ -8,42 +8,22 @@
 
 class Game 
 {
-	Mine *mine;
-	int cmax;
-	int rmax;
+	Mine* mine;
 	Player* miner;
-
-	int isMinerOnBlock(const string& blockname);
 public:
 	Game(int cmax, int rmax);
 	~Game();
 
-	int getMaxColumn();
-	int getMaxRow();
-
-	Block* getMineBlock(int index);
-	Block* getMineBlock(int cidx, int ridx);
-
+	// Proxy da mina
 	void breakMineBlock(Block* b);
 	void breakMineBlock(int index);
 	void breakMineBlock(int cidx, int ridx);
 
 	void createLadder();
-	int isMinerOnLadder();
-	int isMinerOnHometown();
 
 	// Mineiro
 	Player* getMiner();
-	// Percepcoes do Mineiro
-	Block* getMinerLeftBlock();
-	Block* getMinerRightBlock();
-	Block* getMinerUpBlock();
-	Block* getMinerDownBlock();
-	//Limites
-	int isMinerOnFirstColumn();
-	int isMinerOnLastColumn();
-	int isMinerOnFirstRow();
-	int isMinerOnLastRow();
+	Mine* getMine();
 };
 
 #endif

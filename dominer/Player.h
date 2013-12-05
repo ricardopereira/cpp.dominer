@@ -2,6 +2,7 @@
 
 #include "Block.h"
 #include "Common.h"
+#include "Mine.h"
 #include "Material.h"
 
 #ifndef __PLAYER_H__
@@ -9,6 +10,7 @@
 
 class Player: public Block
 {
+	Mine* mine;
 	int indexOnMine;
 	int columnOnMine;
 	int rowOnMine;
@@ -19,9 +21,12 @@ class Player: public Block
 	int lives;
 	//lista de utensilios
 	//mochila: lista de minerais
+
+	int onBlock(const string& blockname);
 public:
-	Player() : Block(0,0,0)
+	Player(Mine* m) : Block(0,0,0)
 	{ 
+		mine = m;
 		// Mineiro: Posição fixa
 		this->column = (int)ceil((double)SCREENBUFFERSIZE/2)-1; //Indice
 		this->row = this->column; //Indice
@@ -32,6 +37,7 @@ public:
 		this->energy = 50;
 		this->lives = 3;
 	}
+	~Player();
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);
@@ -53,6 +59,23 @@ public:
 
 	void consumeEnergy();
 	void addMaterial(Material* m);
+
+	// Percepcoes do Mineiro
+	Block* getLeftBlock();
+	Block* getRightBlock();
+	Block* getUpBlock();
+	Block* getDownBlock();
+	// Posicionado
+	int onLadder();
+	int onHometown();
+	// Limites
+	int onFirstColumn();
+	int onLastColumn();
+	int onFirstRow();
+	int onLastRow();
+
+	// Ferramentas
+	int buyTool(int id);
 
 	const int isProtected() const { return 1; };
 	const int classIs(const string& className) const { return className.compare("Player") == 0; };

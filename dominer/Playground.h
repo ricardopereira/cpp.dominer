@@ -15,6 +15,9 @@ class Playground
 	Game* game;
 	Sky sky;
 
+	int shiftH;
+	int shiftV;
+
 	void setGameBuffer(int shiftH, int shiftV);
 
 	int canMoveLeft();

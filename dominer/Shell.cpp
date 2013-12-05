@@ -32,15 +32,23 @@ Shell::~Shell()
 void Shell::open()
 {
 	if (!screen) return;
+	closing = 0;
 	screen->printCommandPanel();
 	// Esconde o cursor
 	screen->showCursor();
 }
 
+void Shell::close()
+{
+	closing = 1;
+}
+
 int Shell::toExit()
 {
 	// Se for igual ao comando j
-	return args.size() > 0 && getCommand().compare("j") == 0;
+	if (!closing)
+		closing = args.size() > 0 && getCommand().compare("j") == 0;
+	return closing;
 }
 
 const string& Shell::getCommand()
@@ -63,6 +71,11 @@ const string& Shell::getArgument(int index)
 	// Obter argumento
 	if (realIdx > (int)args.size()-1) return noArgument;
 	return args[realIdx];
+}
+
+int Shell::getArgumentAsInt(int index)
+{
+	return atoi(getArgument(index).c_str());
 }
 
 int Shell::readCommand()
@@ -156,6 +169,13 @@ const vector<CommandItem>& Shell::getCommands()
 		// Comandos possíveis
 		listCommands->push_back(CommandItem("u","nome_utensilio"));
 		listCommands->push_back(CommandItem("b","tipo linha coluna"));
+		listCommands->push_back(CommandItem("t","linha coluna"));
+		listCommands->push_back(CommandItem("g","valor"));
+		listCommands->push_back(CommandItem("e","valor"));
+		listCommands->push_back(CommandItem("c","novo_nome"));
+		listCommands->push_back(CommandItem("f","nome"));
+		listCommands->push_back(CommandItem("a","nome_origem nome_destino"));
+		listCommands->push_back(CommandItem("x",""));
 	}
 	return *listCommands;
 }
