@@ -23,9 +23,9 @@ public:
 	Player() : Block(0,0,0)
 	{ 
 		// Mineiro: Posição fixa
-		this->column = (int)ceil((double)SCREENSIZE/2)-1; //Indice
+		this->column = (int)ceil((double)SCREENBUFFERSIZE/2)-1; //Indice
 		this->row = this->column; //Indice
-		this->index = this->row*SCREENSIZE+this->column;
+		this->index = this->row*SCREENBUFFERSIZE+this->column;
 		this->lastBlock = NULL;
 
 		this->money = 200;

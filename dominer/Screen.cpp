@@ -24,7 +24,7 @@ Screen::Screen(Consola* c)
 	emptyBlock = new BlockEmpty;
 	// Configure command line
 	c->setTextSize(TEXTSIZE,TEXTSIZE);
-	c->setScreenSize(50,80);
+	c->setScreenSize(SCREENROWS,SCREENCOLUMNS);
 	// Initialization
 	initScreen();
 }
@@ -40,7 +40,7 @@ Screen::~Screen()
 
 int Screen::getSize()
 {
-	return SCREENSIZE;
+	return SCREENBUFFERSIZE;
 }
 
 void Screen::showCursor()
@@ -290,36 +290,52 @@ void Screen::printLevels()
 
 void Screen::printCommandPanel()
 {
-
+	for (int i=0; i<SCREENCOLUMNS; i++)
+	{
+		c->gotoxy(i,SCREENROWS-10);
+		cout << (char)196;
+	}
 }
 
 void Screen::clearCommandPanel()
 {
-
+	for (int i=SCREENROWS-10; i<SCREENROWS-1; i++)
+		for (int j=0; j<SCREENCOLUMNS; j++)
+		{
+			c->gotoxy(j,i);
+			cout << ' ';
+		}
 }
 
 void Screen::printCommandLine(const string& text)
 {
 	clearCommandLine();
-	c->gotoxy(BLOCKSIZE,BLOCKSIZE*9);
+	c->gotoxy(BLOCKSIZE,SCREENROWS-8);
 	cout << text;
 }
 
 void Screen::clearCommandLine()
 {
-	for (int i=BLOCKSIZE; i<80; i++)
+	for (int i=BLOCKSIZE; i<SCREENCOLUMNS; i++)
 	{
-		c->gotoxy(i,2);
+		c->gotoxy(i,SCREENROWS-8);
 		cout << " ";
 	}
 }
 
 void Screen::printCommandInfo(const string& info)
 {
-
+	clearCommandInfo();
+	c->gotoxy(BLOCKSIZE,SCREENROWS-7);
+	cout << info;
 }
 
 void Screen::clearCommandInfo()
 {
-
+	for (int i=SCREENROWS-7; i<SCREENROWS-1; i++)
+		for (int j=0; j<SCREENCOLUMNS; j++)
+		{
+			c->gotoxy(j,i);
+			cout << ' ';
+		}
 }

@@ -3,7 +3,9 @@
 
 #define BLOCKSIZE 5
 #define TEXTSIZE 8
-#define SCREENSIZE 7
+#define SCREENBUFFERSIZE 7
+#define SCREENCOLUMNS 80
+#define SCREENROWS 50
 
 #define PRETO 0
 #define AZUL 1

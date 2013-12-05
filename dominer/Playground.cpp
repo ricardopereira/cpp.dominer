@@ -66,22 +66,62 @@ void Playground::checkMiner()
 void Playground::openCommand()
 {
 	Shell* shell = new Shell(&ctrl.getScreen());
-
-	shell->open(0,0);
+	shell->open();
 	do
 	{
-		// Ponteiro
-		shell->readCommand();
-
-		// Validar comando recebido
-		if (shell->getArgs().size() > 0)
+		// Ler comando
+		if (shell->readCommand())
 		{
-			for (vector<string>::const_iterator it = shell->getArgs().begin(); it != shell->getArgs().end(); ++it)
+			// Verificar comando
+			if (shell->isCommand("help"))
 			{
-				//
+				
+			}
+			else if (shell->isCommand("u"))
+			{
+				//u <nome_utensilio> - Só funciona se o Mineiro à superficie e tiver moedas suficientes.
+
+				//game->getMiner()->
+
+				ctrl.getScreen().printCommandInfo(shell->getArgument(0));
+			}
+			else if (shell->isCommand("b"))
+			{
+				//b <tipo> <linha> <coluna> - Coloca um bloco do tipo especificado nas coordenadas indicadas (tipo: P, TM, TD, …)
+			}
+			else if (shell->isCommand("t"))
+			{
+				//t <linha> <coluna> - Move o Mineiro para as coordenadas indicadas
+			}
+			else if (shell->isCommand("g"))
+			{
+				//g <valor> - O valor das moedas passa a ter o valor indicado
+			}
+			else if (shell->isCommand("e"))
+			{
+				//e <valor> - O valor da energia passa a ter o valor indicado
+			}
+			else if (shell->isCommand("c"))
+			{
+				//c <novo_nome> - Cria uma cópia do jogo actual (construtor por cópia) e passa o anterior para memória
+			}
+			else if (shell->isCommand("f"))
+			{
+				//f <nome> - Muda para o jogo que tem o nome indicado
+			}
+			else if (shell->isCommand("a"))
+			{
+				//a <nome_origem nome_dest> - Copia a mina para uma nova (previamente criada - ex: tecla c), e a atribuição deve ser feita pelo operador atribuição
+			}
+			else if (shell->isCommand("x"))
+			{
+				//x - Desistência
+			}
+			else if (shell->isCommand("j"))
+			{
+				//j - Regressa ao modo de jogo normal (sai da consola)
 			}
 		}
-		
 	} while (!shell->toExit());
 
 	delete shell;
