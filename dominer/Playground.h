@@ -38,7 +38,7 @@ public:
 	void newGame(int maxc, int maxr);
 	void startGame();
 	void stopGame();
-	void refresh();
+	void refresh(int force=0);
 	void pause();
 
 	// Movimentos

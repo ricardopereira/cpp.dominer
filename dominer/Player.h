@@ -54,8 +54,11 @@ public:
 	void destroyCurrentBlock();
 	string getCurrentAsString();
 
+	void setEnergy(const int value);
 	int getEnergy();
+	void setLives(const int value);
 	int getLives();
+	void setMoney(const int value);
 	int getMoney();
 
 	void consumeEnergy();

@@ -5,17 +5,21 @@
 #ifndef __MINE_H__
 #define __MINE_H__
 
-class Mine {
+class Mine
+{
 	int maxc,maxr;
 	Block** map;
+
+	void init();
+    void createBlocks();
+	void copyBlocks(Block** base);
 
 	int isValidRange(int cidx, int ridx);
 	int isValidRange(int index);
 public:
 	Mine(int c=7, int r=7);
+	Mine(const Mine& base);
 	~Mine();
-
-    void createBlocks();
 
 	Block* getBlock(int index);
 	Block* getBlock(int cidx, int ridx);

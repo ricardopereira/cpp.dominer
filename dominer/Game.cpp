@@ -7,13 +7,35 @@
 Game::Game(int cmax, int rmax)
 {
 	mine = new Mine(cmax,rmax);
-	miner = new Player(mine);
+	init();
+}
+
+Game::Game(const Game& base)
+{
+	// Por copia
+	mine = new Mine(*base.getMine());
+	init();
 }
 
 Game::~Game()
 {
 	delete miner;
 	delete mine;
+}
+
+void Game::init()
+{
+	miner = new Player(mine);
+}
+
+Player* Game::getMiner() const
+{
+	return miner;
+}
+
+Mine* Game::getMine() const
+{
+	return mine;
 }
 
 void Game::breakMineBlock(Block* b)
@@ -37,16 +59,6 @@ void Game::breakMineBlock(int cidx, int ridx)
 {
 	// NULL na mina, ou seja, quebrou o bloco
 	mine->doBlockNull(cidx,ridx);
-}
-
-Player* Game::getMiner()
-{
-	return miner;
-}
-
-Mine* Game::getMine()
-{
-	return mine;
 }
 
 void Game::createLadder()

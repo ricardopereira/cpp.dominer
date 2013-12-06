@@ -26,6 +26,8 @@ public:
 	char getDrawInfo(const int index);
 	int getColor(const int index);
 	const int canBreak(Tool* t) const;
+
+	Block* getCopy() const { return new Soil(*this); };
 	const int classIs(const string& className) const { return className.compare("Soil") == 0; };
 };
 

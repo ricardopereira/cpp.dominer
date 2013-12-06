@@ -15,7 +15,19 @@ Block::Block(int i, int c, int r, int w, int h)
 	this->row = r;
 	this->width = w;
 	this->height = h;
+	this->visible = 1;
 }
+
+//Test
+//Block::Block(const Block& base)
+//{
+//	this->index = base.index;
+//	this->column = base.column;
+//	this->row = base.row;
+//	this->width = base.width;
+//	this->height = base.height;
+//	this->visible = 1;
+//}
 
 Block::~Block()
 {
@@ -57,10 +69,20 @@ char Block::getDrawInfo(const int index)
 	return (char)176;
 }
 
+void Block::setVisible(const int value)
+{
+	visible = value;
+}
+
+int Block::getVisible()
+{
+	return visible;
+}
+
 string Block::getAsString() const
 {
 	ostringstream out;
-	// Obter o nome da class apenas para debug
+	// Debug: obter o nome da class apenas para debug
 	out << typeid(*this).name() << "(" << column << "," << row << ")";
 	return out.str();
 }

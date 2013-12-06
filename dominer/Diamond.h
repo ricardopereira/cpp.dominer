@@ -13,6 +13,8 @@ public:
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);
+
+	Block* getCopy() const { return new Diamond(*this); };
 	const int classIs(const string& className) const { return className.compare("Diamond") == 0; };
 };
 

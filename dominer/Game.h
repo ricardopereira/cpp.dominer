@@ -10,8 +10,11 @@ class Game
 {
 	Mine* mine;
 	Player* miner;
+
+	void init();
 public:
 	Game(int cmax, int rmax);
+	Game(const Game& base);
 	~Game();
 
 	// Proxy da mina
@@ -22,8 +25,8 @@ public:
 	void createLadder();
 
 	// Mineiro
-	Player* getMiner();
-	Mine* getMine();
+	Player* getMiner() const;
+	Mine* getMine() const;
 };
 
 #endif

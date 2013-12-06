@@ -43,8 +43,7 @@ void Playground::initGame()
 	shiftV = 0;
 
 	// Verificar se existe jogador
-	Player* miner = game->getMiner();
-	if (!miner)
+	if (!game->getMiner())
 		throw invalid_argument( " miner can't be NULL" );
 
 	// Tabuleiro inicial
@@ -53,6 +52,7 @@ void Playground::initGame()
 
 int Playground::canMove(int cidx, int ridx)
 {
+	// Verificar limites
 	return (cidx >= 0 && cidx < game->getMine()->getColumnLimit() && ridx >= 0 && ridx < game->getMine()->getRowLimit());
 }
 
@@ -70,8 +70,12 @@ void Playground::moveTo(int cidx, int ridx, int refresh)
 		this->refresh();
 }
 
-void Playground::refresh()
+void Playground::refresh(int force)
 {
+	if (force)
+		// "Rescreve" buffer
+		setGameBuffer(shiftH,shiftV);
+	// Buffer
 	ctrl.getScreen().refresh();
 	// Informacao de jogo
 	refreshInfo();
@@ -80,8 +84,6 @@ void Playground::refresh()
 void Playground::startGame()
 {
 	char key;
-	// Proxy
-	Player* miner = game->getMiner();
 
 	// Let's play a game
 	while (1)
@@ -352,14 +354,36 @@ void Playground::openShell()
 			else if (shell->isCommand("g"))
 			{
 				//g <valor> - O valor das moedas passa a ter o valor indicado
+				game->getMiner()->setMoney(shell->getArgumentAsInt(0));
+				refreshInfo();
+				ctrl.getScreen().printCommandInfo("Updated");
 			}
 			else if (shell->isCommand("e"))
 			{
 				//e <valor> - O valor da energia passa a ter o valor indicado
+				game->getMiner()->setEnergy(shell->getArgumentAsInt(0));
+				refreshInfo();
+				ctrl.getScreen().printCommandInfo("Updated");
 			}
 			else if (shell->isCommand("c"))
 			{
 				//c <novo_nome> - Cria uma cópia do jogo actual (construtor por cópia) e passa o anterior para memória
+
+				//vector<GameItem> games
+				//GameItem.name
+				//GameItem.*game
+				//games.push_back(GameItem("",game));
+
+				//Test
+				Game* newGame = new Game(*game);
+				newGame->breakMineBlock(1,1);
+				game = newGame;
+				refresh(1);
+			}
+			else if (shell->isCommand("n"))
+			{
+				//n - Novo jogo
+
 			}
 			else if (shell->isCommand("f"))
 			{
@@ -367,7 +391,10 @@ void Playground::openShell()
 			}
 			else if (shell->isCommand("a"))
 			{
-				//a <nome_origem nome_dest> - Copia a mina para uma nova (previamente criada - ex: tecla c), e a atribuição deve ser feita pelo operador atribuição
+				//a <nome_origem nome_dest> - Copia a mina para uma nova (previamente criada - ex: tecla c), 
+				//e a atribuição deve ser feita pelo operador atribuicao
+
+				//
 			}
 			else if (shell->isCommand("x"))
 			{

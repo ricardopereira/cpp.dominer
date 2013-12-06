@@ -103,17 +103,19 @@ void Screen::printBuffer()
 	for (int i=1; i<=getBufferSize(); i++)
 	{
 		b = getBufferItem(i-1);
-		//Print block
-		if (!b)
+		// Imprime o bloco
+		if (b)
 		{
-			printBlock(*emptyBlock,col,row);
+			// Verificar visibilidade
+			if (b->getVisible())
+				printBlock(*b,col,row);
+			else 
+				printBlock(*emptyBlock,col,row);
 		}
 		else
-		{
-			printBlock(*b,col,row);
-		}
+			printBlock(*emptyBlock,col,row);
 
-		//Check if is a new line
+		// Verificar se e' nova linha
 		if (i % getSize() == 0)
 		{
 			col = 1;
@@ -127,7 +129,7 @@ void Screen::printBuffer()
 void Screen::printBlock(Block& b, int col, int row)
 {
 	int i,j,idx=0;
-
+	
 	try
 	{
 		for (i=row*b.getHeight(); i<row*b.getHeight()+b.getHeight(); i++) //Linhas

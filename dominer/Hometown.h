@@ -13,6 +13,8 @@ public:
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);
+
+	Block* getCopy() const { return new Hometown(*this); };
 	const int isProtected() const { return 1; };
 	const int classIs(const string& className) const { return className.compare("Hometown") == 0; };
 };

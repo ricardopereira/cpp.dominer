@@ -82,14 +82,29 @@ string Player::getCurrentAsString()
 		return "";
 }
 
+void Player::setEnergy(const int value)
+{
+	energy = value;
+}
+
 int Player::getEnergy()
 {
 	return energy;
 }
 
+void Player::setLives(const int value)
+{
+	lives = value;
+}
+
 int Player::getLives()
 {
 	return lives;
+}
+
+void Player::setMoney(const int value)
+{
+	money = value;
 }
 
 int Player::getMoney()

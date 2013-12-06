@@ -18,9 +18,17 @@ Mine::Mine(int c, int r)
 {
 	this->maxc = c;
 	this->maxr = r;
-
-	map = new Block*[this->maxc*this->maxr];
 	createBlocks();
+	init();
+}
+
+Mine::Mine(const Mine& base)
+{
+	// Por copia
+	this->maxc = base.maxc;
+	this->maxr = base.maxr;
+	copyBlocks(base.map);
+	init();
 }
 
 Mine::~Mine()
@@ -31,8 +39,15 @@ Mine::~Mine()
 	delete [] map;
 }
 
+void Mine::init()
+{
+
+}
+
 void Mine::createBlocks()
 {
+	map = new Block*[this->maxc*this->maxr];
+
 	int cidx=0, ridx=0;
 	// Probabilidades
 	int prob;
@@ -91,6 +106,27 @@ void Mine::createBlocks()
 		}
 		else
 			cidx++;
+	}
+}
+
+void Mine::copyBlocks(Block** base)
+{
+	map = new Block*[this->maxc*this->maxr];
+	if (!base)
+	{
+		for (int i=0; i<getBlockCount(); i++)
+			map[i] = NULL;
+	}
+	else
+	{
+		// Tamanho igual ao do mapa da base para copia
+		for (int i=0; i<getBlockCount(); i++)
+		{
+			if (base[i])
+				map[i] = base[i]->getCopy();
+			else
+				map[i] = NULL;
+		}
 	}
 }
 
