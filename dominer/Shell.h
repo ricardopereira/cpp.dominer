@@ -21,7 +21,7 @@ class Shell
 	int isValid();
 	void notFound(const string& c);
 	// Lista de Comandos Válidos
-	const vector<CommandItem>& getCommands();
+	const vector<CommandItem>& getCommandsList();
 	string getCommandsAsString();
 public:
 	Shell(Screen* s);
@@ -45,8 +45,9 @@ class CommandItem
 	vector<string> args;
 public:
 	CommandItem(string n, string argsInComma);
+	//Test
 	//CommandItem(const CommandItem& item);
-	const string getName() const;
+	const string& getName() const;
 	const vector<string>& getArgs() const;
 };
 

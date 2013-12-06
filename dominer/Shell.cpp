@@ -112,11 +112,11 @@ int Shell::isValid()
 {
 	vector<CommandItem>::const_iterator item;
 	//Validar comando
-	for (item = getCommands().cbegin(); item != getCommands().end(); ++item)
+	for (item = getCommandsList().cbegin(); item != getCommandsList().end(); ++item)
 		if (getCommand().compare(item->getName()) == 0)
 			break;
 	// Comando nao existe
-	if (item == getCommands().end())
+	if (item == getCommandsList().end())
 	{
 		notFound(getCommand());
 		return 0;
@@ -145,7 +145,7 @@ string Shell::getCommandsAsString()
 {
 	ostringstream out;
 	// Listar os comandos
-	for (vector<CommandItem>::const_iterator item = getCommands().cbegin(); item != getCommands().end(); ++item)
+	for (vector<CommandItem>::const_iterator item = getCommandsList().cbegin(); item != getCommandsList().end(); ++item)
 	{
 		out << item->getName() << ": ";
 		// Listar os argumentos de cada comando
@@ -157,10 +157,7 @@ string Shell::getCommandsAsString()
 	return out.str();
 }
 
-
-// Command Item
-
-const vector<CommandItem>& Shell::getCommands()
+const vector<CommandItem>& Shell::getCommandsList()
 {
 	// Apenas cria se for necessario
 	if (!listCommands)
@@ -181,6 +178,9 @@ const vector<CommandItem>& Shell::getCommands()
 	return *listCommands;
 }
 
+
+// Command Item
+
 CommandItem::CommandItem(string n, string argsInComma)
 {
 	name = n;
@@ -195,7 +195,7 @@ CommandItem::CommandItem(string n, string argsInComma)
 	}
 }
 
-const string CommandItem::getName() const
+const string& CommandItem::getName() const
 { 
 	return name;
 };

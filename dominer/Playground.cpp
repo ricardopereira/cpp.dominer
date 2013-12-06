@@ -328,6 +328,8 @@ void Playground::openShell()
 			{
 				//u <nome_utensilio> - Só funciona se o Mineiro à superficie e tiver moedas suficientes.
 
+				//ctrl.getToolsList
+
 				if (!game->getMiner()->onHometown())
 					ctrl.getScreen().printCommandInfo("Can't shopping on underground");
 				//Test
@@ -344,6 +346,16 @@ void Playground::openShell()
 
 				//Block* b = new Ladder(miner->getIndexOnMine(),miner->getColumnOnMine(),miner->getRowOnMine());
 				//mine->setBlock(miner->getIndexOnMine(),b);
+
+				//Test
+				for (vector<string>::const_iterator it = ctrl.getBlocksList().cbegin(); it != ctrl.getBlocksList().end(); ++it)
+					// Cuidado: sempre minusculas
+					if (it->compare(shell->getArgument(0)) == 0)
+					{
+						ctrl.getScreen().printCommandInfo("Buy tool..."); // operator << para o command info e text
+						break;
+					}
+					
 			}
 			else if (shell->isCommand("t"))
 			{
@@ -377,6 +389,7 @@ void Playground::openShell()
 				//Test
 				Game* newGame = new Game(*game);
 				newGame->breakMineBlock(1,1);
+				//ctrl.getGamesList().push_back(game);
 				game = newGame;
 				refresh(1);
 			}
