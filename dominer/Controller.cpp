@@ -26,55 +26,56 @@ Screen& Controller::getScreen()
 	return *this->screen;
 }
 
-vector<GameItem>& Controller::getGamesList()
+GamesCollection& Controller::getGamesList()
 {
 	return listGames;
 }
 
-const vector<string>& Controller::getToolsList()
+const Creator& Controller::getToolsList()
 {
 	// Apenas cria se for necessario
 	if (!listTools)
 	{
 		// Ferramentas possiveis
-		listTools =  new vector<string>;
+		listTools =  new Creator;
 		// Picaretas
-		listTools->push_back("PickerNormal");
-		listTools->push_back("PickerPro");
-		listTools->push_back("PickerMaster");
+		listTools->add("PickerNormal");
+		listTools->add("PickerPro");
+		listTools->add("PickerMaster");
 		// Mochilas
-		listTools->push_back("BagNormal");
-		listTools->push_back("BagPro");
-		listTools->push_back("BagMaster");
+		listTools->add("BagNormal");
+		listTools->add("BagPro");
+		listTools->add("BagMaster");
 		// Iluminacao
-		listTools->push_back("Lighter");
-		listTools->push_back("Flashlight");
-		listTools->push_back("Spotlight");
+		listTools->add("Lighter");
+		listTools->add("Flashlight");
+		listTools->add("Spotlight");
 		// Outros
-		listTools->push_back("Ladder");
-		listTools->push_back("Beam");
-		listTools->push_back("Parachute");
-		listTools->push_back("Dinamite");
-		listTools->push_back("Extralife");
-		listTools->push_back("SuperMiner"); //(with colours and limited time)
+		listTools->add("Ladder");
+		listTools->add("Beam");
+		listTools->add("Parachute");
+		listTools->add("Dinamite");
+		listTools->add("Extralife");
+		listTools->add("SuperMiner"); //(with colours and limited time)
 	}
 	return *listTools;
 }
 
-const vector<string>& Controller::getBlocksList()
+const Creator& Controller::getBlocksList()
 {
 	// Apenas cria se for necessario
 	if (!listBlocks)
 	{
-		listBlocks =  new vector<string>;
+		listBlocks =  new Creator;
 		// Blocos disponíveis
-		listBlocks->push_back("Soil");
-		listBlocks->push_back("Rock");
-		listBlocks->push_back("Aluminum");
-		listBlocks->push_back("Coal");
-		listBlocks->push_back("Diamond");
-		listBlocks->push_back("Gold");
-		listBlocks->push_back("Iron");
+		listBlocks->add("SoilSoft");
+		listBlocks->add("SoilHard");
+		listBlocks->add("Rock");
+		listBlocks->add("Aluminum");
+		listBlocks->add("Coal");
+		listBlocks->add("Diamond");
+		listBlocks->add("Gold");
+		listBlocks->add("Iron");
 	}
 	return *listBlocks;
 }

@@ -14,7 +14,7 @@ int main()
 	int option = 1;
 
 	ctrl.getScreen().hideCursor();
-	while(1)
+	while (1)
 	{
 		ctrl.getScreen().clear();
 		ctrl.getScreen().printMenu(option);
@@ -27,7 +27,6 @@ int main()
 				option = 1;
 				break;
 			}
-
 		case BAIXO:
 			{
 				option = 2;
@@ -36,11 +35,16 @@ int main()
 
 		case ENTER:
 			{
-				playground.newGame(21,21);
-				playground.startGame();
-
-				ctrl.getScreen().clear();
-				exit(0);
+				if (option == 1)
+				{
+					playground.newGame(21,21);
+					playground.startGame();
+				}
+				else
+				{
+					ctrl.getScreen().clear();
+					exit(0);
+				}
 			}
 		default:
 			continue;

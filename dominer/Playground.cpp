@@ -10,8 +10,14 @@ Playground::~Playground()
 	stopGame();
 }
 
+void Playground::init()
+{
+	game = NULL;
+}
+
 void Playground::newGame(int maxc, int maxr)
 {
+	quit = 0;
 	// Esconde o cursor
 	ctrl.getScreen().hideCursor();
 
@@ -89,20 +95,18 @@ void Playground::startGame()
 	while (1)
 	{
 		key = ctrl.getScreen().readKey();
-		if (key == ESCAPE)
-			break;
 
 		// Linha de Comandos
-		if (key == 'c' || key == 'C')
-		{
+		if (tolower(key) == 'c')
 			openShell();
-		}
 
+		// Verificar saida de jogo
+		if (key == ESCAPE || quit)
+			break;
+
+		//Test: Create ladder
 		if (key == ESPACO)
-		{
-			//Test: Create ladder
 			game->createLadder();
-		}
 
 		// Ignorar restantes teclas
 		if ( (key != ESQUERDA) && (key != DIREITA) &&
@@ -328,15 +332,19 @@ void Playground::openShell()
 			{
 				//u <nome_utensilio> - Só funciona se o Mineiro à superficie e tiver moedas suficientes.
 
-				//ctrl.getToolsList
-
 				if (!game->getMiner()->onHometown())
 					ctrl.getScreen().printCommandInfo("Can't shopping on underground");
-				//Test
-				else if (!game->getMiner()->buyTool(0))
-					ctrl.getScreen().printCommandInfo("Not enough money...");
+
+				if (ctrl.getToolsList().has(shell->getArgument(0)))
+				{
+					//Test
+					if (!game->getMiner()->buyTool(0))
+						ctrl.getScreen().printCommandInfo("Not enough money...");
+					else
+						ctrl.getScreen().printCommandInfo("You bought...");
+				}
 				else
-					ctrl.getScreen().printCommandInfo("You bought...");
+					ctrl.getScreen().printCommandInfo("'" + shell->getArgument(0) + "' not valid");
 			}
 			else if (shell->isCommand("b"))
 			{
@@ -347,15 +355,10 @@ void Playground::openShell()
 				//Block* b = new Ladder(miner->getIndexOnMine(),miner->getColumnOnMine(),miner->getRowOnMine());
 				//mine->setBlock(miner->getIndexOnMine(),b);
 
-				//Test
-				for (vector<string>::const_iterator it = ctrl.getBlocksList().cbegin(); it != ctrl.getBlocksList().end(); ++it)
-					// Cuidado: sempre minusculas
-					if (it->compare(shell->getArgument(0)) == 0)
-					{
-						ctrl.getScreen().printCommandInfo("Buy tool..."); // operator << para o command info e text
-						break;
-					}
-					
+				if (ctrl.getBlocksList().has(shell->getArgument(0)))
+					ctrl.getScreen().printCommandInfo("Create block...");
+				else
+					ctrl.getScreen().printCommandInfo("'" + shell->getArgument(0) + "' not valid");
 			}
 			else if (shell->isCommand("t"))
 			{
@@ -401,6 +404,7 @@ void Playground::openShell()
 			else if (shell->isCommand("f"))
 			{
 				//f <nome> - Muda para o jogo que tem o nome indicado
+
 			}
 			else if (shell->isCommand("a"))
 			{
@@ -412,10 +416,8 @@ void Playground::openShell()
 			else if (shell->isCommand("x"))
 			{
 				//x - Desistência
-			}
-			else if (shell->isCommand("j"))
-			{
-				//j - Regressa ao modo de jogo normal (sai da consola)
+				quit = 1;
+				break;
 			}
 		}
 	} while (!shell->toExit());

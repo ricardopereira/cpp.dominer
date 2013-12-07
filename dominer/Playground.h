@@ -14,9 +14,12 @@ class Playground
 	Controller& ctrl;
 	Game* game;
 	Sky sky;
+	int quit;
 	// Para os movimentos: Deslocacao Horizontal e Vertical
 	int shiftH;
 	int shiftV;
+
+	void init();
 
 	void initGame();
 	void setGameBuffer(int shiftH, int shiftV);
@@ -30,8 +33,12 @@ class Playground
 	int canMoveDown();
 public:
 	Playground(Controller& c) : ctrl(c)
-	{ 
-		game = NULL;
+	{
+		init();
+	}
+	Playground(const Playground& base) : ctrl(base.ctrl)
+	{
+		init();
 	}
 	~Playground();
 

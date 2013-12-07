@@ -79,6 +79,8 @@
     <ClCompile Include="Aluminum.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockEmpty.cpp" />
+    <ClCompile Include="GamesCollection.cpp" />
+    <ClCompile Include="Creator.cpp" />
     <ClCompile Include="Coal.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Consola.cpp" />
@@ -107,6 +109,8 @@
     <ClInclude Include="Aluminum.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockEmpty.h" />
+    <ClInclude Include="GamesCollection.h" />
+    <ClInclude Include="Creator.h" />
     <ClInclude Include="Coal.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Config.h" />

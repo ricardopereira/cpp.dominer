@@ -32,7 +32,7 @@ public:
 	int readCommand();
 	int toExit();
 
-	// Comando lido
+	// Comando recebido
 	int isCommand(const string& c);
 	const string& getCommand();
 	const string& getArgument(int index);

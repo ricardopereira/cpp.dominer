@@ -280,13 +280,13 @@ void Screen::printMenu(const int option)
 
 	if (option == 1)
 	{
-		printButton("  start game  ",initX,16,1);
-		printButton("     exit     ",initX,22);
+		printButton("  start game  ",initX,19,1);
+		printButton("     quit     ",initX,25);
 	}
 	else
 	{
-		printButton("  start game  ",initX,16);
-		printButton("     exit     ",initX,22,1);
+		printButton("  start game  ",initX,19);
+		printButton("     quit     ",initX,25,1);
 	}
 }
 
