@@ -47,6 +47,7 @@ public:
 	void stopGame();
 	void refresh(int force=0);
 	void pause();
+	int visibility(int mode);
 
 	// Movimentos
 	void moveTo(int cidx, int ridx, int refresh=1);

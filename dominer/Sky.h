@@ -9,7 +9,7 @@
 class Sky: public Block
 {
 public:
-	Sky() : Block(0,0,0) {} //Livre
+	Sky() : Block(0,0) {} //Livre
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);

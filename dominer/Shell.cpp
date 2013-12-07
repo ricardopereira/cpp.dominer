@@ -171,6 +171,7 @@ const vector<CommandItem>& Shell::getCommandsList()
 		listCommands->push_back(CommandItem("e","valor"));
 		listCommands->push_back(CommandItem("c","novo_nome"));
 		listCommands->push_back(CommandItem("n",""));
+		listCommands->push_back(CommandItem("v","tamanho"));
 		listCommands->push_back(CommandItem("f","nome"));
 		listCommands->push_back(CommandItem("a","nome_origem nome_destino"));
 		listCommands->push_back(CommandItem("x",""));

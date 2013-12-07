@@ -9,7 +9,7 @@
 class Coal: public Material
 {
 public:
-	Coal(int i, int c, int r) : Material(i,c,r) {}
+	Coal(int c, int r) : Material(c,r) {}
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);

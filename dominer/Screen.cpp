@@ -21,6 +21,7 @@ Screen::Screen(Consola* c)
 	this->x = 0;
 	this->y = 0;
 	this->c = c;
+	this->size = SCREENBUFFERSIZE;
 	emptyBlock = new BlockEmpty;
 	// Configure command line
 	c->setTextSize(TEXTSIZE,TEXTSIZE);
@@ -38,9 +39,30 @@ Screen::~Screen()
 	this->c = NULL;
 }
 
+void Screen::setSize(int value)
+{
+	clear();
+	size = value;
+	switch (value)
+	{
+	case 5:
+		x = BLOCKSIZE;
+		y = BLOCKSIZE;
+		break;
+	case 3:
+		x = BLOCKSIZE*2;
+		y = BLOCKSIZE*2;
+		break;
+	default:
+		x = 0;
+		y = 0;
+		break;
+	}
+}
+
 int Screen::getSize()
 {
-	return SCREENBUFFERSIZE;
+	return size;
 }
 
 void Screen::showCursor()
@@ -197,7 +219,7 @@ string Screen::getLastText()
 
 void Screen::gotoPanelInfo(int line)
 {
-	c->gotoxy((getSize()+2)*BLOCKSIZE,BLOCKSIZE+(line-1)*2);
+	c->gotoxy(9*BLOCKSIZE,BLOCKSIZE+(line-1)*2);
 }
 
 void Screen::printEnergy(const int value)

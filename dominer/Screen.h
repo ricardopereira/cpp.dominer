@@ -14,6 +14,7 @@ class Screen
 	Block** buffer;
 	BlockEmpty* emptyBlock;
 	int x,y;
+	int size;
 	string lastText;
 
 	void initScreen();
@@ -25,6 +26,7 @@ public:
 	Screen(Consola* c);
 	~Screen();
 
+    void setSize(int value);
 	int getSize();
 	void refresh();
 	void clear();

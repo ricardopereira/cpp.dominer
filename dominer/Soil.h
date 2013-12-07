@@ -13,7 +13,7 @@ class Soil: public Block
 	soilType type;
 	int hardness;
 public:
-	Soil(int i, int c, int r) : Block(i,c,r)
+	Soil(int c, int r) : Block(c,r)
 	{ 
 		type = stSoft;
 	}

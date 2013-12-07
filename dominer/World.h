@@ -9,7 +9,7 @@
 class World: public Block
 {
 public:
-	World() : Block(0,0,0) {} //Livre
+	World() : Block(0,0) {} //Livre
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);

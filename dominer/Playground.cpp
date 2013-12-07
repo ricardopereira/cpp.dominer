@@ -202,6 +202,7 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 	if (!miner) return;
 
 	int size = ctrl.getScreen().getSize();
+	int target = (int)floor((double)size/2);
 	// Indices
 	for (int i=0, cidx=0, ridx=0; i<ctrl.getScreen().getBufferSize(); i++)
 	{
@@ -218,12 +219,11 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 		}
 
 		// Mineiro fixo no centro
-		if (cidx == miner->getColumn() && ridx == miner->getRow())
+		if (cidx == target && ridx == target)
 		{
 			// Indice do mineiro na Mina
-			miner->setColumnOnMine(shiftH+cidx);
-			miner->setRowOnMine(shiftV+ridx);
-			miner->setIndexOnMine(miner->getRowOnMine()*game->getMine()->getColumnLimit()+miner->getColumnOnMine());
+			miner->setColumn(shiftH+cidx);
+			miner->setRow(shiftV+ridx);
 			// Mineiro no buffer do ecra de jogo
 			ctrl.getScreen().setBufferItem(i,miner);
 
@@ -292,6 +292,32 @@ int Playground::canMoveDown()
 	Block* b = game->getMiner()->getDownBlock();
 	if (!b) return 1;
 	return b->canBreak(NULL);
+}
+
+int Playground::visibility(int mode)
+{
+	if (mode != 7 && mode != 5 && mode != 3) return 0;
+	// Alteracao da visibilidade
+	int size = ctrl.getScreen().getSize();
+	if (size == mode) return 0;
+	int diff = (size - mode);
+	// Calculos para reposicionar o mineiro
+	if (diff > 0)
+		diff = (int)floor((double)diff/2);
+	else
+		diff = (int)ceil((double)diff/2);
+	// Alterar o buffer do ecra
+	ctrl.getScreen().setSize(mode);
+
+	// Da a folga necessaria para o limite
+	int cidx = game->getMiner()->getColumn();
+	cidx += diff;
+	int ridx = game->getMiner()->getRow();
+	ridx += diff;
+
+	//Test
+	moveTo(cidx,ridx);
+	return 1;
 }
 
 void Playground::refreshInfo()
@@ -412,6 +438,13 @@ void Playground::openShell()
 				//e a atribuição deve ser feita pelo operador atribuicao
 
 				//
+			}
+			else if (shell->isCommand("v"))
+			{
+				//v - Visibilidade
+				if (!visibility(shell->getArgumentAsInt(0)))
+					ctrl.getScreen().printCommandInfo("Not valid");
+				break;
 			}
 			else if (shell->isCommand("x"))
 			{

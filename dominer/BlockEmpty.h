@@ -9,7 +9,7 @@
 class BlockEmpty: public Block
 {
 public:
-	BlockEmpty() : Block(0,0,0) {} //Livre
+	BlockEmpty() : Block(0,0) {} //Livre
 
 	char getDrawInfo(const int index);
 	const int isProtected() const { return 1; };

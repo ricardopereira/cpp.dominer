@@ -9,7 +9,7 @@
 class Iron: public Material
 {
 public:
-	Iron(int i, int c, int r) : Material(i,c,r) {}
+	Iron(int c, int r) : Material(c,r) {}
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);

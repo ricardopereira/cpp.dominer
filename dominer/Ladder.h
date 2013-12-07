@@ -9,7 +9,7 @@
 class Ladder: public Block
 {
 public:
-	Ladder(int i, int c, int r) : Block(i,c,r) {}
+	Ladder(int c, int r) : Block(c,r) {}
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);

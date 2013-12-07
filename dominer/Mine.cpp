@@ -61,35 +61,35 @@ void Mine::createBlocks()
 		if (ridx == 0)
 		{
 			// Linha da superficie
-			map[i] = new Hometown(i,cidx,ridx);
+			map[i] = new Hometown(cidx,ridx);
 		}
 		else if (prob <= 2)
 		{
-			map[i] = new Diamond(i,cidx,ridx);
+			map[i] = new Diamond(cidx,ridx);
 		}
 		else if (prob <= 4)
 		{
-			map[i] = new Gold(i,cidx,ridx);
+			map[i] = new Gold(cidx,ridx);
 		}
 		else if (prob <= 8)
 		{
-			map[i] = new Aluminum(i,cidx,ridx);
+			map[i] = new Aluminum(cidx,ridx);
 		}
 		else if (prob <= 15)
 		{
-			map[i] = new Iron(i,cidx,ridx);
+			map[i] = new Iron(cidx,ridx);
 		}
 		else if (prob <= 30)
 		{
-			map[i] = new Coal(i,cidx,ridx);
+			map[i] = new Coal(cidx,ridx);
 		}
 		else if (prob <= 45)
 		{
-			map[i] = new Rock(i,cidx,ridx);
+			map[i] = new Rock(cidx,ridx);
 		}
 		else
 		{
-			map[i] = new Soil(i,cidx,ridx);
+			map[i] = new Soil(cidx,ridx);
 			prob = rand() % 100;
 			// 20% de Probabilidade de criar solo duro, restante fica mole
 			if (prob <= 20)
@@ -176,7 +176,7 @@ void Mine::doBlockNull(Block* b)
 	if (!b) return;
 	// Se não for um bloco protegido pode remover da mina
 	if (!b->isProtected())
-		map[b->getIndex()] = NULL;
+		map[b->getIndex(maxc)] = NULL;
 }
 
 void Mine::doBlockNull(int index)

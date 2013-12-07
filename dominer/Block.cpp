@@ -8,35 +8,37 @@
 
 using namespace std;
 
-Block::Block(int i, int c, int r, int w, int h)
+Block::Block(int c, int r, int w, int h)
 {
-	this->index = i;
 	this->column = c;
 	this->row = r;
 	this->width = w;
 	this->height = h;
-	this->visible = 1;
+	init();
 }
 
-//Test
-//Block::Block(const Block& base)
-//{
-//	this->index = base.index;
-//	this->column = base.column;
-//	this->row = base.row;
-//	this->width = base.width;
-//	this->height = base.height;
-//	this->visible = 1;
-//}
+Block::Block(const Block& base)
+{
+	this->column = base.column;
+	this->row = base.row;
+	this->width = base.width;
+	this->height = base.height;
+	init();
+}
 
 Block::~Block()
 {
 
 }
 
-int Block::getIndex()
+void Block::init()
 {
-	return this->index;
+	this->visible = 1;
+}
+
+int Block::getIndex(int maxc)
+{
+	return row*maxc+column;
 }
 
 int Block::getColumn()

@@ -22,34 +22,14 @@ int Player::getColor(const int index)
 	return BRANCO;
 }
 
-void Player::setIndexOnMine(const int index)
+void Player::setColumn(const int cidx)
 {
-	indexOnMine = index;
+	column = cidx;
 }
 
-int Player::getIndexOnMine()
+void Player::setRow(const int ridx)
 {
-	 return indexOnMine;
-}
-
-void Player::setColumnOnMine(const int cidx)
-{
-	columnOnMine = cidx;
-}
-
-int Player::getColumnOnMine()
-{
-	return columnOnMine;
-}
-
-void Player::setRowOnMine(const int ridx)
-{
-	rowOnMine = ridx;
-}
-
-int Player::getRowOnMine()
-{
-	return rowOnMine;
+	row = ridx;
 }
 
 void Player::setCurrentBlock(Block* b)
@@ -127,49 +107,49 @@ void Player::addMaterial(Material* m)
 Block* Player::getLeftBlock()
 {
 	if (!mine) return NULL;
-	return mine->getBlock(getColumnOnMine()-1,getRowOnMine());
+	return mine->getBlock(getColumn()-1,getRow());
 }
 
 Block* Player::getRightBlock()
 {
 	if (!mine) return NULL;
-	return mine->getBlock(getColumnOnMine()+1,getRowOnMine());
+	return mine->getBlock(getColumn()+1,getRow());
 }
 
 Block* Player::getUpBlock()
 {
 	if (!mine) return NULL;
-	return mine->getBlock(getColumnOnMine(),getRowOnMine()-1);
+	return mine->getBlock(getColumn(),getRow()-1);
 }
 
 Block* Player::getDownBlock()
 {
 	if (!mine) return NULL;
-	return mine->getBlock(getColumnOnMine(),getRowOnMine()+1);
+	return mine->getBlock(getColumn(),getRow()+1);
 }
 
 int Player::onFirstColumn()
 {
 	if (!mine) return 0;
-	return getColumnOnMine() == 0;
+	return getColumn() == 0;
 }
 
 int Player::onLastColumn()
 {
 	if (!mine) return 0;
-	return getColumnOnMine() == mine->getColumnLimit()-1;
+	return getColumn() == mine->getColumnLimit()-1;
 }
 
 int Player::onFirstRow()
 {
 	if (!mine) return 0;
-	return getRowOnMine() == 0;
+	return getRow() == 0;
 }
 
 int Player::onLastRow()
 {
 	if (!mine) return 0;
-	return getRowOnMine() == mine->getRowLimit()-1;
+	return getRow() == mine->getRowLimit()-1;
 }
 
 int Player::onBlock(const string& blockName)

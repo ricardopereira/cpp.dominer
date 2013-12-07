@@ -12,18 +12,18 @@ using namespace std;
 class Block {
 	int width;
 	int height;
+
+	void init();
 protected:
-	int index;
 	int column; //Indice
 	int row; //Indice
 	int visible;
 public:
-	Block(int i, int c, int r, int w = BLOCKSIZE, int h = BLOCKSIZE);
-	//Test
-	//Block(const Block& base);
+	Block(int c, int r, int w = BLOCKSIZE, int h = BLOCKSIZE);
+	Block(const Block& base);
 	~Block();
 
-	int getIndex();
+	int getIndex(int maxc);
 	int getColumn();
 	int getRow();
 	int getWidth();

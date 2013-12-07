@@ -66,9 +66,9 @@ void Game::createLadder()
 	// Se já existir uma escada?
 	if (miner->onLadder())
 		return;
-
-	Block* b = new Ladder(miner->getIndexOnMine(),miner->getColumnOnMine(),miner->getRowOnMine());
-	mine->setBlock(miner->getIndexOnMine(),b);
+	
+	Block* b = new Ladder(miner->getColumn(),miner->getRow());
+	mine->setBlock(miner->getIndex(mine->getColumnLimit()),b);
 	// Coloca a escada à disposicao do mineiro
 	if (!miner->getCurrentBlock())
 		miner->destroyCurrentBlock();

@@ -9,7 +9,7 @@
 class Hometown: public Block
 {
 public:
-	Hometown(int i, int c, int r) : Block(i,c,r) {}
+	Hometown(int c, int r) : Block(c,r) {}
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);

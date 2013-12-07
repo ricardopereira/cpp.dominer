@@ -9,7 +9,7 @@
 class Gold: public Material
 {
 public:
-	Gold(int i, int c, int r) : Material(i,c,r) {}
+	Gold(int c, int r) : Material(c,r) {}
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);

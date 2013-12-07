@@ -9,7 +9,7 @@
 class Material: public Soil
 {
 public:
-	Material(int i, int c, int r) : Soil(i,c,r) {}
+	Material(int c, int r) : Soil(c,r) {}
 
 	virtual int getWeight() { return 1; };
 
