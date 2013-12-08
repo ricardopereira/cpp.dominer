@@ -5,8 +5,6 @@
 #include "Common.h"
 #include "Shell.h"
 
-#include "Soil.h"
-
 Playground::~Playground()
 {
 	stopGame();
@@ -361,11 +359,10 @@ void Playground::openShell()
 			if (shell->isCommand("u"))
 			{
 				//u <nome_utensilio> - Só funciona se o Mineiro à superficie e tiver moedas suficientes.
-
 				if (!game->getMiner()->onHometown())
-					ctrl.getScreen().printCommandInfo("Can't shopping on underground");
+					ctrl.getScreen().printCommandInfo("Please go to hometown to buy tools");
 
-				if (ctrl.getToolsList().has(shell->getArgument(0)))
+				if (ctrl.getConfig().getToolsList().has(shell->getArgument(0)))
 				{
 					//Test
 					if (!game->getMiner()->buyTool(0))
@@ -469,19 +466,19 @@ void Playground::openShell()
 			}
 			else if (shell->isCommand("lu"))
 			{
-				//lj - listar utensilios
+				//lu - listar utensilios
 				ctrl.getScreen().clearAllText();
 				ctrl.getScreen().printText("Utensilios:",1);
-				for (int i=0; i<ctrl.getToolsList().size(); i++)
-					ctrl.getScreen().printText(" " + ctrl.getToolsList().item(i),i+2);
+				for (int i=0; i<ctrl.getConfig().getToolsList().size(); i++)
+					ctrl.getScreen().printText(" " + ctrl.getConfig().getToolsList().item(i).getAsString(),i+3);
 			}
 			else if (shell->isCommand("lb"))
 			{
-				//lj - listar blocos
+				//lb - listar blocos
 				ctrl.getScreen().clearAllText();
 				ctrl.getScreen().printText("Blocos:",1);
 				for (int i=0; i<ctrl.getBlocksList().size(); i++)
-					ctrl.getScreen().printText(" " + ctrl.getBlocksList().item(i),i+2);
+					ctrl.getScreen().printText(" " + ctrl.getBlocksList().item(i),i+3);
 			}
 			else if (shell->isCommand("lj"))
 			{
@@ -489,7 +486,7 @@ void Playground::openShell()
 				ctrl.getScreen().clearAllText();
 				ctrl.getScreen().printText("Jogos em memoria: "+to_string(ctrl.getGamesList().size()),1);
 				for (int i=0; i<ctrl.getGamesList().size(); i++)
-					ctrl.getScreen().printText(to_string(i+1) + ": " + ctrl.getGamesList().item(i).getName(),i+2);
+					ctrl.getScreen().printText(to_string(i+1) + ": " + ctrl.getGamesList().item(i).getName(),i+3);
 			}
 			else if (shell->isCommand("x"))
 			{

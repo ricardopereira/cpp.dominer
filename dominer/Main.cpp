@@ -37,6 +37,7 @@ int main()
 			{
 				if (option == 1)
 				{
+					ctrl.getConfig().load();
 					playground.newGame(21,21);
 					playground.startGame();
 					playground.stopGame();

@@ -172,7 +172,7 @@ const vector<CommandItem>& Shell::getCommandsList()
 		listCommands =  new vector<CommandItem>;
 		// Comandos possiveis
 		listCommands->push_back(CommandItem("v","tamanho")); //rp
-		listCommands->push_back(CommandItem("u","nome_utensilio")); //Comprar ferramenta
+		listCommands->push_back(CommandItem("u","nome_utensilio")); //Comprar utensilio
 		listCommands->push_back(CommandItem("b","tipo coluna linha")); //Criar bloco
 		listCommands->push_back(CommandItem("t","coluna linha")); //Teletransporte
 		listCommands->push_back(CommandItem("d","valor")); //Modificar dinheiro
@@ -180,7 +180,7 @@ const vector<CommandItem>& Shell::getCommandsList()
 		listCommands->push_back(CommandItem("c","novo_nome")); //Copia de jogo atual
 		listCommands->push_back(CommandItem("f","nome")); //Carregar jogo da memoria
 		listCommands->push_back(CommandItem("a","nome_origem nome_destino")); //Copia mina para o destino
-		listCommands->push_back(CommandItem("lu","")); //rp - Lista ferramentas
+		listCommands->push_back(CommandItem("lu","")); //rp - Lista utensilios
 		listCommands->push_back(CommandItem("lb","")); //rp - Lista blocos
 		listCommands->push_back(CommandItem("lm","")); //rp - Lista itens da mochila atual
 		listCommands->push_back(CommandItem("lj","")); //rp - Lista jogos em memoria

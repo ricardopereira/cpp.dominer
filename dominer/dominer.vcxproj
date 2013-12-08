@@ -85,7 +85,6 @@
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Consola.cpp" />
     <ClCompile Include="Controller.cpp" />
-    <ClCompile Include="DB.cpp" />
     <ClCompile Include="Diamond.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gold.cpp" />
@@ -103,6 +102,7 @@
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="Soil.cpp" />
     <ClCompile Include="Tool.cpp" />
+    <ClCompile Include="ToolsCollection.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -116,7 +116,6 @@
     <ClInclude Include="Config.h" />
     <ClInclude Include="Consola.h" />
     <ClInclude Include="Controller.h" />
-    <ClInclude Include="DB.h" />
     <ClInclude Include="Diamond.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gold.h" />
@@ -133,6 +132,7 @@
     <ClInclude Include="Sky.h" />
     <ClInclude Include="Soil.h" />
     <ClInclude Include="Tool.h" />
+    <ClInclude Include="ToolsCollection.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

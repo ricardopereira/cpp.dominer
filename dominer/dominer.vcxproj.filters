@@ -111,9 +111,6 @@
     <ClCompile Include="Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Ladder.cpp">
       <Filter>Source Files\Blocks</Filter>
     </ClCompile>
@@ -122,6 +119,9 @@
     </ClCompile>
     <ClCompile Include="Creator.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolsCollection.cpp">
+      <Filter>Source Files\Blocks\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -197,9 +197,6 @@
     <ClInclude Include="Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Ladder.h">
       <Filter>Header Files\Blocks</Filter>
     </ClInclude>
@@ -208,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="Creator.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolsCollection.h">
+      <Filter>Header Files\Blocks\Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

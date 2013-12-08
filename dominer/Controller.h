@@ -6,8 +6,9 @@
 #include "Screen.h"
 #include "Game.h"
 #include "Shell.h"
-#include "GamesCollection.h"
 #include "Creator.h"
+#include "Config.h"
+#include "GamesCollection.h"
 
 #ifndef __CONTROLLER_H__
 #define __CONTROLLER_H__
@@ -16,11 +17,10 @@ class Controller
 {
 	Consola c;
 	Screen* screen;
+	Config* config;
 
 	// Lista de jogo em memória
 	GamesCollection listGames;
-	// Lista de Ferramentas
-	Creator* listTools;
 	// Lista de Blocos
 	Creator* listBlocks;
 public:
@@ -28,8 +28,8 @@ public:
 	~Controller();
 
 	Screen& getScreen();
+	Config& getConfig();
 	GamesCollection& getGamesList();
-	const Creator& getToolsList();
 	const Creator& getBlocksList();
 };
 

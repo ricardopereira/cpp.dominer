@@ -1,50 +1,68 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sstream>
 
 #include "Config.h"
 
-//using namespace std;
-//
-//// writing on a text file
-//int main () {
-//  ofstream myfile ("example.txt");
-//  if (myfile.is_open())
-//  {
-//    myfile << "This is a line.\n";
-//    myfile << "This is another line.\n";
-//    myfile.close();
-//  }
-//  else cout << "Unable to open file";
-//  return 0;
-//}
+const string Config::filename = "dominer.cfg";
 
-//// reading a text file
-//int main ()
-//{
-//  string line;
-//  ifstream myfile("example.txt");
-//
-//  if (myfile.is_open())
-//  {
-//    while(getline(myfile,line))
-//    {
-//      cout << line << endl;
-//    }
-//    myfile.close();
-//  }
-//  else
-//	  cout << "Unable to open file"; 
-//  return 0;
-//}
+const ToolsCollection& Config::getToolsList()
+{
+	return listTools;
+}
 
-//int main() {
-//  vector<string> v;
-//  ifstream in("Fillvector.cpp");
-//  string line;
-//  while(getline(in, line))
-//    v.push_back(line); // Add the line to the end
-//  // Add line numbers:
-//  for(int i = 0; i < v.size(); i++)
-//    cout << i << ": " << v[i] << endl;
-//} ///:~
+void Config::load()
+{
+	string line;
+	ifstream f(filename);
+
+	if (f.is_open())
+	{
+		int idx;
+		string name("");
+		int cost = 0;
+
+		while (getline(f,line))
+		{
+			// Parsing cada elemento da linha
+			istringstream parse(line);
+			string data;
+			// Vector para os argumentos
+			idx = 0;
+			while (parse >> data)
+			{
+				// Primeiro elemento da linha
+				if (idx == 0)
+				{
+					name = data;
+				}
+				else
+				{
+					cost = atoi(data.c_str());
+					break;
+				}
+				idx++;
+			}
+			listTools.add(name,cost);
+		}
+		f.close();
+	}
+	if (listTools.size() > 0) return;
+	// Valores por defeito
+	listTools.add("PickerNormal");
+	listTools.add("PickerPro");
+	listTools.add("PickerMaster");
+	listTools.add("BagNormal");
+	listTools.add("BagPro");
+	listTools.add("BagMaster");
+	listTools.add("Lighter");
+	listTools.add("Flashlight");
+	listTools.add("Spotlight");
+	listTools.add("Ladder");
+	listTools.add("Beam");
+	listTools.add("Parachute");
+	listTools.add("Dinamite");
+	listTools.add("Extralife");
+	listTools.add("SuperMiner");
+}
