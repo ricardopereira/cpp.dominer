@@ -20,6 +20,8 @@ public:
 	int has(const string& name);
 	Game* get(const string& name) const;
 	Game* get(const int index) const;
+	int size() const;
+	const GameItem& item(int index) const;
 
 	string getAsString() const;
 };

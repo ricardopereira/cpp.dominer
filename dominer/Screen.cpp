@@ -176,22 +176,23 @@ void Screen::printBlock(Block& b, int col, int row)
 
 void Screen::printText(const string& t, int line)
 {
-	if (line < 0 || line > 13) return;
+	const int offset = 6;
+	if (line < 0 || line > 28) return;
 	if (t.empty())
 	{
 		clearText();
 		return;
 	}
 	//t.resize(40);
-	gotoPanelInfo(line+5);
+	gotoPanelText(line+offset);
 	clearText();
-	gotoPanelInfo(line+5);
+	gotoPanelText(line+offset);
 	cout << t;
 }
 
 void Screen::clearText(int line)
 {
-	gotoPanelInfo(line+5);
+	gotoPanelText(line+5);
 	clearText();
 }
 
@@ -203,6 +204,12 @@ void Screen::clearText()
 	for (int i=0; i<=35; i++)
 		spaces.push_back(' ');
 	cout << spaces;
+}
+
+void Screen::clearAllText()
+{
+	for (int i=1; i<=28; i++)
+		clearText(i);
 }
 
 void Screen::refresh()
@@ -221,8 +228,15 @@ void Screen::gotoPanelInfo(int line)
 	c->gotoxy(9*BLOCKSIZE,BLOCKSIZE+(line-1)*2);
 }
 
+void Screen::gotoPanelText(int line)
+{
+	c->gotoxy(9*BLOCKSIZE,BLOCKSIZE+(line-1)+1);
+}
+
 void Screen::printEnergy(const int value)
 {
+	gotoPanelInfo(1);
+	clearText();
 	gotoPanelInfo(1);
 	c->setTextColor(VERMELHO_CLARO);
 	cout << (char)3;
@@ -233,6 +247,8 @@ void Screen::printEnergy(const int value)
 void Screen::printLives(const int value)
 {
 	gotoPanelInfo(2);
+	clearText();
+	gotoPanelInfo(2);
 	c->setTextColor(AZUL_CLARO);
 	cout << (char)1;
 	restoreColor();
@@ -241,6 +257,8 @@ void Screen::printLives(const int value)
 
 void Screen::printMoney(const int value)
 {
+	gotoPanelInfo(3);
+	clearText();
 	gotoPanelInfo(3);
 	c->setTextColor(AMARELO_CLARO);
 	cout << (char)36;

@@ -355,11 +355,7 @@ void Playground::openShell()
 		if (shell->readCommand())
 		{
 			// Verificar comando
-			if (shell->isCommand("h"))
-			{
-				shell->showCommands();
-			}
-			else if (shell->isCommand("u"))
+			if (shell->isCommand("u"))
 			{
 				//u <nome_utensilio> - Só funciona se o Mineiro à superficie e tiver moedas suficientes.
 
@@ -425,17 +421,15 @@ void Playground::openShell()
 				copyGame->getMiner()->setColumn(game->getMiner()->getColumn());
 				copyGame->getMiner()->setRow(game->getMiner()->getRow());
 
-				int idx = ctrl.getGamesList().add(shell->getArgument(0),copyGame);
-				game = ctrl.getGamesList().get(idx);
+				int idx = ctrl.getGamesList().add(shell->getArgument(0),game);
+				game = copyGame;
 				refresh(1);
 			}
 			else if (shell->isCommand("f"))
 			{
 				//f <nome> - Muda para o jogo que tem o nome indicado
-
-				//Test: Mineiro não se volta a posicionar
 				game = ctrl.getGamesList().get(shell->getArgument(0));
-				refresh(1);
+				moveTo(game->getMiner()->getColumn(),game->getMiner()->getRow());
 			}
 			else if (shell->isCommand("a"))
 			{
@@ -450,6 +444,30 @@ void Playground::openShell()
 				if (!visibility(shell->getArgumentAsInt(0)))
 					ctrl.getScreen().printCommandInfo("Not valid");
 				break;
+			}
+			else if (shell->isCommand("lu"))
+			{
+				//lj - listar utensilios
+				ctrl.getScreen().clearAllText();
+				ctrl.getScreen().printText("Utensilios:",1);
+				for (int i=0; i<ctrl.getToolsList().size(); i++)
+					ctrl.getScreen().printText(" " + ctrl.getToolsList().item(i),i+2);
+			}
+			else if (shell->isCommand("lb"))
+			{
+				//lj - listar blocos
+				ctrl.getScreen().clearAllText();
+				ctrl.getScreen().printText("Blocos:",1);
+				for (int i=0; i<ctrl.getBlocksList().size(); i++)
+					ctrl.getScreen().printText(" " + ctrl.getBlocksList().item(i),i+2);
+			}
+			else if (shell->isCommand("lj"))
+			{
+				//lj - listar jogos em memória
+				ctrl.getScreen().clearAllText();
+				ctrl.getScreen().printText("Jogos em memoria: "+to_string(ctrl.getGamesList().size()),1);
+				for (int i=0; i<ctrl.getGamesList().size(); i++)
+					ctrl.getScreen().printText(to_string(i+1) + ": " + ctrl.getGamesList().item(i).getName(),i+2);
 			}
 			else if (shell->isCommand("x"))
 			{

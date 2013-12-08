@@ -24,6 +24,7 @@ Shell::~Shell()
 	if (screen)
 	{
 		screen->hideCursor();
+		screen->clearAllText();
 		screen->clearCommandPanel();
 	}
 	screen = NULL;
@@ -96,12 +97,24 @@ int Shell::readCommand()
 		// Adiciona ao vetor
 		args.push_back(data);
 	}
+	internalInterpret();
 	return !toExit() && isValid();
+}
+
+void Shell::internalInterpret()
+{
+	if (isCommand("h"))
+	{
+		showCommands();
+	}
 }
 
 void Shell::notFound(const string& c)
 {
 	ostringstream out;
+	// De sistema
+	if (c.compare("j") == 0 || c.compare("h") == 0) return;
+	// Comando nao existe
 	screen->hideCursor();
 	out << "Command '" << c << "' not found";
 	screen->printCommandInfo(out.str());
@@ -158,16 +171,19 @@ const vector<CommandItem>& Shell::getCommandsList()
 	{
 		listCommands =  new vector<CommandItem>;
 		// Comandos possiveis
-		listCommands->push_back(CommandItem("h",""));
-		listCommands->push_back(CommandItem("u","nome_utensilio"));
-		listCommands->push_back(CommandItem("b","tipo coluna linha"));
-		listCommands->push_back(CommandItem("t","coluna linha"));
-		listCommands->push_back(CommandItem("g","valor"));
-		listCommands->push_back(CommandItem("e","valor"));
-		listCommands->push_back(CommandItem("c","novo_nome"));
-		listCommands->push_back(CommandItem("v","tamanho"));
-		listCommands->push_back(CommandItem("f","nome"));
-		listCommands->push_back(CommandItem("a","nome_origem nome_destino"));
+		listCommands->push_back(CommandItem("v","tamanho")); //rp
+		listCommands->push_back(CommandItem("u","nome_utensilio")); //Comprar ferramenta
+		listCommands->push_back(CommandItem("b","tipo coluna linha")); //Criar bloco
+		listCommands->push_back(CommandItem("t","coluna linha")); //Teletransporte
+		listCommands->push_back(CommandItem("d","valor")); //Modificar dinheiro
+		listCommands->push_back(CommandItem("e","valor")); //Modificar energia
+		listCommands->push_back(CommandItem("c","novo_nome")); //Copia de jogo atual
+		listCommands->push_back(CommandItem("f","nome")); //Carregar jogo da memoria
+		listCommands->push_back(CommandItem("a","nome_origem nome_destino")); //Copia mina para o destino
+		listCommands->push_back(CommandItem("lu","")); //rp - Lista ferramentas
+		listCommands->push_back(CommandItem("lb","")); //rp - Lista blocos
+		listCommands->push_back(CommandItem("lm","")); //rp - Lista itens da mochila atual
+		listCommands->push_back(CommandItem("lj","")); //rp - Lista jogos em memoria
 		listCommands->push_back(CommandItem("x",""));
 	}
 	return *listCommands;
@@ -176,6 +192,7 @@ const vector<CommandItem>& Shell::getCommandsList()
 void Shell::showCommands()
 {
 	if (!screen) return;
+	screen->clearAllText();
 	int line = 1;
 	// Listar os comandos
 	for (vector<CommandItem>::const_iterator item = getCommandsList().cbegin(); item != getCommandsList().end(); ++item, line++)

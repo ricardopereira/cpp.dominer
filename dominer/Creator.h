@@ -16,6 +16,9 @@ public:
 	void add(const string& value);
 	int has(const string& value) const;
 	void* create(const string& value, int cidx, int ridx) const;
+	int size() const;
+	const string& item(int index) const;
+
 	string getAsString() const;
 };
 

@@ -66,3 +66,13 @@ string GamesCollection::getAsString() const
 	}
 	return out.str();
 }
+
+int GamesCollection::size() const
+{
+	return listGames.size();
+}
+
+const GameItem& GamesCollection::item(int index) const
+{
+	return listGames[index];
+}

@@ -50,42 +50,121 @@ string Creator::getAsString() const
 	return out.str();
 }
 
+int Creator::size() const
+{
+	return listStrings.size();
+}
+
+const string& Creator::item(int index) const
+{
+	return listStrings[index];
+}
+
 void* Creator::create(const string& value, int cidx, int ridx) const
 {
 	if (!has(value)) return NULL;
-
+	// Shell retorna tudo com lowercast
 	if (value.compare("soilsoft") == 0)
 	{
-		return new Soil(cidx,ridx);
+		Soil* b = new Soil(cidx,ridx);
+		b->setSoilType(stSoft);
+		return b;
+	}
+	else if (value.compare("soilhard") == 0)
+	{
+		Soil* b = new Soil(cidx,ridx);
+		b->setSoilType(stHard);
+		return b;
+	}
+	else if (value.compare("rock") == 0)
+	{
+		return new Rock(cidx,ridx);
+	}
+	else if (value.compare("aluminum") == 0)
+	{
+		return new Aluminum(cidx,ridx);
+	}
+	else if (value.compare("coal") == 0)
+	{
+		return new Coal(cidx,ridx);
+	}
+	else if (value.compare("diamond") == 0)
+	{
+		return new Diamond(cidx,ridx);
+	}
+	else if (value.compare("gold") == 0)
+	{
+		return new Gold(cidx,ridx);
+	}
+	else if (value.compare("iron") == 0)
+	{
+		return new Iron(cidx,ridx);
+	}
+	// Ferramentas
+	// Picaretas
+	else if (value.compare("pickernormal") == 0)
+	{
+		return NULL;
+	}
+	else if (value.compare("pickerpro") == 0)
+	{
+		return NULL;
+	}
+	else if (value.compare("pickermaster") == 0)
+	{
+		return NULL;
+	}
+	// Mochilas
+	else if (value.compare("bagnormal") == 0)
+	{
+		return NULL;
+	}
+	else if (value.compare("bagpro") == 0)
+	{
+		return NULL;
+	}
+	else if (value.compare("bagmaster") == 0)
+	{
+		return NULL;
+	}
+	// Iluminacao
+	else if (value.compare("lighter") == 0)
+	{
+		return NULL;
+	}
+	else if (value.compare("flashlight") == 0)
+	{
+		return NULL;
+	}
+	else if (value.compare("spotlight") == 0)
+	{
+		return NULL;
+	}
+	// Outros
+	else if (value.compare("ladder") == 0)
+	{
+		return NULL;
+	}
+	else if (value.compare("beam") == 0)
+	{
+		return NULL;
+	}
+	else if (value.compare("parachute") == 0)
+	{
+		return NULL;
+	}
+	else if (value.compare("dinamite") == 0)
+	{
+		return NULL;
+	}
+	else if (value.compare("extralife") == 0)
+	{
+		return NULL;
+	}
+	else if (value.compare("superminer") == 0)
+	{
+		return NULL;
 	}
 	else
 		return NULL;
-
-	//listBlocks->add();
-	//listBlocks->add("SoilHard");
-	//listBlocks->add("Rock");
-	//listBlocks->add("Aluminum");
-	//listBlocks->add("Coal");
-	//listBlocks->add("Diamond");
-	//listBlocks->add("Gold");
-	//listBlocks->add("Iron");
-
-	//listTools->add("PickerNormal");
-	//listTools->add("PickerPro");
-	//listTools->add("PickerMaster");
-	//// Mochilas
-	//listTools->add("BagNormal");
-	//listTools->add("BagPro");
-	//listTools->add("BagMaster");
-	//// Iluminacao
-	//listTools->add("Lighter");
-	//listTools->add("Flashlight");
-	//listTools->add("Spotlight");
-	//// Outros
-	//listTools->add("Ladder");
-	//listTools->add("Beam");
-	//listTools->add("Parachute");
-	//listTools->add("Dinamite");
-	//listTools->add("Extralife");
-	//listTools->add("SuperMiner");
 }

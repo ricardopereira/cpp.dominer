@@ -20,6 +20,7 @@ class Screen
 	void printBuffer();
 	void restoreColor();
 	void gotoPanelInfo(int line);
+	void gotoPanelText(int line);
 	void clearText();
 public:
 	Screen(Consola* c);
@@ -53,6 +54,7 @@ public:
 
 	void printText(const string& t, int line=0);
 	void clearText(int line);
+	void clearAllText();
 
 	void printEnergy(const int value);
 	void printLives(const int value);

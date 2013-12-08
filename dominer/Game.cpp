@@ -64,7 +64,7 @@ void Game::breakMineBlock(int cidx, int ridx)
 void Game::createLadder()
 {
 	// Se já existir uma escada?
-	if (miner->onLadder())
+	if (miner->onLadder() || miner->onHometown())
 		return;
 	
 	Block* b = new Ladder(miner->getColumn(),miner->getRow());

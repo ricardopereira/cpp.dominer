@@ -20,6 +20,7 @@ class Shell
 
 	int isValid();
 	void notFound(const string& c);
+	void internalInterpret();
 	string getArgsAsString(const CommandItem& item);
 	// Lista de Comandos Válidos
 	const vector<CommandItem>& getCommandsList();
