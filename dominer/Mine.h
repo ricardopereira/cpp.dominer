@@ -23,9 +23,9 @@ public:
 
 	Block* getBlock(int index);
 	Block* getBlock(int cidx, int ridx);
-	void setBlock(int index, Block* b);
+	void setBlock(int index, Block* b, int deleteBlock=0);
 
-	void doBlockNull(Block* b);
+	void doBlockNull(Block* b, int deleteBlock=0);
 	void doBlockNull(int index);
 	void doBlockNull(int cidx, int ridx);
 

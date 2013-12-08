@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 
 #include "Screen.h"
 
@@ -173,27 +174,35 @@ void Screen::printBlock(Block& b, int col, int row)
 	c->setTextColor(DEFAULTCOLOR);
 }
 
-void Screen::printText(string t)
+void Screen::printText(const string& t, int line)
 {
+	if (line < 0 || line > 13) return;
 	if (t.empty())
 	{
 		clearText();
 		return;
 	}
-	t.resize(40);
-	setLastText(t);
+	//t.resize(40);
+	gotoPanelInfo(line+5);
 	clearText();
-	c->gotoxy(BLOCKSIZE,2);
+	gotoPanelInfo(line+5);
 	cout << t;
+}
+
+void Screen::clearText(int line)
+{
+	gotoPanelInfo(line+5);
+	clearText();
 }
 
 void Screen::clearText()
 {
-	for (int i=BLOCKSIZE; i<40; i++)
-	{
-		c->gotoxy(i,2);
-		cout << " ";
-	}
+	// Insere caracteres vazios na posicao atual
+	// de forma a limpar o conteudo
+	string spaces;
+	for (int i=0; i<=35; i++)
+		spaces.push_back(' ');
+	cout << spaces;
 }
 
 void Screen::refresh()
@@ -205,16 +214,6 @@ void Screen::restoreColor()
 {
 	// Restaurar cor por defeito
 	c->setTextColor(DEFAULTCOLOR);
-}
-
-void Screen::setLastText(string value)
-{
-	lastText = value;
-}
-
-string Screen::getLastText()
-{
-	return lastText;
 }
 
 void Screen::gotoPanelInfo(int line)

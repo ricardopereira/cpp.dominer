@@ -15,7 +15,8 @@ class Creator
 public:
 	void add(const string& value);
 	int has(const string& value) const;
-	void* create(const string& value);
+	void* create(const string& value, int cidx, int ridx) const;
+	string getAsString() const;
 };
 
 #endif

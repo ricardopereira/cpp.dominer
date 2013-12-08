@@ -141,18 +141,12 @@ int Shell::isValid()
 	}
 }
 
-string Shell::getCommandsAsString()
+string Shell::getAsString()
 {
 	ostringstream out;
 	// Listar os comandos
 	for (vector<CommandItem>::const_iterator item = getCommandsList().cbegin(); item != getCommandsList().end(); ++item)
-	{
-		out << item->getName() << ": ";
-		// Listar os argumentos de cada comando
-		for (vector<string>::const_iterator arg = item->getArgs().cbegin(); arg != item->getArgs().end(); ++arg)			
-			out << "<" << *arg << "> ";
-		out << endl;
-	}
+		out << item->getAsString() << endl;
 	// Retornar listagem de comandos
 	return out.str();
 }
@@ -164,13 +158,13 @@ const vector<CommandItem>& Shell::getCommandsList()
 	{
 		listCommands =  new vector<CommandItem>;
 		// Comandos possiveis
+		listCommands->push_back(CommandItem("h",""));
 		listCommands->push_back(CommandItem("u","nome_utensilio"));
 		listCommands->push_back(CommandItem("b","tipo coluna linha"));
 		listCommands->push_back(CommandItem("t","coluna linha"));
 		listCommands->push_back(CommandItem("g","valor"));
 		listCommands->push_back(CommandItem("e","valor"));
 		listCommands->push_back(CommandItem("c","novo_nome"));
-		listCommands->push_back(CommandItem("n",""));
 		listCommands->push_back(CommandItem("v","tamanho"));
 		listCommands->push_back(CommandItem("f","nome"));
 		listCommands->push_back(CommandItem("a","nome_origem nome_destino"));
@@ -179,6 +173,14 @@ const vector<CommandItem>& Shell::getCommandsList()
 	return *listCommands;
 }
 
+void Shell::showCommands()
+{
+	if (!screen) return;
+	int line = 1;
+	// Listar os comandos
+	for (vector<CommandItem>::const_iterator item = getCommandsList().cbegin(); item != getCommandsList().end(); ++item, line++)
+		screen->printText(item->getAsString(),line);
+}
 
 // Command Item
 
@@ -205,3 +207,26 @@ const vector<string>& CommandItem::getArgs() const
 { 
 	return args; 
 };
+
+string CommandItem::getAsString() const
+{
+	ostringstream out;
+	if (getArgs().size() == 0)
+	{
+		// Mostra o nome do comando
+		out << getName();
+	}
+	else
+	{
+		// Listar comando com argumentos
+		out << getName() << ": ";
+		int idx = 0;
+		for (vector<string>::const_iterator arg = getArgs().cbegin(); arg != getArgs().end(); ++arg, idx++)
+		{
+			out << "<" << *arg << ">";
+			if (idx != (int)getArgs().size()-1)
+				out << " ";
+		}
+	}
+	return out.str();
+}

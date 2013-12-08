@@ -1,7 +1,15 @@
 #include <iostream>
+#include <sstream>
 
 #include "Creator.h"
 #include "Soil.h"
+#include "Rock.h"
+#include "Hometown.h"
+#include "Iron.h"
+#include "Gold.h"
+#include "Aluminum.h"
+#include "Coal.h"
+#include "Diamond.h"
 
 void Creator::add(const string& value)
 {
@@ -29,14 +37,29 @@ int Creator::has(const string& value) const
 	return 0;
 }
 
-void* Creator::create(const string& value)
+string Creator::getAsString() const
+{
+	ostringstream out;
+	int idx = 0;
+	for (vector<string>::const_iterator it = listStrings.cbegin(); it != listStrings.end(); ++it, idx++)
+	{
+		out << idx << ": " << *it;
+		if (idx != listStrings.size()-1)
+			out << ", ";
+	}
+	return out.str();
+}
+
+void* Creator::create(const string& value, int cidx, int ridx) const
 {
 	if (!has(value)) return NULL;
 
-	if (value.compare("SoilSoft") == 0)
+	if (value.compare("soilsoft") == 0)
 	{
-		//return new Soil;
+		return new Soil(cidx,ridx);
 	}
+	else
+		return NULL;
 
 	//listBlocks->add();
 	//listBlocks->add("SoilHard");

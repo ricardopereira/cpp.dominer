@@ -20,9 +20,9 @@ class Shell
 
 	int isValid();
 	void notFound(const string& c);
+	string getArgsAsString(const CommandItem& item);
 	// Lista de Comandos Válidos
 	const vector<CommandItem>& getCommandsList();
-	string getCommandsAsString();
 public:
 	Shell(Screen* s);
 	~Shell();
@@ -31,12 +31,15 @@ public:
 	void close();
 	int readCommand();
 	int toExit();
+	void showCommands();
 
 	// Comando recebido
 	int isCommand(const string& c);
 	const string& getCommand();
 	const string& getArgument(int index);
 	int getArgumentAsInt(int index);
+
+	string getAsString();
 };
 
 class CommandItem
@@ -45,10 +48,9 @@ class CommandItem
 	vector<string> args;
 public:
 	CommandItem(string n, string argsInComma);
-	//Test
-	//CommandItem(const CommandItem& item);
 	const string& getName() const;
 	const vector<string>& getArgs() const;
+	string CommandItem::getAsString() const;
 };
 
 #endif

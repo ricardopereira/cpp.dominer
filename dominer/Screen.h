@@ -15,13 +15,12 @@ class Screen
 	BlockEmpty* emptyBlock;
 	int x,y;
 	int size;
-	string lastText;
 
 	void initScreen();
 	void printBuffer();
 	void restoreColor();
 	void gotoPanelInfo(int line);
-	void setLastText(string value);
+	void clearText();
 public:
 	Screen(Consola* c);
 	~Screen();
@@ -51,9 +50,9 @@ public:
 	void clearCommandInfo();
 
 	void printBlock(Block& b, int col, int row);
-	void printText(string t);
-	void clearText();
-	string getLastText(); //?
+
+	void printText(const string& t, int line=0);
+	void clearText(int line);
 
 	void printEnergy(const int value);
 	void printLives(const int value);

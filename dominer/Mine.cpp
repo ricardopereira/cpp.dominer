@@ -165,18 +165,27 @@ Block* Mine::getBlock(int cidx, int ridx)
 		return NULL;
 }
 
-void Mine::setBlock(int index, Block* b)
+void Mine::setBlock(int index, Block* b, int deleteBlock)
 {
-	if (isValidRange(index) && b && !map[index])
+	if (isValidRange(index) && b)
+	{
+		if (deleteBlock)
+			doBlockNull(index,1);
 		map[index] = b;
+	}
 }
 
-void Mine::doBlockNull(Block* b)
+void Mine::doBlockNull(Block* b, int deleteBlock)
 {
 	if (!b) return;
 	// Se não for um bloco protegido pode remover da mina
 	if (!b->isProtected())
-		map[b->getIndex(maxc)] = NULL;
+	{
+		int idx = b->getIndex(maxc);
+		if (deleteBlock)
+			delete map[idx];
+		map[idx] = NULL;
+	}
 }
 
 void Mine::doBlockNull(int index)

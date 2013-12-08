@@ -5,6 +5,8 @@
 #include "Common.h"
 #include "Shell.h"
 
+#include "Soil.h"
+
 Playground::~Playground()
 {
 	stopGame();
@@ -78,6 +80,7 @@ void Playground::moveTo(int cidx, int ridx, int refresh)
 
 void Playground::refresh(int force)
 {
+	if (!game) return;
 	if (force)
 		// "Rescreve" buffer
 		setGameBuffer(shiftH,shiftV);
@@ -101,7 +104,7 @@ void Playground::startGame()
 			openShell();
 
 		// Verificar saida de jogo
-		if (key == ESCAPE || quit)
+		if (key == ESCAPE || quit || !game)
 			break;
 
 		//Test: Create ladder
@@ -198,6 +201,7 @@ int Playground::moveDown()
 void Playground::setGameBuffer(int shiftH, int shiftV)
 {
 	Block* currBlock;
+	if (!game) return;
 	Player* miner = game->getMiner();
 	if (!miner) return;
 
@@ -322,6 +326,7 @@ int Playground::visibility(int mode)
 
 void Playground::refreshInfo()
 {
+	if (!game) return;
 	Player* miner = game->getMiner();
 	if (miner)
 	{
@@ -350,9 +355,9 @@ void Playground::openShell()
 		if (shell->readCommand())
 		{
 			// Verificar comando
-			if (shell->isCommand("help"))
+			if (shell->isCommand("h"))
 			{
-				
+				shell->showCommands();
 			}
 			else if (shell->isCommand("u"))
 			{
@@ -375,14 +380,21 @@ void Playground::openShell()
 			else if (shell->isCommand("b"))
 			{
 				//b <tipo> <linha> <coluna> - Coloca um bloco do tipo especificado nas coordenadas indicadas (tipo: P, TM, TD, …)
+				int cidx = shell->getArgumentAsInt(1);
+				int ridx = shell->getArgumentAsInt(2);
 
-				// Proteger para a posicao do Mineiro! - setLastBlock
-
-				//Block* b = new Ladder(miner->getIndexOnMine(),miner->getColumnOnMine(),miner->getRowOnMine());
-				//mine->setBlock(miner->getIndexOnMine(),b);
-
+				// Evitar o mineiro
+				if (cidx != game->getMiner()->getColumn() || ridx != game->getMiner()->getRow())
+				{
+					// Cria bloco consoante o utilizador
+					Block* b = (Block*)ctrl.getBlocksList().create(shell->getArgument(0),cidx,ridx);
+					if (b)
+						game->getMine()->setBlock(b->getIndex(game->getMine()->getColumnLimit()),b,1);
+				}
+				refresh(1);
+				// Resultado
 				if (ctrl.getBlocksList().has(shell->getArgument(0)))
-					ctrl.getScreen().printCommandInfo("Create block...");
+					ctrl.getScreen().printCommandInfo("Block created ("+shell->getArgument(1)+","+shell->getArgument(2)+") - " + shell->getArgument(0));
 				else
 					ctrl.getScreen().printCommandInfo("'" + shell->getArgument(0) + "' not valid");
 			}
@@ -409,28 +421,21 @@ void Playground::openShell()
 			else if (shell->isCommand("c"))
 			{
 				//c <novo_nome> - Cria uma cópia do jogo actual (construtor por cópia) e passa o anterior para memória
+				Game* copyGame = new Game(*game);
+				copyGame->getMiner()->setColumn(game->getMiner()->getColumn());
+				copyGame->getMiner()->setRow(game->getMiner()->getRow());
 
-				//vector<GameItem> games
-				//GameItem.name
-				//GameItem.*game
-				//games.push_back(GameItem("",game));
-
-				//Test
-				Game* newGame = new Game(*game);
-				newGame->breakMineBlock(1,1);
-				//ctrl.getGamesList().push_back(game);
-				game = newGame;
+				int idx = ctrl.getGamesList().add(shell->getArgument(0),copyGame);
+				game = ctrl.getGamesList().get(idx);
 				refresh(1);
-			}
-			else if (shell->isCommand("n"))
-			{
-				//n - Novo jogo
-
 			}
 			else if (shell->isCommand("f"))
 			{
 				//f <nome> - Muda para o jogo que tem o nome indicado
 
+				//Test: Mineiro não se volta a posicionar
+				game = ctrl.getGamesList().get(shell->getArgument(0));
+				refresh(1);
 			}
 			else if (shell->isCommand("a"))
 			{
