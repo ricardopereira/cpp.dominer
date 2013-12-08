@@ -39,6 +39,7 @@ int main()
 				{
 					playground.newGame(21,21);
 					playground.startGame();
+					playground.stopGame();
 				}
 				else
 				{
@@ -50,4 +51,5 @@ int main()
 			continue;
 		}
 	}
+	return 0;
 }

@@ -12,6 +12,7 @@
 class Playground
 {
 	Controller& ctrl;
+	Game* tempGame;
 	Game* game;
 	Sky sky;
 	int quit;

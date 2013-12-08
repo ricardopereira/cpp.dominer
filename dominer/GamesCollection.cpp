@@ -3,6 +3,12 @@
 
 #include "GamesCollection.h"
 
+GamesCollection::~GamesCollection()
+{
+	for (vector<GameItem>::iterator it = listGames.begin(); it != listGames.end(); ++it)
+		delete it->getGame();
+}
+
 int GamesCollection::add(const string& name, Game* game)
 {
 	if (has(name))

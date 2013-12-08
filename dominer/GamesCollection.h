@@ -16,6 +16,7 @@ class GamesCollection
 
 	int isEqual(const string& a, const string& b) const;
 public:
+	~GamesCollection();
 	int add(const string& name, Game* game);
 	int has(const string& name);
 	Game* get(const string& name) const;

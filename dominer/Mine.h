@@ -11,6 +11,8 @@ class Mine
 	Block** map;
 
 	void init();
+	void createMap();
+	void destroyMap();
     void createBlocks();
 	void copyBlocks(Block** base);
 
@@ -32,6 +34,8 @@ public:
 	int getBlockCount();
 	int getColumnLimit();
 	int getRowLimit();
+
+	Mine& operator=(const Mine& base);
 };
 
 #endif

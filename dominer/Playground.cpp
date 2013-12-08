@@ -14,6 +14,7 @@ Playground::~Playground()
 
 void Playground::init()
 {
+	tempGame = NULL;
 	game = NULL;
 }
 
@@ -30,13 +31,14 @@ void Playground::newGame(int maxc, int maxr)
 	int size = ctrl.getScreen().getSize();
 	// Criar o objecto Game e verificar minimos de tabuleiro
 	if (maxc < size && maxr < size)
-		game = new Game(size,size);
+		tempGame = new Game(size,size);
 	else if (maxc < size)
-		game = new Game(size,maxr);
+		tempGame = new Game(size,maxr);
 	else if (maxr < size)
-		game = new Game(maxc,size);
+		tempGame = new Game(maxc,size);
 	else
-		game = new Game(maxc,maxr);
+		tempGame = new Game(maxc,maxr);
+	game = tempGame;
 
 	// Limpar o ecra
 	ctrl.getScreen().clear();
@@ -141,7 +143,8 @@ void Playground::startGame()
 
 void Playground::stopGame()
 {
-	delete game;
+	delete tempGame;
+	tempGame = NULL;
 	game = NULL;
 }
 
@@ -420,23 +423,42 @@ void Playground::openShell()
 				Game* copyGame = new Game(*game);
 				copyGame->getMiner()->setColumn(game->getMiner()->getColumn());
 				copyGame->getMiner()->setRow(game->getMiner()->getRow());
-
-				int idx = ctrl.getGamesList().add(shell->getArgument(0),game);
-				game = copyGame;
-				refresh(1);
+				ctrl.getGamesList().add(shell->getArgument(0),copyGame);
+				break;
 			}
 			else if (shell->isCommand("f"))
 			{
 				//f <nome> - Muda para o jogo que tem o nome indicado
-				game = ctrl.getGamesList().get(shell->getArgument(0));
-				moveTo(game->getMiner()->getColumn(),game->getMiner()->getRow());
+				Game* foundedGame = ctrl.getGamesList().get(shell->getArgument(0));
+				if (foundedGame)
+				{
+					game = foundedGame;
+					moveTo(game->getMiner()->getColumn(),game->getMiner()->getRow());
+					break;
+				}
+				else
+					ctrl.getScreen().printCommandInfo("Game memory '" + shell->getArgument(0) +"' not found");
 			}
 			else if (shell->isCommand("a"))
 			{
 				//a <nome_origem nome_dest> - Copia a mina para uma nova (previamente criada - ex: tecla c), 
 				//e a atribuição deve ser feita pelo operador atribuicao
+				Game* gameSource = ctrl.getGamesList().get(shell->getArgument(0));
+				Game* gameTarget = ctrl.getGamesList().get(shell->getArgument(1));
 
-				//
+				if (!gameSource)
+				{
+					ctrl.getScreen().printCommandInfo("Game memory '" + shell->getArgument(0) +"' not found");
+				}
+				else if (!gameTarget)
+				{
+					ctrl.getScreen().printCommandInfo("Game memory '" + shell->getArgument(1) +"' not found");
+				}
+				else
+				{
+					gameTarget->getMine()->operator=(*gameSource->getMine());
+					refresh(1);
+				}
 			}
 			else if (shell->isCommand("v"))
 			{

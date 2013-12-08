@@ -34,9 +34,7 @@ Mine::Mine(const Mine& base)
 Mine::~Mine()
 {
 	//Free memory
-	for (int i=0; i<getBlockCount(); i++)
-		delete map[i];
-	delete [] map;
+	destroyMap();
 }
 
 void Mine::init()
@@ -44,10 +42,22 @@ void Mine::init()
 
 }
 
-void Mine::createBlocks()
+void Mine::createMap()
 {
 	map = new Block*[this->maxc*this->maxr];
+}
 
+void Mine::destroyMap()
+{
+	for (int i=0; i<getBlockCount(); i++)
+		delete map[i];
+	delete [] map;
+}
+
+void Mine::createBlocks()
+{
+	createMap();
+	// Block
 	int cidx=0, ridx=0;
 	// Probabilidades
 	int prob;
@@ -111,7 +121,7 @@ void Mine::createBlocks()
 
 void Mine::copyBlocks(Block** base)
 {
-	map = new Block*[this->maxc*this->maxr];
+	createMap();
 	if (!base)
 	{
 		for (int i=0; i<getBlockCount(); i++)
@@ -213,4 +223,13 @@ int Mine::getColumnLimit()
 int Mine::getRowLimit()
 {
 	return maxr;
+}
+
+Mine& Mine::operator=(const Mine& base)
+{
+	destroyMap();
+	this->maxc = base.maxc;
+	this->maxr = base.maxr;
+	copyBlocks(base.map);
+	return *this;
 }
