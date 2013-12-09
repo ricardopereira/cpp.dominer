@@ -284,7 +284,17 @@ int Playground::canMoveUp()
 	{
 		// Verificar se tem escada para subir
 		if (game->getMiner()->onLadder())
+		{
+			//Test
+			if (b)
+			{
+				if (b->classIs("Hometown"))
+					visibility(7);
+				else
+					visibility(3);
+			}
 			return 1;
+		}
 		else
 			return 0;
 	}
@@ -296,32 +306,52 @@ int Playground::canMoveDown()
 {
 	Block* b = game->getMiner()->getDownBlock();
 	if (!b) return 1;
+
+	//Test: Problemas com Rock
+	if (b->classIs("Hometown"))
+		visibility(7);
+	else
+		visibility(3);
+
 	return b->canBreak(NULL);
 }
 
-int Playground::visibility(int mode)
+int Playground::visibility(int mode, int refresh)
 {
 	if (mode != 7 && mode != 5 && mode != 3) return 0;
 	// Alteracao da visibilidade
 	int size = ctrl.getScreen().getSize();
 	if (size == mode) return 0;
 	int diff = (size - mode);
+
+	int cidx = game->getMiner()->getColumn();
+	int ridx = game->getMiner()->getRow();
 	// Calculos para reposicionar o mineiro
 	if (diff > 0)
+	{
 		diff = (int)floor((double)diff/2);
+		// Da a folga necessaria para o limite
+		cidx += diff;
+		ridx += diff;
+	}
 	else
+	{
+		//Problemas ao mudar de 3 - 5 ou
+		//  5 - 3 mas é caso que não deve acontecer
 		diff = (int)ceil((double)diff/2);
+	}
 	// Alterar o buffer do ecra
 	ctrl.getScreen().setSize(mode);
-
-	// Da a folga necessaria para o limite
-	int cidx = game->getMiner()->getColumn();
-	cidx += diff;
-	int ridx = game->getMiner()->getRow();
-	ridx += diff;
-
-	//Test
-	moveTo(cidx,ridx);
+	// Ajustar
+	if (refresh)
+	{
+		moveTo(cidx,ridx);
+	}
+	else
+	{
+		shiftH += diff;
+		shiftV += diff;
+	}
 	return 1;
 }
 
@@ -342,7 +372,7 @@ void Playground::refreshInfo()
 void Playground::moveEvent()
 {
 	// Decrementa a energia do mineiro
-	if (!game->getMiner()->onHometown())	
+	if (!game->getMiner()->onHometown())
 		game->getMiner()->consumeEnergy();
 }
 
@@ -460,7 +490,7 @@ void Playground::openShell()
 			else if (shell->isCommand("v"))
 			{
 				//v - Visibilidade
-				if (!visibility(shell->getArgumentAsInt(0)))
+				if (!visibility(shell->getArgumentAsInt(0)),1)
 					ctrl.getScreen().printCommandInfo("Not valid");
 				break;
 			}
