@@ -49,6 +49,8 @@ void Playground::initGame()
 {
 	shiftH = 0;
 	shiftV = 0;
+	// Iniciar visbilidade
+	visibility(7);
 
 	// Verificar se existe jogador
 	if (!game->getMiner())
@@ -291,7 +293,7 @@ int Playground::canMoveUp()
 				if (b->classIs("Hometown"))
 					visibility(7);
 				else
-					visibility(3);
+					visibility(5);
 			}
 			return 1;
 		}
@@ -307,13 +309,17 @@ int Playground::canMoveDown()
 	Block* b = game->getMiner()->getDownBlock();
 	if (!b) return 1;
 
-	//Test: Problemas com Rock
-	if (b->classIs("Hometown"))
-		visibility(7);
-	else
-		visibility(3);
-
-	return b->canBreak(NULL);
+	int canBreak = b->canBreak(NULL);
+	//
+	if (canBreak)
+	{
+		//Test: Problemas com Rock
+		if (b->classIs("Hometown"))
+			visibility(7);
+		else
+			visibility(5);
+	}
+	return canBreak;
 }
 
 int Playground::visibility(int mode, int refresh)
