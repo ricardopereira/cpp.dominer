@@ -31,11 +31,11 @@
     <Filter Include="Source Files\Blocks\Materials">
       <UniqueIdentifier>{082745e7-6c40-4c57-8f15-0e6442045b82}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Blocks\Tools">
-      <UniqueIdentifier>{92a89464-4795-4456-a9e4-02e386a8673f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Blocks\Tools">
+    <Filter Include="Header Files\Tools">
       <UniqueIdentifier>{4e77399e-e2d7-4c62-9ba8-0fbdb9bf2131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Tools">
+      <UniqueIdentifier>{92a89464-4795-4456-a9e4-02e386a8673f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,7 +100,7 @@
       <Filter>Source Files\Blocks\Materials</Filter>
     </ClCompile>
     <ClCompile Include="Tool.cpp">
-      <Filter>Source Files\Blocks\Tools</Filter>
+      <Filter>Source Files\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Gold.cpp">
       <Filter>Source Files\Blocks\Materials</Filter>
@@ -111,9 +111,6 @@
     <ClCompile Include="Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ladder.cpp">
-      <Filter>Source Files\Blocks</Filter>
-    </ClCompile>
     <ClCompile Include="GamesCollection.cpp">
       <Filter>Source Files\Gameplay</Filter>
     </ClCompile>
@@ -121,7 +118,34 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ToolsCollection.cpp">
-      <Filter>Source Files\Blocks\Tools</Filter>
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Ladder.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Picker.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Bag.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Beam.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Dinamite.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Extralife.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Parachute.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="SuperMiner.cpp">
+      <Filter>Source Files\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +210,7 @@
       <Filter>Header Files\Blocks\Materials</Filter>
     </ClInclude>
     <ClInclude Include="Tool.h">
-      <Filter>Header Files\Blocks\Tools</Filter>
+      <Filter>Header Files\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Gold.h">
       <Filter>Header Files\Blocks\Materials</Filter>
@@ -197,9 +221,6 @@
     <ClInclude Include="Config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ladder.h">
-      <Filter>Header Files\Blocks</Filter>
-    </ClInclude>
     <ClInclude Include="GamesCollection.h">
       <Filter>Header Files\Gameplay</Filter>
     </ClInclude>
@@ -207,7 +228,34 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ToolsCollection.h">
-      <Filter>Header Files\Blocks\Tools</Filter>
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Ladder.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Picker.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Bag.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Beam.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Parachute.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Dinamite.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Extralife.h">
+      <Filter>Header Files\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="SuperMiner.h">
+      <Filter>Header Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

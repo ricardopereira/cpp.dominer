@@ -77,8 +77,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Aluminum.cpp" />
+    <ClCompile Include="Bag.cpp" />
+    <ClCompile Include="Beam.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockEmpty.cpp" />
+    <ClCompile Include="Dinamite.cpp" />
+    <ClCompile Include="Extralife.cpp" />
     <ClCompile Include="GamesCollection.cpp" />
     <ClCompile Include="Creator.cpp" />
     <ClCompile Include="Coal.cpp" />
@@ -91,9 +95,12 @@
     <ClCompile Include="Hometown.cpp" />
     <ClCompile Include="Iron.cpp" />
     <ClCompile Include="Ladder.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mine.cpp" />
+    <ClCompile Include="Parachute.cpp" />
+    <ClCompile Include="Picker.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Playground.cpp" />
     <ClCompile Include="Rock.cpp" />
@@ -101,14 +108,19 @@
     <ClCompile Include="Shell.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="Soil.cpp" />
+    <ClCompile Include="SuperMiner.cpp" />
     <ClCompile Include="Tool.cpp" />
     <ClCompile Include="ToolsCollection.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Aluminum.h" />
+    <ClInclude Include="Bag.h" />
+    <ClInclude Include="Beam.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockEmpty.h" />
+    <ClInclude Include="Dinamite.h" />
+    <ClInclude Include="Extralife.h" />
     <ClInclude Include="GamesCollection.h" />
     <ClInclude Include="Creator.h" />
     <ClInclude Include="Coal.h" />
@@ -122,8 +134,11 @@
     <ClInclude Include="Hometown.h" />
     <ClInclude Include="Iron.h" />
     <ClInclude Include="Ladder.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mine.h" />
+    <ClInclude Include="Parachute.h" />
+    <ClInclude Include="Picker.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Playground.h" />
     <ClInclude Include="Rock.h" />
@@ -131,6 +146,7 @@
     <ClInclude Include="Shell.h" />
     <ClInclude Include="Sky.h" />
     <ClInclude Include="Soil.h" />
+    <ClInclude Include="SuperMiner.h" />
     <ClInclude Include="Tool.h" />
     <ClInclude Include="ToolsCollection.h" />
     <ClInclude Include="World.h" />

@@ -110,8 +110,8 @@ const Creator& ToolsCollection::getCreator()
 		creatorTools->add("Flashlight");
 		creatorTools->add("Spotlight");
 		// Outros
-		creatorTools->add("Ladder");
-		creatorTools->add("Beam");
+		creatorTools->add("Ladder"); //Block
+		creatorTools->add("Beam"); //Block
 		creatorTools->add("Parachute");
 		creatorTools->add("Dinamite");
 		creatorTools->add("Extralife");
