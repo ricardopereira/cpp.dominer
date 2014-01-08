@@ -4,6 +4,7 @@
 #include "Common.h"
 #include "Block.h"
 #include "BlockEmpty.h"
+#include "Player.h"
 #include "Picker.h"
 #include "Bag.h"
 #include "Light.h"
@@ -66,6 +67,7 @@ public:
 	void printPicker(const Picker& p);
 	void printBag(const Bag& b);
 	void printLight(const Light& l);
+	void printTools(Player& p);
 };
 
 #endif

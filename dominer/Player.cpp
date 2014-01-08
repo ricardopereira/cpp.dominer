@@ -205,6 +205,9 @@ void Player::moved()
     // Decrementa a energia do mineiro
 	if (!onHometown())
 		consumeEnergy();
+	// Se caminhar para a superficie, recebe energia
+	if (goingToHometown())
+		restoreEnergy();
 }
 
 int Player::hasDied()
@@ -229,7 +232,7 @@ void Player::consumeEnergy()
 		if (extralifes)
 		{
 			extralifes--;
-			energy = MINERENERGY;
+			restoreEnergy();
 		}
 		else
 		{
@@ -237,6 +240,11 @@ void Player::consumeEnergy()
 			energy--;
 		}
 	}
+}
+
+void Player::restoreEnergy()
+{
+	energy = MINERENERGY;
 }
 
 void Player::addMaterial(Material* m)
@@ -253,7 +261,7 @@ void Player::sell()
 	if (!bag) return;
 	for (int i=0; i<bag->getCountMaterials(); i++)
 	{
-		money += bag->getMaterial(i).getWeight();
+		money += bag->getMaterial(i).getCost();
 	}
 	bag->clean();
 }
@@ -334,6 +342,29 @@ int Player::goingToHometown()
 int Player::buyTool(int id)
 {
 	return 0;
+}
+
+void Player::createLadder()
+{
+	if (!mine) return;
+	// Se nao tiver escadas, nao pode criar
+	if (ladders <= 0) return;
+
+	// Se já existir uma escada?
+	if (onLadder() || onHometown())
+		return;
+	
+	Block* b = new Ladder(getColumn(),getRow());
+	mine->setBlock(getIndex(mine->getColumnLimit()),b);
+	// Coloca a escada à disposicao do mineiro
+	if (!getLastBlock())
+		destroyLastBlock();
+	// Colocar a escada como último bloco
+	setLastBlock(b);
+	// Bloco atual
+	setCurrentBlock(b);
+	// Gastou uma escada
+	ladders--;
 }
 
 Player& Player::operator=(const Player& base)

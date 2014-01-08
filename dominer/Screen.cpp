@@ -363,6 +363,50 @@ void Screen::printLight(const Light& l)
 	cout << " " << l.getAsString();
 }
 
+void Screen::printTools(Player& p)
+{
+	// Ferramenta: Escada
+	gotoPanelInfo(5);
+	clearLine();
+	gotoPanelInfo(5);
+	c->setTextColor(ROXO);
+	cout << (char)23;
+	restoreColor();
+	cout << " " << p.getLadders();
+
+	// Ferramenta: Viga
+	gotoPanelInfo(6);
+	clearLine();
+	gotoPanelInfo(6);
+	c->setTextColor(ROXO);
+	cout << (char)203;
+	restoreColor();
+	cout << " " << p.getBeams();
+
+	//Ferramenta: Para-quedas
+	gotoPanelInfo(7);
+	clearLine();
+	gotoPanelInfo(7);
+	c->setTextColor(ROXO);
+	cout << (char)237;
+	restoreColor();
+	cout << " " << p.getParachutes();
+
+	//Ferramenta: Dinamites
+	gotoPanelInfo(8);
+	clearLine();
+	gotoPanelInfo(8);
+	c->setTextColor(ROXO);
+	cout << (char)42;
+	restoreColor();
+	cout << " " << p.getDinamites();
+
+	// Restantes
+	printPicker(p.getPicker());
+	printBag(p.getBag());
+	printLight(p.getLight());
+}
+
 void Screen::printButton(const string& name, int x, int y, int withBox)
 {
 	int i;

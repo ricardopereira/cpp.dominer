@@ -13,6 +13,7 @@ public:
 	Material(int c, int r) : Soil(c,r) {}
 
 	virtual int getWeight() const { return 1; };
+	virtual int getCost() const { return 1; };
 
 	char getDrawInfo(const int index);
 	string getAsString() const;

@@ -17,12 +17,9 @@ public:
 	Game(const Game& base);
 	~Game();
 
-	// Proxy da mina
 	void breakIt(Block* b);
 	void breakIt(int index);
 	void breakIt(int cidx, int ridx);
-
-	void createLadder();
 
 	// Mineiro
 	Player* getMiner() const;

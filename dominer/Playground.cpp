@@ -159,7 +159,7 @@ void Playground::keyEvent(char key)
 {
 	// Create ladder
 	if (key == ESPACO || tolower(key) == 'e')
-		game->createLadder();
+		game->getMiner()->createLadder();
 	else if (tolower(key) == 'p')
 		pause = !pause;
 }
@@ -407,11 +407,11 @@ void Playground::refreshInfo()
 		ctrl.getScreen().printEnergy(miner->getEnergy());
 		ctrl.getScreen().printMoney(miner->getMoney());
 		ctrl.getScreen().printLives(miner->getExtralifes());
-		ctrl.getScreen().printPicker(miner->getPicker());
-		ctrl.getScreen().printBag(miner->getBag());
-		ctrl.getScreen().printLight(miner->getLight());
+		ctrl.getScreen().printTools(*miner);
+
 		// Debug: Índice do Mineiro
-		ctrl.getScreen().printDebug(miner->getLastAsString());
+		if (MODEDEBUG)
+			ctrl.getScreen().printDebug(miner->getLastAsString());
 	}
 }
 

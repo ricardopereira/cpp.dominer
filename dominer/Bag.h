@@ -27,6 +27,7 @@ public:
 	void addMaterial(Material* m);
 	void removeMaterial(int index);
 	int getCountMaterials() const;
+	int getTotalWeight() const;
 	int hasMaterials() const;
 	const Material& getMaterial(int index) const;
 	void clean();

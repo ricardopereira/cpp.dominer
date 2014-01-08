@@ -11,6 +11,9 @@ class Iron: public Material
 public:
 	Iron(int c, int r) : Material(c,r) {}
 
+	virtual int getWeight() const { return 3; };
+	virtual int getCost() const { return 12; };
+
 	char getDrawInfo(const int index);
 	int getColor(const int index);
 

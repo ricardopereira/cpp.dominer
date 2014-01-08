@@ -59,20 +59,3 @@ void Game::breakIt(int cidx, int ridx)
 	// NULL na mina, ou seja, quebrou o bloco
 	mine->doBlockNull(cidx,ridx);
 }
-
-void Game::createLadder()
-{
-	// Se já existir uma escada?
-	if (miner->onLadder() || miner->onHometown())
-		return;
-	
-	Block* b = new Ladder(miner->getColumn(),miner->getRow());
-	mine->setBlock(miner->getIndex(mine->getColumnLimit()),b);
-	// Coloca a escada à disposicao do mineiro
-	if (!miner->getLastBlock())
-		miner->destroyLastBlock();
-	// Colocar a escada como último bloco
-	miner->setLastBlock(b);
-	// Bloco atual
-	miner->setCurrentBlock(b);
-}

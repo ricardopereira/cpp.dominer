@@ -11,6 +11,9 @@ class Aluminum: public Material
 public:
 	Aluminum(int c, int r) : Material(c,r) {}
 
+	virtual int getWeight() const { return 1; };
+	virtual int getCost() const { return 5; };
+
 	char getDrawInfo(const int index);
 	int getColor(const int index);
 

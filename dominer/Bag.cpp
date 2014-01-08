@@ -24,7 +24,7 @@ void Bag::addMaterial(Material* m)
 	if (!m) return;
 
 	//Se atingiu o limite da mochila, entao "perde" o material
-	if (limit == getCountMaterials())
+	if (getTotalWeight()+m->getWeight() > limit)
 	{
 		m->setForceDestruction();
 		return;
@@ -73,6 +73,14 @@ int Bag::getCountMaterials() const
 	return countMaterials;
 }
 
+int Bag::getTotalWeight() const
+{
+	int w=0;
+	for (int i=0; i<getCountMaterials(); i++)
+		w += getMaterial(i).getWeight();
+	return w;
+}
+
 int Bag::hasMaterials() const
 {
 	return materials != NULL && getCountMaterials() > 0;
@@ -105,13 +113,13 @@ string Bag::getAsString() const
 	switch (limit)
 	{
 	case BAGNORMAL:
-		out << "Backpack: " << limit << "Kg";
+		out << "Backpack (" << limit << "): " << getTotalWeight() << "Kg";
 		break;
 	case BAGPRO:
-		out << "Backpack: " << limit << "Kg";
+		out << "Backpack (" << limit << "): " << getTotalWeight() << "Kg";
 		break;
 	case BAGMASTER:
-		out << "Backpack: " << limit << "Kg";
+		out << "Backpack (" << limit << "): " << getTotalWeight() << "Kg";
 		break;
 	}
 	return out.str();

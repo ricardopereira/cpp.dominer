@@ -11,6 +11,9 @@ class Diamond: public Material
 public:
 	Diamond(int c, int r) : Material(c,r) {}
 
+	virtual int getWeight() const { return 4; };
+	virtual int getCost() const { return 25; };
+
 	char getDrawInfo(const int index);
 	int getColor(const int index);
 

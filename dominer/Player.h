@@ -10,6 +10,9 @@
 #include "Bag.h"
 #include "Light.h"
 
+#include "Ladder.h"
+#include "Beam.h"
+
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
 
@@ -101,6 +104,7 @@ public:
 	int hasDied();
 	int gameOver() const;
 	void consumeEnergy();
+	void restoreEnergy();
 	// Material
 	void addMaterial(Material* m);
 	void sell();
@@ -122,6 +126,7 @@ public:
 	int onLastRow();
 
 	// Ferramentas
+	void createLadder();
 	int buyTool(int id);
 
 	// Operadores

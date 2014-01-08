@@ -11,6 +11,9 @@ class Coal: public Material
 public:
 	Coal(int c, int r) : Material(c,r) {}
 
+	virtual int getWeight() const { return 2; };
+	virtual int getCost() const { return 8; };
+
 	char getDrawInfo(const int index);
 	int getColor(const int index);
 
