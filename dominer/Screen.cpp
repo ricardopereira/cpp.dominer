@@ -412,17 +412,59 @@ void Screen::printButton(const string& name, int x, int y, int withBox)
 
 void Screen::printMenu(const int option)
 {
-	int initX = BLOCKSIZE*6+2;
+	const string title("dominer");
+	const string owner("ricardopereira");
 
+	const int initX = BLOCKSIZE*6+2;
+	int initY = 11;
+	clear();
+	// Mostrar titulo
+	c->gotoxy((int)(SCREENCOLUMNS-title.length())/2+1,3);
+	cout << title;
+	// Mostrar creditos
+	c->gotoxy((int)(SCREENCOLUMNS-owner.length())/2,SCREENROWS-3);
+	cout << owner;
+
+	// ToDo: Melhorar este processo
 	if (option == 1)
 	{
-		printButton("  start game  ",initX,19,1);
-		printButton("     quit     ",initX,25);
+		printButton("     easy     ",initX,initY,1);
+		printButton("    normal    ",initX,initY+=6);
+		printButton("     hard     ",initX,initY+=6);
+		printButton("    custom    ",initX,initY+=6);
+		printButton("     quit     ",initX,initY+=6);
+	}
+	else if (option == 2)
+	{
+		printButton("     easy     ",initX,initY);
+		printButton("    normal    ",initX,initY+=6,1);
+		printButton("     hard     ",initX,initY+=6);
+		printButton("    custom    ",initX,initY+=6);
+		printButton("     quit     ",initX,initY+=6);
+	}
+	else if (option == 3)
+	{
+		printButton("     easy     ",initX,initY);
+		printButton("    normal    ",initX,initY+=6);
+		printButton("     hard     ",initX,initY+=6,1);
+		printButton("    custom    ",initX,initY+=6);
+		printButton("     quit     ",initX,initY+=6);
+	}
+	else if (option == 4)
+	{
+		printButton("     easy     ",initX,initY);
+		printButton("    normal    ",initX,initY+=6);
+		printButton("     hard     ",initX,initY+=6);
+		printButton("    custom    ",initX,initY+=6,1);
+		printButton("     quit     ",initX,initY+=6);
 	}
 	else
 	{
-		printButton("  start game  ",initX,19);
-		printButton("     quit     ",initX,25,1);
+		printButton("     easy     ",initX,initY);
+		printButton("    normal    ",initX,initY+=6);
+		printButton("     hard     ",initX,initY+=6);
+		printButton("    custom    ",initX,initY+=6);
+		printButton("     quit     ",initX,initY+=6,1);
 	}
 }
 
