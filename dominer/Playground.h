@@ -16,6 +16,7 @@ class Playground
 	Game* game;
 	Sky sky;
 	int quit;
+	int pause;
 	// Para os movimentos: Deslocacao Horizontal e Vertical
 	int shiftH;
 	int shiftV;
@@ -47,7 +48,8 @@ public:
 	void startGame();
 	void stopGame();
 	void refresh(int force=0);
-	void pause();
+	void keyEvent(char key);
+	void checkState();
 	int visibility(int mode, int refresh=0);
 
 	// Movimentos

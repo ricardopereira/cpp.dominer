@@ -19,6 +19,7 @@ void Playground::init()
 void Playground::newGame(int maxc, int maxr)
 {
 	quit = 0;
+	pause = 0;
 	// Esconde o cursor
 	ctrl.getScreen().hideCursor();
 
@@ -99,19 +100,25 @@ void Playground::startGame()
 	// Let's play a game
 	while (1)
 	{
-		key = ctrl.getScreen().readKey();
+		// Verificar o estado do jogo
+		checkState();
 
+		// Verifica se tem jogo
+		if (quit || !game) break;
+
+		key = ctrl.getScreen().readKey();
 		// Linha de Comandos
 		if (tolower(key) == 'c')
 			openShell();
 
 		// Verificar saida de jogo
-		if (key == ESCAPE || quit || !game)
-			break;
+		if (key == ESCAPE || quit || !game) break;
 
-		//Test: Create ladder
-		if (key == ESPACO)
-			game->createLadder();
+		// Verificar tecla premida
+		keyEvent(key);
+
+		// Pausa
+		if (pause) continue;
 
 		// Ignorar restantes teclas
 		if ( (key != ESQUERDA) && (key != DIREITA) &&
@@ -148,9 +155,32 @@ void Playground::stopGame()
 	game = NULL;
 }
 
-void Playground::pause()
+void Playground::keyEvent(char key)
 {
+	// Create ladder
+	if (key == ESPACO || tolower(key) == 'e')
+		game->createLadder();
+	else if (tolower(key) == 'p')
+		pause = !pause;
+}
 
+void Playground::checkState()
+{
+	// Verifica fim do jogo
+	if (game->getMiner()->gameOver())
+	{
+		ctrl.getScreen().showMessage("Game Over");
+		quit = 1;
+	}
+	// Verifica se perdeu vida
+	else if (game->getMiner()->hasDied())
+	{
+		ctrl.getScreen().showMessage("Extra Life used");
+		refresh();
+	}
+
+	// Evento de iteracoes
+	game->getMiner()->iteration();
 }
 
 int Playground::moveLeft()
@@ -387,16 +417,12 @@ void Playground::refreshInfo()
 
 void Playground::moveEvent()
 {
+	// Evento a indicar movimento
+	game->getMiner()->moved();
 	// Vende material recolhido
 	if (game->getMiner()->goingToHometown())
 	{
 		game->getMiner()->sell();
-	}
-
-    // Decrementa a energia do mineiro
-	if (!game->getMiner()->onHometown())
-	{
-		game->getMiner()->consumeEnergy();
 	}
 }
 

@@ -30,6 +30,7 @@ public:
 	int hasMaterials() const;
 	const Material& getMaterial(int index) const;
 	void clean();
+	int howMany(const string& name) const;
 
 	string getAsString() const;
 	const int classIs(const string& className) const { return className.compare("Bag") == 0; };

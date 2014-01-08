@@ -41,6 +41,7 @@ public:
 	void setBufferItem(int index, Block* item);
 
 	char readKey();
+	void showMessage(const string& m, int sec=MESSAGETIME);
 
 	void printMenu(const int option);
 	void printLevels();

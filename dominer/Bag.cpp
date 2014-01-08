@@ -89,6 +89,15 @@ void Bag::clean()
 	destroyMinerals();
 }
 
+int Bag::howMany(const string& name) const
+{
+	int count=0;
+	for (int i=0; i<getCountMaterials(); i++)
+		if (getMaterial(i).classIs(name))
+			count++;
+	return count;
+}
+
 string Bag::getAsString() const
 {
 	ostringstream out;

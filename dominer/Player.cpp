@@ -155,14 +155,14 @@ int Player::getLadders() const
 	return ladders;
 }
 
-void Player::setBreams(const int value)
+void Player::setBeams(const int value)
 {
-	breams = value;
+	beams = value;
 }
 
-int Player::getBreams() const
+int Player::getBeams() const
 {
-	return breams;
+	return beams;
 }
 
 void Player::setParachutes(const int value)
@@ -195,9 +195,48 @@ bool Player::getSuperminer() const
 	return superminer;
 }
 
+void Player::iteration()
+{
+	died = 0;
+}
+
+void Player::moved()
+{
+    // Decrementa a energia do mineiro
+	if (!onHometown())
+		consumeEnergy();
+}
+
+int Player::hasDied()
+{
+	return died;
+}
+
+int Player::gameOver() const
+{
+	return (energy < 0);
+}
+
 void Player::consumeEnergy()
 {
+	died = 0;
 	energy--;
+	// Verificar se faleceu
+	if (energy == 0)
+	{
+		died = 1;
+		// Verificar vidas-extra
+		if (extralifes)
+		{
+			extralifes--;
+			energy = MINERENERGY;
+		}
+		else
+		{
+			// Para indicar que o jogo terminou (negativo)
+			energy--;
+		}
+	}
 }
 
 void Player::addMaterial(Material* m)
@@ -303,17 +342,18 @@ Player& Player::operator=(const Player& base)
 	this->row = base.row;
 	this->money = base.money;
 	this->energy = base.energy;
+	this->died = 0;
 
 	this->picker = NULL;
 	this->bag = NULL;
 	this->light = NULL;
 
-	this->extralifes = 3;
-	this->ladders = 20;
-	this->breams = 5;
-	this->parachutes = 1;
-	this->dinamites = 0;
-	this->superminer = 0;
+	this->extralifes = MINERLIFES;
+	this->ladders = MINERLADDERS;
+	this->beams = MINERBEAMS;
+	this->parachutes = MINERPARACHUTES;
+	this->dinamites = MINERDINAMITES;
+	this->superminer = MINERSUPER;
 
 	return *this;
 }

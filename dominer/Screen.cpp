@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <conio.h>
 
 #include "Screen.h"
 
@@ -74,6 +75,22 @@ void Screen::showCursor()
 void Screen::hideCursor()
 {
 	configCursor(0);
+}
+
+void Screen::showMessage(const string& m, int sec)
+{
+	const int middleCol = (int)(SCREENCOLUMNS-m.length())/2;
+	const int middleRow = (int)SCREENROWS/2;
+	clear();
+	// Mostrar mensagem no centro do ecra
+	c->gotoxy(middleCol,middleRow);
+	cout << m;
+	// Por alguns segundos
+	Sleep(sec);
+	// Limpar Mensagem
+	c->gotoxy(middleCol,middleRow);
+	for (int i=0; i<=(int)m.length(); i++)
+		cout << " ";
 }
 
 int Screen::getBufferSize()
@@ -298,6 +315,7 @@ void Screen::printPicker(const Picker& p)
 void Screen::printBag(const Bag& b)
 {
 	const int offset = 10;
+
 	gotoPanelInfo(3,offset);
 	clearLine(offset);
 	gotoPanelInfo(3,offset);
@@ -306,13 +324,31 @@ void Screen::printBag(const Bag& b)
 	restoreColor();
 	cout << " " << b.getAsString();
 
-	for (int i=0; i<b.getCountMaterials(); i++)
-	{
-		gotoPanelInfo(4+i,offset);
-		clearLine(offset);
-		gotoPanelInfo(4+i,offset);
-		cout << "  " << b.getMaterial(i).getAsString() << ": " << b.getMaterial(i).getWeight();
-	}
+	// ToDo: passar para lista
+	gotoPanelInfo(4,offset);
+	clearLine(offset);
+	gotoPanelInfo(4,offset);
+	cout << "   Aluminum: " << b.howMany("Aluminum");
+
+	gotoPanelInfo(5,offset);
+	clearLine(offset);
+	gotoPanelInfo(5,offset);
+	cout << "   Coal: " << b.howMany("Coal");
+
+	gotoPanelInfo(6,offset);
+	clearLine(offset);
+	gotoPanelInfo(6,offset);
+	cout << "   Gold: " << b.howMany("Gold");
+
+	gotoPanelInfo(7,offset);
+	clearLine(offset);
+	gotoPanelInfo(7,offset);
+	cout << "   Iron: " << b.howMany("Iron");
+
+	gotoPanelInfo(8,offset);
+	clearLine(offset);
+	gotoPanelInfo(8,offset);
+	cout << "   Diamond: " << b.howMany("Diamond");
 }
 
 void Screen::printLight(const Light& l)

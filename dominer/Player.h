@@ -21,13 +21,14 @@ class Player: public Block
 
 	int money;
 	int energy;
+	int died;
 
 	Picker* picker;
 	Bag* bag;
 	Light* light;
 	int extralifes;
 	int ladders;
-	int breams;
+	int beams;
 	int parachutes;
 	int dinamites;
 	bool superminer;
@@ -40,17 +41,18 @@ public:
 		mine = m;
 		this->currentBlock = NULL;
 		this->lastBlock = NULL;
-		this->money = 200;
-		this->energy = 50;
+		this->money = MINERMONEY;
+		this->energy = MINERENERGY;
+		this->died = 0;
 		this->picker = NULL;
 		this->bag = NULL;
 		this->light = NULL;
-		this->extralifes = 3;
-		this->ladders = 20;
-		this->breams = 5;
-		this->parachutes = 1;
-		this->dinamites = 0;
-		this->superminer = 0;
+		this->extralifes = MINERLIFES;
+		this->ladders = MINERLADDERS;
+		this->beams = MINERBEAMS;
+		this->parachutes = MINERPARACHUTES;
+		this->dinamites = MINERDINAMITES;
+		this->superminer = MINERSUPER;
 	}
 	~Player();
 
@@ -85,8 +87,8 @@ public:
 	int getExtralifes() const;
 	void setLadders(const int value);
 	int getLadders() const;
-	void setBreams(const int value);
-	int getBreams() const;
+	void setBeams(const int value);
+	int getBeams() const;
 	void setParachutes(const int value);
 	int getParachutes() const;
 	void setDinamites(const int value);
@@ -94,6 +96,10 @@ public:
 	void setSuperminer(const bool value);
 	bool getSuperminer() const;
 
+	void iteration();
+	void moved();
+	int hasDied();
+	int gameOver() const;
 	void consumeEnergy();
 	// Material
 	void addMaterial(Material* m);
