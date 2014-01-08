@@ -18,9 +18,9 @@ public:
 	~Game();
 
 	// Proxy da mina
-	void breakMineBlock(Block* b);
-	void breakMineBlock(int index);
-	void breakMineBlock(int cidx, int ridx);
+	void breakIt(Block* b);
+	void breakIt(int index);
+	void breakIt(int cidx, int ridx);
 
 	void createLadder();
 

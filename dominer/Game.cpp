@@ -38,24 +38,23 @@ Mine* Game::getMine() const
 	return mine;
 }
 
-void Game::breakMineBlock(Block* b)
+void Game::breakIt(Block* b)
 {
-	// Verifica mineral
+	// Recolhe mineral
 	Material* m = dynamic_cast<Material*>(b);
-	if (m)
-		miner->addMaterial(m);
+	if (m) miner->addMaterial(m);
 
 	// NULL na mina, ou seja, quebrou o bloco
 	mine->doBlockNull(b);
 }
 
-void Game::breakMineBlock(int index)
+void Game::breakIt(int index)
 {
 	// NULL na mina, ou seja, quebrou o bloco
 	mine->doBlockNull(index);
 }
 
-void Game::breakMineBlock(int cidx, int ridx)
+void Game::breakIt(int cidx, int ridx)
 {
 	// NULL na mina, ou seja, quebrou o bloco
 	mine->doBlockNull(cidx,ridx);
@@ -70,8 +69,10 @@ void Game::createLadder()
 	Block* b = new Ladder(miner->getColumn(),miner->getRow());
 	mine->setBlock(miner->getIndex(mine->getColumnLimit()),b);
 	// Coloca a escada à disposicao do mineiro
-	if (!miner->getCurrentBlock())
-		miner->destroyCurrentBlock();
+	if (!miner->getLastBlock())
+		miner->destroyLastBlock();
 	// Colocar a escada como último bloco
+	miner->setLastBlock(b);
+	// Bloco atual
 	miner->setCurrentBlock(b);
 }

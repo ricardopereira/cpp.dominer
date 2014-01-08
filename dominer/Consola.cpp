@@ -113,11 +113,11 @@ char Consola::getch(void) {
 }
 
 
-// setTextSize - Usar isto apenas se a outra n�o funcionar (XP ou menos)
-// O m�todo de funcionamento � bastante for�a-bruta
+// setTextSize - Usar isto apenas se a outra nao funcionar (XP ou menos)
+// O metodo de funcionamento é bastante forca-bruta
 //   Procura uma fonte que cumpra os requisitos do novo tamanho
-//   e muda para essa fonte (ou seja, muda tamb�ma fonte)
-// Fun��es que a MS nem se deu ao trabalho de documentar
+//   e muda para essa fonte (ou seja, muda tambem a fonte)
+// Funcoes que a MS nem se deu ao trabalho de documentar
 // Help: http://blogs.microsoft.co.il/blogs/pavely/archive/2009/07/23/changing-console-fonts.aspx
 typedef BOOL (WINAPI * SetConsoleFont_)(HANDLE ConsoleOutput, DWORD FontIndex); // kernel32!SetConsoleFont
 typedef BOOL (WINAPI * GetConsoleFontInfo_)(HANDLE ConsoleOutput, BOOL Unknown1, DWORD Unknown2, PCONSOLE_FONT_INFO ConsoleFontInfo); // kernel32!GetConsoleFontInfo
@@ -125,7 +125,7 @@ typedef DWORD (WINAPI * GetNumberOfConsoleFonts_)(); // kernel32!GetNumberOfCons
 
 
 void Consola::setTextSizeXP(int x, int y){
-	// Configura acesso �s fun��es "secretas" do Windows
+	// Configura acesso as funcoes "secretas" do Windows
     SetConsoleFont_ SetConsoleFont = reinterpret_cast<SetConsoleFont_>(GetProcAddress(GetModuleHandle(L"kernel32.dll"), "SetConsoleFont"));
     GetConsoleFontInfo_ GetConsoleFontInfo = reinterpret_cast<GetConsoleFontInfo_>(GetProcAddress(GetModuleHandle(L"kernel32.dll"), "GetConsoleFontInfo"));
     GetNumberOfConsoleFonts_ GetNumberOfConsoleFonts = reinterpret_cast<GetNumberOfConsoleFonts_>(GetProcAddress(GetModuleHandle(L"kernel32.dll"), "GetNumberOfConsoleFonts"));

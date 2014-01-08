@@ -158,6 +158,8 @@ int Playground::moveLeft()
 	// Verificar limite
 	if (!game->getMiner()) return 0;
 	if (game->getMiner()->onFirstColumn()) return 0;
+	// Bloco atual
+	game->getMiner()->setCurrentBlock(game->getMiner()->getLeftBlock());
 	// Validar movimento
 	if (!canMoveLeft()) return 0;
 	shiftH--;
@@ -170,6 +172,8 @@ int Playground::moveRight()
 	// Verificar limite
 	if (!game->getMiner()) return 0;
 	if (game->getMiner()->onLastColumn()) return 0;
+	// Bloco atual
+	game->getMiner()->setCurrentBlock(game->getMiner()->getRightBlock());
 	// Validar movimento
 	if (!canMoveRight()) return 0;
 	shiftH++;
@@ -182,6 +186,8 @@ int Playground::moveUp()
 	// Verificar limite
 	if (!game->getMiner()) return 0;
 	if (game->getMiner()->onFirstRow()) return 0;
+	// Bloco atual
+	game->getMiner()->setCurrentBlock(game->getMiner()->getUpBlock());
 	// Validar movimento
 	if (!canMoveUp()) return 0;
 	shiftV--;
@@ -194,6 +200,8 @@ int Playground::moveDown()
 	// Verificar limite
 	if (!game->getMiner()) return 0;
 	if (game->getMiner()->onLastRow()) return 0;
+	// Bloco atual
+	game->getMiner()->setCurrentBlock(game->getMiner()->getDownBlock());
 	// Validar movimento
 	if (!canMoveDown()) return 0;
 	shiftV++;
@@ -237,13 +245,12 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 			// Tratamento do Bloco
 			currBlock = game->getMine()->getBlock(shiftH+cidx,shiftV+ridx);
 			// Ultimo bloco onde o mineiro esteve
-			if (!currBlock)
-				miner->destroyCurrentBlock();
+			miner->destroyLastBlock();
 			// Guarda o bloco no mineiro
-			miner->setCurrentBlock(currBlock);
+			miner->setLastBlock(currBlock);
 
 			// Quebra bloco
-			game->breakMineBlock(currBlock);
+			game->breakIt(currBlock);
 		}
 		else
 		{
@@ -282,7 +289,7 @@ int Playground::canMoveRight()
 int Playground::canMoveUp()
 {
 	Block* b = game->getMiner()->getUpBlock();
-	if (!b || b->canBreak(NULL))
+ 	if (!b || b->canBreak(NULL))
 	{
 		// Verificar se tem escada para subir
 		if (game->getMiner()->onLadder())
@@ -369,17 +376,25 @@ void Playground::refreshInfo()
 	{
 		ctrl.getScreen().printEnergy(miner->getEnergy());
 		ctrl.getScreen().printMoney(miner->getMoney());
-		ctrl.getScreen().printLives(miner->getLives());
+		ctrl.getScreen().printLives(miner->getExtralifes());
 		// Debug: Índice do Mineiro
-		ctrl.getScreen().printText(miner->getCurrentAsString());
+		ctrl.getScreen().printText(miner->getLastAsString());
 	}
 }
 
 void Playground::moveEvent()
 {
-	// Decrementa a energia do mineiro
+	// Vende material recolhido
+	if (game->getMiner()->goingToHometown())
+	{
+		game->getMiner()->sell();
+	}
+
+    // Decrementa a energia do mineiro
 	if (!game->getMiner()->onHometown())
+	{
 		game->getMiner()->consumeEnergy();
+	}
 }
 
 void Playground::openShell()
@@ -452,12 +467,20 @@ void Playground::openShell()
 			}
 			else if (shell->isCommand("c"))
 			{
-				//c <novo_nome> - Cria uma cópia do jogo actual (construtor por cópia) e passa o anterior para memória
+				//c <novo_nome> - Cria uma copia do jogo actual (construtor por copia) e passa o anterior para memoria
+				if (!game->getMiner()->onHometown())
+				{
+					ctrl.getScreen().printCommandInfo("Please go to hometown to save the game");
+					continue;
+				}
+				// Copia o jogo
 				Game* copyGame = new Game(*game);
-				copyGame->getMiner()->setColumn(game->getMiner()->getColumn());
-				copyGame->getMiner()->setRow(game->getMiner()->getRow());
+				// Copia o mineiro
+				copyGame->getMiner()->operator=(*game->getMiner());
+				// Adiciona à lista de jogos em memória
 				ctrl.getGamesList().add(shell->getArgument(0),copyGame);
-				break;
+				// Confirmacao
+				ctrl.getScreen().printCommandInfo("Saved game '" + shell->getArgument(0) + "'");
 			}
 			else if (shell->isCommand("f"))
 			{

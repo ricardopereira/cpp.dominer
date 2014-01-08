@@ -192,7 +192,7 @@ void Mine::doBlockNull(Block* b, int deleteBlock)
 	if (!b->isProtected())
 	{
 		int idx = b->getIndex(maxc);
-		if (deleteBlock)
+		if (deleteBlock && b->autoDestroy())
 			delete map[idx];
 		map[idx] = NULL;
 	}

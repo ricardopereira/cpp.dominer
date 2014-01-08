@@ -6,6 +6,8 @@
 #ifndef __SOIL_H__
 #define __SOIL_H__
 
+class Game;
+
 enum soilType {stSoft, stHard};
 
 class Soil: public Block
@@ -17,6 +19,7 @@ public:
 	{ 
 		type = stSoft;
 	}
+	~Soil();
 
 	void setSoilType(const soilType t);
 	soilType getSoilType();
@@ -25,6 +28,7 @@ public:
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);
+
 	const int canBreak(Tool* t) const;
 
 	Block* getCopy() const { return new Soil(*this); };

@@ -2,6 +2,11 @@
 
 #include "Soil.h"
 
+Soil::~Soil()
+{
+	printf("\a");
+}
+
 char Soil::getDrawInfo(const int index)
 {
 	if (type == stSoft)
