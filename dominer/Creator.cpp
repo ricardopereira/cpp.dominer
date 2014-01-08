@@ -2,6 +2,7 @@
 #include <sstream>
 
 #include "Creator.h"
+
 #include "Soil.h"
 #include "Rock.h"
 #include "Hometown.h"
@@ -10,6 +11,10 @@
 #include "Aluminum.h"
 #include "Coal.h"
 #include "Diamond.h"
+
+#include "Bag.h"
+#include "Light.h"
+#include "Picker.h"
 
 void Creator::add(const string& value)
 {
@@ -63,7 +68,7 @@ const string& Creator::item(int index) const
 void* Creator::create(const string& value, int cidx, int ridx) const
 {
 	if (!has(value)) return NULL;
-	// Shell retorna tudo com lowercast
+	// Shell retorna tudo com lowercase
 	if (value.compare("soilsoft") == 0)
 	{
 		Soil* b = new Soil(cidx,ridx);
@@ -104,64 +109,44 @@ void* Creator::create(const string& value, int cidx, int ridx) const
 	// Picaretas
 	else if (value.compare("pickernormal") == 0)
 	{
-		return NULL;
+		return new Picker();
 	}
 	else if (value.compare("pickerpro") == 0)
 	{
-		return NULL;
+		return new Picker();
 	}
 	else if (value.compare("pickermaster") == 0)
 	{
-		return NULL;
+		return new Picker();
 	}
 	// Mochilas
 	else if (value.compare("bagnormal") == 0)
 	{
-		return NULL;
+		return new Bag(BAGNORMAL);
 	}
 	else if (value.compare("bagpro") == 0)
 	{
-		return NULL;
+		return new Bag(BAGPRO);
 	}
 	else if (value.compare("bagmaster") == 0)
 	{
-		return NULL;
+		return new Bag(BAGMASTER);
 	}
 	// Iluminacao
 	else if (value.compare("lighter") == 0)
 	{
-		return NULL;
+		return new Light();
 	}
 	else if (value.compare("flashlight") == 0)
 	{
-		return NULL;
+		return new Light();
 	}
 	else if (value.compare("spotlight") == 0)
 	{
-		return NULL;
+		return new Light();
 	}
 	// Outros
 	else if (value.compare("ladder") == 0)
-	{
-		return NULL;
-	}
-	else if (value.compare("beam") == 0)
-	{
-		return NULL;
-	}
-	else if (value.compare("parachute") == 0)
-	{
-		return NULL;
-	}
-	else if (value.compare("dinamite") == 0)
-	{
-		return NULL;
-	}
-	else if (value.compare("extralife") == 0)
-	{
-		return NULL;
-	}
-	else if (value.compare("superminer") == 0)
 	{
 		return NULL;
 	}

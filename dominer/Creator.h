@@ -15,7 +15,7 @@ class Creator
 public:
 	void add(const string& value);
 	int has(const string& value) const;
-	void* create(const string& value, int cidx, int ridx) const;
+	void* create(const string& value, int cidx=0, int ridx=0) const;
 	int size() const;
 	const string& item(int index) const;
 

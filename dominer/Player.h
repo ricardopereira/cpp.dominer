@@ -75,11 +75,11 @@ public:
 
 	// Utensilios
 	void setPicker(Picker& p);
-	const Picker& getPicker() const;
+	const Picker& getPicker();
 	void setBag(Bag& b);
-	const Bag& getBag() const;
+	const Bag& getBag();
 	void setLight(Light& l);
-	const Light& getLight() const;
+	const Light& getLight();
 
 	void setExtralifes(const int value);
 	int getExtralifes() const;

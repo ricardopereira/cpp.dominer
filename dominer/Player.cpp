@@ -57,9 +57,10 @@ void Player::destroyLastBlock()
 	// Ultimo bloco
 	Block* b = getLastBlock();
 	//Verificar se é um bloco protegido
-	if (b && !b->isProtected() && b->autoDestroy())
-		// Remove o ultimo bloco quebrado da memória
-		delete b;
+	if (b)
+		if (b->forceDestroy() || (!b->isProtected() && b->autoDestroy()))
+			// Remove o ultimo bloco quebrado da memória
+			delete b;
 	setLastBlock(NULL);
 }
 
@@ -97,8 +98,12 @@ void Player::setPicker(Picker& p)
 	picker = &p;
 }
 
-const Picker& Player::getPicker() const
+const Picker& Player::getPicker()
 {
+	if (!picker)
+	{
+		setPicker(*new Picker(PICKERNORMAL));
+	}
 	return *picker;
 }
 
@@ -107,8 +112,12 @@ void Player::setBag(Bag& b)
 	bag = &b;
 }
 
-const Bag& Player::getBag() const
+const Bag& Player::getBag()
 {
+	if (!bag)
+	{
+		setBag(*new Bag(BAGNORMAL));
+	}
 	return *bag;
 }
 
@@ -117,8 +126,12 @@ void Player::setLight(Light& l)
 	light = &l;
 }
 
-const Light& Player::getLight() const
+const Light& Player::getLight()
 {
+	if (!light)
+	{
+		setLight(*new Light(LIGHTNORMAL));
+	}
 	return *light;
 }
 
@@ -190,10 +203,9 @@ void Player::consumeEnergy()
 void Player::addMaterial(Material* m)
 {
 	if (!m) return;
-	if (!bag)
-	{
-		setBag(*new Bag());
-	}
+	// Init
+	getBag();
+	// Adicionar material recolhido a mochila
 	bag->addMaterial(m);
 }
 

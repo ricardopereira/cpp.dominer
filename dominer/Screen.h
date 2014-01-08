@@ -4,6 +4,9 @@
 #include "Common.h"
 #include "Block.h"
 #include "BlockEmpty.h"
+#include "Picker.h"
+#include "Bag.h"
+#include "Light.h"
 
 #ifndef __SCREEN_H__
 #define __SCREEN_H__
@@ -19,9 +22,9 @@ class Screen
 	void initScreen();
 	void printBuffer();
 	void restoreColor();
-	void gotoPanelInfo(int line);
+	void gotoPanelInfo(int line, int offset=0);
 	void gotoPanelText(int line);
-	void clearText();
+	void clearLine(int offset=0);
 public:
 	Screen(Consola* c);
 	~Screen();
@@ -51,7 +54,7 @@ public:
 	void clearCommandInfo();
 
 	void printBlock(Block& b, int col, int row);
-
+	void printDebug(const string& t);
 	void printText(const string& t, int line=0);
 	void clearText(int line);
 	void clearAllText();
@@ -59,6 +62,9 @@ public:
 	void printEnergy(const int value);
 	void printLives(const int value);
 	void printMoney(const int value);
+	void printPicker(const Picker& p);
+	void printBag(const Bag& b);
+	void printLight(const Light& l);
 };
 
 #endif

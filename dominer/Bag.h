@@ -1,13 +1,14 @@
 #include <iostream>
 #include <vector>
 
+#include "common.h"
 #include "Tool.h"
 #include "Material.h"
 
 #ifndef __BAG_H__
 #define __BAG_H__
 
-class Bag
+class Bag: public Tool
 {
 	int limit;
 	int countMaterials;
@@ -16,7 +17,7 @@ class Bag
 
 	void destroyMinerals();
 public:
-	Bag(const int max=10) : limit(max)
+	Bag(const int kind=BAGNORMAL) : Tool(), limit(kind)
 	{ 
 		countMaterials = 0;
 		materials = NULL;
@@ -29,6 +30,9 @@ public:
 	int hasMaterials() const;
 	const Material& getMaterial(int index) const;
 	void clean();
+
+	string getAsString() const;
+	const int classIs(const string& className) const { return className.compare("Bag") == 0; };
 };
 
 #endif

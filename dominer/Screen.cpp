@@ -174,18 +174,32 @@ void Screen::printBlock(Block& b, int col, int row)
 	c->setTextColor(DEFAULTCOLOR);
 }
 
+void Screen::printDebug(const string& t)
+{
+	const int offset = -2;
+	if (t.empty())
+	{
+		clearLine();
+		return;
+	}
+	gotoPanelText(offset);
+	clearLine();
+	gotoPanelText(offset);
+	cout << t;
+}
+
 void Screen::printText(const string& t, int line)
 {
 	const int offset = 6;
 	if (line < 0 || line > 28) return;
 	if (t.empty())
 	{
-		clearText();
+		clearLine();
 		return;
 	}
 	//t.resize(40);
 	gotoPanelText(line+offset);
-	clearText();
+	clearLine();
 	gotoPanelText(line+offset);
 	cout << t;
 }
@@ -193,15 +207,15 @@ void Screen::printText(const string& t, int line)
 void Screen::clearText(int line)
 {
 	gotoPanelText(line+5);
-	clearText();
+	clearLine();
 }
 
-void Screen::clearText()
+void Screen::clearLine(int offset)
 {
 	// Insere caracteres vazios na posicao atual
 	// de forma a limpar o conteudo
 	string spaces;
-	for (int i=0; i<=35; i++)
+	for (int i=0; i<=35-offset; i++)
 		spaces.push_back(' ');
 	cout << spaces;
 }
@@ -223,9 +237,12 @@ void Screen::restoreColor()
 	c->setTextColor(DEFAULTCOLOR);
 }
 
-void Screen::gotoPanelInfo(int line)
+void Screen::gotoPanelInfo(int line, int offset)
 {
-	c->gotoxy(9*BLOCKSIZE,BLOCKSIZE+(line-1)*2);
+	if (offset == 0)
+		c->gotoxy(9*BLOCKSIZE,BLOCKSIZE+(line-1)*2);
+	else
+		c->gotoxy(9*BLOCKSIZE+offset,BLOCKSIZE+(line-1)*2);
 }
 
 void Screen::gotoPanelText(int line)
@@ -236,7 +253,7 @@ void Screen::gotoPanelText(int line)
 void Screen::printEnergy(const int value)
 {
 	gotoPanelInfo(1);
-	clearText();
+	clearLine();
 	gotoPanelInfo(1);
 	c->setTextColor(VERMELHO_CLARO);
 	cout << (char)3;
@@ -247,7 +264,7 @@ void Screen::printEnergy(const int value)
 void Screen::printLives(const int value)
 {
 	gotoPanelInfo(2);
-	clearText();
+	clearLine();
 	gotoPanelInfo(2);
 	c->setTextColor(AZUL_CLARO);
 	cout << (char)1;
@@ -258,12 +275,56 @@ void Screen::printLives(const int value)
 void Screen::printMoney(const int value)
 {
 	gotoPanelInfo(3);
-	clearText();
+	clearLine();
 	gotoPanelInfo(3);
-	c->setTextColor(AMARELO_CLARO);
+	c->setTextColor(AMARELO);
 	cout << (char)36;
 	restoreColor();
 	cout << " " << value;
+}
+
+void Screen::printPicker(const Picker& p)
+{
+	const int offset = 10;
+	gotoPanelInfo(1,offset);
+	clearLine(offset);
+	gotoPanelInfo(1,offset);
+	c->setTextColor(VERDE_CLARO);
+	cout << (char)27;
+	restoreColor();
+	cout << " " << p.getAsString();
+}
+
+void Screen::printBag(const Bag& b)
+{
+	const int offset = 10;
+	gotoPanelInfo(3,offset);
+	clearLine(offset);
+	gotoPanelInfo(3,offset);
+	c->setTextColor(COR_DE_ROSA);
+	cout << (char)31;
+	restoreColor();
+	cout << " " << b.getAsString();
+
+	for (int i=0; i<b.getCountMaterials(); i++)
+	{
+		gotoPanelInfo(4+i,offset);
+		clearLine(offset);
+		gotoPanelInfo(4+i,offset);
+		cout << "  " << b.getMaterial(i).getAsString() << ": " << b.getMaterial(i).getWeight();
+	}
+}
+
+void Screen::printLight(const Light& l)
+{
+	const int offset = 10;
+	gotoPanelInfo(2,offset);
+	clearLine(offset);
+	gotoPanelInfo(2,offset);
+	c->setTextColor(AMARELO_CLARO);
+	cout << (char)15;
+	restoreColor();
+	cout << " " << l.getAsString();
 }
 
 void Screen::printButton(const string& name, int x, int y, int withBox)

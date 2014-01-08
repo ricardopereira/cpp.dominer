@@ -182,7 +182,6 @@ const vector<CommandItem>& Shell::getCommandsList()
 		listCommands->push_back(CommandItem("a","nome_origem nome_destino")); //Copia mina para o destino
 		listCommands->push_back(CommandItem("lu","")); //rp - Lista utensilios
 		listCommands->push_back(CommandItem("lb","")); //rp - Lista blocos
-		listCommands->push_back(CommandItem("lm","")); //rp - Lista itens da mochila atual
 		listCommands->push_back(CommandItem("lj","")); //rp - Lista jogos em memoria
 		listCommands->push_back(CommandItem("x",""));
 	}

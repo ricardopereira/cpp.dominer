@@ -119,3 +119,8 @@ const Creator& ToolsCollection::getCreator()
 	}
 	return *creatorTools;
 }
+
+void* ToolsCollection::create(const string& name)
+{
+	return getCreator().create(name);
+}

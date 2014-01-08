@@ -331,7 +331,7 @@ int Playground::canMoveDown()
 
 int Playground::visibility(int mode, int refresh)
 {
-	if (mode != 7 && mode != 5 && mode != 3) return 0;
+	if (mode != LIGHTMASTER && mode != LIGHTPRO && mode != LIGHTNORMAL) return 0;
 	// Alteracao da visibilidade
 	int size = ctrl.getScreen().getSize();
 	if (size == mode) return 0;
@@ -377,8 +377,11 @@ void Playground::refreshInfo()
 		ctrl.getScreen().printEnergy(miner->getEnergy());
 		ctrl.getScreen().printMoney(miner->getMoney());
 		ctrl.getScreen().printLives(miner->getExtralifes());
+		ctrl.getScreen().printPicker(miner->getPicker());
+		ctrl.getScreen().printBag(miner->getBag());
+		ctrl.getScreen().printLight(miner->getLight());
 		// Debug: Índice do Mineiro
-		ctrl.getScreen().printText(miner->getLastAsString());
+		ctrl.getScreen().printDebug(miner->getLastAsString());
 	}
 }
 

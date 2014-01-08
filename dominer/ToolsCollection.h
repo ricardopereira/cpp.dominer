@@ -28,6 +28,7 @@ public:
 	int size() const;
 	const ToolItem& item(int index) const;
 	int item(string name) const;
+	void* create(const string& name);
 
 	string getAsString() const;
 };

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "Soil.h"
 #include "Common.h"
@@ -14,6 +15,7 @@ public:
 	virtual int getWeight() const { return 1; };
 
 	char getDrawInfo(const int index);
+	string getAsString() const;
 	virtual const int autoDestroy() const { return 0; };
 	const int classIs(const string& className) const { return className.compare("Material") == 0; };
 };

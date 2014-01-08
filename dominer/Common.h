@@ -7,6 +7,18 @@
 #define SCREENCOLUMNS 80
 #define SCREENROWS 50
 
+#define BAGNORMAL 15
+#define BAGPRO 25
+#define BAGMASTER 35
+
+#define LIGHTNORMAL 3
+#define LIGHTPRO 5
+#define LIGHTMASTER 7
+
+#define PICKERNORMAL 1
+#define PICKERPRO 2
+#define PICKERMASTER 4
+
 #define PRETO 0
 #define AZUL 1
 #define VERDE 2

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 
 #include "Bag.h"
 
@@ -21,6 +22,14 @@ void Bag::destroyMinerals()
 void Bag::addMaterial(Material* m)
 {
 	if (!m) return;
+
+	//Se atingiu o limite da mochila, entao "perde" o material
+	if (limit == getCountMaterials())
+	{
+		m->setForceDestruction();
+		return;
+	}
+
 	Material** aux = new Material*[getCountMaterials()+1];
 	if (aux != NULL)
 	{
@@ -78,4 +87,23 @@ void Bag::clean()
 {
 	// Limpar a mochila
 	destroyMinerals();
+}
+
+string Bag::getAsString() const
+{
+	ostringstream out;
+	// Descricao do tipo
+	switch (limit)
+	{
+	case BAGNORMAL:
+		out << "Backpack: " << limit << "Kg";
+		break;
+	case BAGPRO:
+		out << "Backpack: " << limit << "Kg";
+		break;
+	case BAGMASTER:
+		out << "Backpack: " << limit << "Kg";
+		break;
+	}
+	return out.str();
 }

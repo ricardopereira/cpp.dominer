@@ -34,6 +34,7 @@ Block::~Block()
 void Block::init()
 {
 	this->visible = 1;
+	this->forceDestruction = 0;
 }
 
 int Block::getIndex(int maxc)
@@ -87,4 +88,9 @@ string Block::getAsString() const
 	// Debug: obter o nome da class apenas para debug
 	out << typeid(*this).name() << "(" << column << "," << row << ")";
 	return out.str();
+}
+
+void Block::setForceDestruction()
+{
+	forceDestruction = 1;
 }
