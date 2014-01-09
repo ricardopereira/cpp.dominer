@@ -51,6 +51,7 @@ public:
 	void keyEvent(char key);
 	void checkState();
 	int visibility(int mode, int refresh=0);
+	void teletransport(int cidx, int ridx);
 
 	// Movimentos
 	void moveTo(int cidx, int ridx, int refresh=1);

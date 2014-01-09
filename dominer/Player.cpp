@@ -224,7 +224,7 @@ void Player::consumeEnergy(int up)
 	energy--;
 	if (up) energy--;
 	// Verificar se faleceu
-	if (energy == 0)
+	if (energy <= 0)
 	{
 		died = 1;
 		// Verificar vidas-extra

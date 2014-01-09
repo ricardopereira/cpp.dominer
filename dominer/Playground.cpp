@@ -51,7 +51,7 @@ void Playground::initGame()
 	shiftH = 0;
 	shiftV = 0;
 	// Iniciar visbilidade
-	visibility(7);
+	visibility(LIGHTMASTER);
 
 	// Verificar se existe jogador
 	if (!game->getMiner())
@@ -176,7 +176,7 @@ void Playground::checkState()
 	else if (game->getMiner()->hasDied())
 	{
 		ctrl.getScreen().showMessage("Extra Life used");
-		refresh();
+		teletransport(3,0);
 	}
 
 	// Evento de iteracoes
@@ -338,9 +338,9 @@ int Playground::canMoveUp()
 			if (b)
 			{
 				if (b->classIs("Hometown"))
-					visibility(7);
+					visibility(LIGHTMASTER);
 				else
-					visibility(5);
+					visibility(game->getMiner()->getLight().getBrightness());
 			}
 			return 1;
 		}
@@ -366,9 +366,9 @@ int Playground::canMoveDown()
 	{
 		//Test: Problemas com Rock
 		if (b->classIs("Hometown"))
-			visibility(7);
+			visibility(LIGHTMASTER);
 		else
-			visibility(5);
+			visibility(game->getMiner()->getLight().getBrightness());
 	}
 	return canBreak;
 }
@@ -378,6 +378,9 @@ int Playground::visibility(int mode, int refresh)
 	if (mode != LIGHTMASTER && mode != LIGHTPRO && mode != LIGHTNORMAL) return 0;
 	// Alteracao da visibilidade
 	int size = ctrl.getScreen().getSize();
+	// Validacao
+	if (mode == LIGHTPRO && size == LIGHTNORMAL) return 0;
+	if (mode == LIGHTNORMAL && size == LIGHTPRO) return 0;
 	if (size == mode) return 0;
 	int diff = (size - mode);
 
@@ -410,6 +413,21 @@ int Playground::visibility(int mode, int refresh)
 		shiftV += diff;
 	}
 	return 1;
+}
+
+void Playground::teletransport(int cidx, int ridx)
+{
+	int savedLight;
+	// Se nao for valido, nao faz nada
+	if (!canMove(cidx,ridx)) return;
+	savedLight = game->getMiner()->getLight().getBrightness();
+	// Visibilidade
+	visibility(LIGHTMASTER);
+	// Tele-transporte
+	moveTo(cidx,ridx);
+	// Visibilidade
+	if (ridx)
+		visibility(savedLight,1);
 }
 
 void Playground::refreshInfo()
@@ -491,7 +509,7 @@ void Playground::openShell()
 			else if (shell->isCommand("t"))
 			{
 				//t <coluna> <linha> - Move o Mineiro para as coordenadas indicadas
-				moveTo(shell->getArgumentAsInt(0),shell->getArgumentAsInt(1));
+				teletransport(shell->getArgumentAsInt(0),shell->getArgumentAsInt(1));
 				shell->close();
 			}
 			else if (shell->isCommand("g"))
@@ -562,9 +580,8 @@ void Playground::openShell()
 			else if (shell->isCommand("v"))
 			{
 				//v - Visibilidade
-				if (!visibility(shell->getArgumentAsInt(0)),1)
+				if (!visibility(shell->getArgumentAsInt(0),1))
 					ctrl.getScreen().printCommandInfo("Not valid");
-				break;
 			}
 			else if (shell->isCommand("lu"))
 			{
