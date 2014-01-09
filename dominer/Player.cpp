@@ -17,13 +17,56 @@ char Player::getDrawInfo(const int index)
 		return (char)219;
 	else if (index == 16 || index == 17 || index == 18)
 		return (char)223;
+	else if (onBeam())
+	{
+		if (index == 0 || index == 4)
+			return (char)203;
+		else if (index == 5 || index == 10 || index == 15 || index == 20 || 
+				 index == 9 || index == 14 || index == 19 || index == 24)
+			return (char)186;
+		else
+			return ' ';
+	}
+	else if (onLadder())
+	{
+		if (index == 1 || index == 21)
+			return (char)219;
+		else if (index == 3 || index == 23)
+			return (char)219;
+		else if (index == 2 || index == 22)
+			return (char)223;
+		else
+			return ' ';
+	}
 	else
 		return ' ';
 }
 
 int Player::getColor(const int index)
 {
-	return BRANCO;
+	if (onBeam())
+	{
+		if (index == 0 || index == 4)
+			return AMARELO;
+		else if (index == 5 || index == 10 || index == 15 || index == 20 || 
+				 index == 9 || index == 14 || index == 19 || index == 24)
+			return AMARELO;
+		else
+			return BRANCO;
+	}
+	else if (onLadder())
+	{
+		if (index == 1 || index == 21)
+			return AMARELO;
+		else if (index == 3 || index == 23)
+			return AMARELO;
+		else if (index == 2 || index == 22)
+			return AMARELO;
+		else
+			return BRANCO;
+	}
+	else
+		return BRANCO;
 }
 
 void Player::setColumn(const int cidx)
@@ -346,6 +389,11 @@ int Player::onLadder()
 	return onBlock("Ladder");
 }
 
+int Player::onBeam()
+{
+	return onBlock("Beam");
+}
+
 int Player::onHometown()
 {
 	return onBlock("Hometown");
@@ -430,6 +478,29 @@ void Player::createLadder()
 	setCurrentBlock(b);
 	// Gastou uma escada
 	ladders--;
+}
+
+void Player::createBeam()
+{
+	if (!mine) return;
+	// Se nao tiver escadas, nao pode criar
+	if (beams <= 0) return;
+
+	// Se já existir uma escada?
+	if (onBeam() || onHometown())
+		return;
+
+	Block* b = new Beam(getColumn(),getRow());
+	mine->setBlock(getIndex(mine->getColumnLimit()),b);
+	// Coloca a escada à disposicao do mineiro
+	if (!getLastBlock())
+		destroyLastBlock();
+	// Colocar a escada como último bloco
+	setLastBlock(b);
+	// Bloco atual
+	setCurrentBlock(b);
+	// Gastou uma escada
+	beams--;
 }
 
 Player& Player::operator=(const Player& base)

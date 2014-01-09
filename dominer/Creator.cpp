@@ -155,7 +155,7 @@ void* Creator::create(const string& value, int cidx, int ridx) const
 	}
 	else if (isEqual(value,"beam"))
 	{
-		return new Beam();
+		return new Beam(cidx,ridx);
 	}
 	else
 		return NULL;

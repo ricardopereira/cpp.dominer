@@ -36,8 +36,8 @@ const int Soil::canBreak(const Picker& p)
 {
 	if (type == stHard)
 	{
-		knocks++;
-		if (knocks == getHardness())
+		knocks += p.getStrength();
+		if (knocks >= getHardness())
 		{
 			knocks = 0;
 			return 1;

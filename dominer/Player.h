@@ -118,6 +118,7 @@ public:
 	Block* getDownBlock();
 	// Posicionado
 	int onLadder();
+	int onBeam();
 	int onHometown();
 	// Proximo posicao
 	int goingToHometown();
@@ -129,8 +130,9 @@ public:
 
 	// Ferramentas
 	int breaking(Block* b, int up=0);
-	void createLadder();
 	int buyTool(const ToolItem& t);
+	void createLadder();
+	void createBeam();
 
 	// Operadores
 	Player& operator=(const Player& base);

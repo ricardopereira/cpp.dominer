@@ -159,7 +159,15 @@ void Playground::keyEvent(char key)
 {
 	// Create ladder
 	if (key == ESPACO || tolower(key) == 'e')
+	{
 		game->getMiner()->createLadder();
+		refresh(1);
+	}
+	else if (tolower(key) == 'v')
+	{
+		game->getMiner()->createBeam();
+		refresh(1);
+	}
 	else if (tolower(key) == 'p')
 		pause = !pause;
 }
