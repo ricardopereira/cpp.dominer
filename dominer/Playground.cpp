@@ -438,7 +438,7 @@ void Playground::refreshInfo()
 	{
 		ctrl.getScreen().printEnergy(miner->getEnergy());
 		ctrl.getScreen().printMoney(miner->getMoney());
-		ctrl.getScreen().printLives(miner->getExtralifes());
+		ctrl.getScreen().printExtralifes(miner->getExtralifes());
 		ctrl.getScreen().printTools(*miner);
 
 		// Debug: Índice do Mineiro
@@ -470,20 +470,35 @@ void Playground::openShell()
 			// Verificar comando
 			if (shell->isCommand("u"))
 			{
-				//u <nome_utensilio> - Só funciona se o Mineiro à superficie e tiver moedas suficientes.
+				//u <nome_utensilio> - So funciona se o Mineiro a superficie e tiver moedas suficientes.
 				if (!game->getMiner()->onHometown())
-					ctrl.getScreen().printCommandInfo("Please go to hometown to buy tools");
-
-				if (ctrl.getConfig().getToolsList().has(shell->getArgument(0)))
 				{
-					//Test
-					if (!game->getMiner()->buyTool(0))
-						ctrl.getScreen().printCommandInfo("Not enough money...");
-					else
-						ctrl.getScreen().printCommandInfo("You bought...");
+					ctrl.getScreen().printCommandInfo("Please go to hometown to buy tools");
 				}
 				else
-					ctrl.getScreen().printCommandInfo("'" + shell->getArgument(0) + "' not valid");
+				{
+					int idx = ctrl.getConfig().getToolsList().item(shell->getArgument(0));
+					// Verificar se existe
+					if (idx >= 0)
+					{
+						const ToolItem& item = ctrl.getConfig().getToolsList().item(idx);
+						// Efectuar a compra
+						if (game->getMiner()->buyTool(item))
+						{
+							ctrl.getScreen().printCommandInfo("You bought: " + shell->getArgument(0));
+							// Refrescar o painel de informacao
+							ctrl.getScreen().printMoney(game->getMiner()->getMoney());
+							ctrl.getScreen().printExtralifes(game->getMiner()->getExtralifes());
+							ctrl.getScreen().printTools(*game->getMiner());
+						}
+						else
+						{
+							ctrl.getScreen().printCommandInfo("Not possible buying " + item.getName() + " (" + to_string(item.getCost()) + (char)36 + ")");
+						}
+					}
+					else
+						ctrl.getScreen().printCommandInfo("'" + shell->getArgument(0) + "' not valid");
+				}
 			}
 			else if (shell->isCommand("b"))
 			{
@@ -538,7 +553,7 @@ void Playground::openShell()
 				Game* copyGame = new Game(*game);
 				// Copia o mineiro
 				copyGame->getMiner()->operator=(*game->getMiner());
-				// Adiciona à lista de jogos em memória
+				// Adiciona a lista de jogos em memoria
 				ctrl.getGamesList().add(shell->getArgument(0),copyGame);
 				// Confirmacao
 				ctrl.getScreen().printCommandInfo("Saved game '" + shell->getArgument(0) + "'");
@@ -559,7 +574,7 @@ void Playground::openShell()
 			else if (shell->isCommand("a"))
 			{
 				//a <nome_origem nome_dest> - Copia a mina para uma nova (previamente criada - ex: tecla c), 
-				//e a atribuição deve ser feita pelo operador atribuicao
+				//e a atribuicao deve ser feita pelo operador atribuicao
 				Game* gameSource = ctrl.getGamesList().get(shell->getArgument(0));
 				Game* gameTarget = ctrl.getGamesList().get(shell->getArgument(1));
 

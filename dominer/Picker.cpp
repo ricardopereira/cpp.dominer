@@ -3,6 +3,16 @@
 
 #include "Picker.h"
 
+int Picker::operator==(const Picker& right) const
+{
+	return strength == right.getStrength();
+}
+
+int Picker::operator!=(const Picker& right) const
+{
+	return strength != right.getStrength();
+}
+
 int Picker::getStrength() const
 {
 	return strength;

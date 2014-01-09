@@ -285,7 +285,7 @@ void Screen::printEnergy(const int value)
 	cout << " " << value;
 }
 
-void Screen::printLives(const int value)
+void Screen::printExtralifes(const int value)
 {
 	gotoPanelInfo(2);
 	clearCaracts(5);

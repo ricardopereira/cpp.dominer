@@ -24,6 +24,8 @@ public:
 	}
 	~Bag();
 
+	int getLimit() const;
+
 	void addMaterial(Material* m);
 	void removeMaterial(int index);
 	int getCountMaterials() const;
@@ -32,6 +34,9 @@ public:
 	const Material& getMaterial(int index) const;
 	void clean();
 	int howMany(const string& name) const;
+
+	int operator==(const Bag& right) const;
+	int operator!=(const Bag& right) const;
 
 	string getAsString() const;
 	const int classIs(const string& className) const { return className.compare("Bag") == 0; };

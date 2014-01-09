@@ -3,6 +3,16 @@
 
 #include "Light.h"
 
+int Light::operator==(const Light& right) const
+{
+	return brightness == right.getBrightness();
+}
+
+int Light::operator!=(const Light& right) const
+{
+	return brightness != right.getBrightness();
+}
+
 int Light::getBrightness() const
 {
 	return brightness;

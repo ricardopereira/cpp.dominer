@@ -135,17 +135,14 @@
     <ClCompile Include="Dinamite.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="Extralife.cpp">
-      <Filter>Source Files\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
     <ClCompile Include="Parachute.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="SuperMiner.cpp">
-      <Filter>Source Files\Tools</Filter>
+    <ClCompile Include="Common.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -249,12 +246,6 @@
       <Filter>Header Files\Tools</Filter>
     </ClInclude>
     <ClInclude Include="Dinamite.h">
-      <Filter>Header Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Extralife.h">
-      <Filter>Header Files\Tools</Filter>
-    </ClInclude>
-    <ClInclude Include="SuperMiner.h">
       <Filter>Header Files\Tools</Filter>
     </ClInclude>
   </ItemGroup>

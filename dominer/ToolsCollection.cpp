@@ -32,22 +32,9 @@ int ToolsCollection::add(const string& name, int cost)
 		// Valor por defeito
 		if (cost == 0) cost = 10;
 		// Insere na lista
-		listTools.push_back(ToolItem(name,cost));
+		listTools.push_back(ToolItem(*this,name,cost));
 		return listTools.size()-1; //Index
 	}
-}
-
-int ToolsCollection::isEqual(const string& a, const string& b) const
-{
-    // Verificar tamanhos
-	if (a.size() != b.size())
-        return 0;
-	// Verificar se sao iguais
-    for (string::const_iterator c1 = a.begin(), c2 = b.begin(); c1 != a.end(); ++c1, ++c2) {
-        if (tolower(*c1) != tolower(*c2))
-            return 0;
-    }
-    return 1;
 }
 
 int ToolsCollection::has(const string& name) const

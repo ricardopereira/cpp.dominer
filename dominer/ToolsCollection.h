@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "Creator.h"
+#include "Common.h"
 
 using namespace std;
 
@@ -18,8 +19,6 @@ class ToolsCollection
 	// Lista de Ferramentas
 	Creator* creatorTools;
 	const Creator& getCreator();
-
-	int isEqual(const string& a, const string& b) const;
 public:
 	ToolsCollection();
 	~ToolsCollection();
@@ -35,13 +34,15 @@ public:
 
 class ToolItem
 {
+	ToolsCollection& owner;
 	string name;
 	int cost;
 public:
-	ToolItem(string n, int c) : name(n), cost(c) {};
+	ToolItem(ToolsCollection& owner, string n, int c) : owner(owner), name(n), cost(c) {};
 	const string& getName() const { return name; };
 	void setCost(const int value) { cost = value; };
 	int getCost() const { return cost; };
+	void* create() const { return owner.create(getName()); };
 	string getAsString() const
 	{
 		ostringstream out;

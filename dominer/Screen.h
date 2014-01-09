@@ -63,7 +63,7 @@ public:
 	void clearAllText();
 
 	void printEnergy(const int value);
-	void printLives(const int value);
+	void printExtralifes(const int value);
 	void printMoney(const int value);
 	void printPicker(const Picker& p);
 	void printBag(const Bag& b);

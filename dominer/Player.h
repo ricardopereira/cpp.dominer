@@ -3,6 +3,7 @@
 
 #include "Block.h"
 #include "Common.h"
+#include "ToolsCollection.h"
 #include "Mine.h"
 #include "Material.h"
 
@@ -38,6 +39,10 @@ class Player: public Block
 
 	int onBlock(const string& blockName);
 	int goingToBlock(const string& blockName);
+	// Ferramentas
+	void setPicker(Picker& p);
+	void setBag(Bag& b);
+	void setLight(Light& l);
 public:
 	Player(Mine* m) : Block(0,0)
 	{ 
@@ -79,11 +84,8 @@ public:
 	int getMoney();
 
 	// Utensilios
-	void setPicker(Picker& p);
 	const Picker& getPicker();
-	void setBag(Bag& b);
 	const Bag& getBag();
-	void setLight(Light& l);
 	const Light& getLight();
 
 	void setExtralifes(const int value);
@@ -128,7 +130,7 @@ public:
 	// Ferramentas
 	int breaking(Block* b, int up=0);
 	void createLadder();
-	int buyTool(int id);
+	int buyTool(const ToolItem& t);
 
 	// Operadores
 	Player& operator=(const Player& base);

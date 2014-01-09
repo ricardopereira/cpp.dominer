@@ -14,6 +14,9 @@ public:
 
 	int getStrength() const;
 
+	int operator==(const Picker& right) const;
+	int operator!=(const Picker& right) const;
+
 	string getAsString() const;
 	const int classIs(const string& className) const { return className.compare("Picker") == 0; };
 };

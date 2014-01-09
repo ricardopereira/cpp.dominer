@@ -19,6 +19,21 @@ void Bag::destroyMinerals()
 	}
 }
 
+int Bag::getLimit() const
+{
+	return limit;
+}
+
+int Bag::operator==(const Bag& right) const
+{
+	return limit == right.getLimit();
+}
+
+int Bag::operator!=(const Bag& right) const
+{
+	return limit != right.getLimit();
+}
+
 void Bag::addMaterial(Material* m)
 {
 	if (!m) return;

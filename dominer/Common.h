@@ -1,3 +1,5 @@
+#include <string>
+
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
@@ -61,5 +63,10 @@
 #define ESPACO 32
 
 #define DEFAULTCOLOR BRANCO
+
+
+// Utils
+
+int isEqual(const std::string& a, const std::string& b);
 
 #endif

@@ -1,9 +1,13 @@
 #include <iostream>
+#include <string>
 
 #include "Player.h"
 
 Player::~Player()
 {
+	delete picker;
+	delete bag;
+	delete light;
 	mine = NULL;
 }
 
@@ -268,7 +272,9 @@ void Player::sell()
 // Movimento para cima é um caso particular
 int Player::breaking(Block* b, int up)
 {
+	// Consume energia ao trabalhar na mina
 	if (up && !onLadder()) {}
+	else if (b && b->isProtected()) {}
 	else consumeEnergy(up);
 	// Verifica se pode quebrar
 	if (b)
@@ -350,9 +356,57 @@ int Player::goingToHometown()
 	return goingToBlock("Hometown");
 }
 
-int Player::buyTool(int id)
+int Player::buyTool(const ToolItem& t)
 {
-	return 0;
+	// Verifica se tem dinheiro suficiente para o comprar
+	if (t.getCost() > money) return 0;
+	// Compra
+	if (t.getName().find("Bag") != string::npos)
+	{
+		Bag* aux = static_cast<Bag*>(t.create());
+		if (*aux == *bag) return 0;
+		delete bag;
+		bag = aux;
+	}
+	else if (t.getName().find("Picker") != string::npos)
+	{
+		Picker* aux = static_cast<Picker*>(t.create());
+		if (*aux == *picker) return 0;
+		delete picker;
+		picker = aux;
+	}
+	else if (isEqual(t.getName(),"Lighter") || isEqual(t.getName(),"Flashlight") || isEqual(t.getName(),"Spotlight"))
+	{
+		Light* aux = static_cast<Light*>(t.create());
+		if (*aux == *light) return 0;
+		delete light;
+		light = aux;
+	}
+	else if (isEqual(t.getName(),"Ladder"))
+	{
+		// Recarga de 10
+		ladders += 15;
+	}
+	else if (isEqual(t.getName(),"Beam"))
+	{
+		// Recarga de 10
+		beams += 15;
+	}
+	else if (isEqual(t.getName(),"Parachute"))
+	{
+		parachutes++;
+	}
+	else if (isEqual(t.getName(),"Dinamite"))
+	{
+		dinamites++;
+	}
+	else if (isEqual(t.getName(),"Extralife"))
+	{
+		extralifes++;
+	}
+	// Retira o custo
+	money -= t.getCost();
+	return 1;
 }
 
 void Player::createLadder()

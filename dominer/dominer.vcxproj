@@ -81,8 +81,8 @@
     <ClCompile Include="Beam.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockEmpty.cpp" />
+    <ClCompile Include="Common.cpp" />
     <ClCompile Include="Dinamite.cpp" />
-    <ClCompile Include="Extralife.cpp" />
     <ClCompile Include="GamesCollection.cpp" />
     <ClCompile Include="Creator.cpp" />
     <ClCompile Include="Coal.cpp" />
@@ -108,7 +108,6 @@
     <ClCompile Include="Shell.cpp" />
     <ClCompile Include="Sky.cpp" />
     <ClCompile Include="Soil.cpp" />
-    <ClCompile Include="SuperMiner.cpp" />
     <ClCompile Include="Tool.cpp" />
     <ClCompile Include="ToolsCollection.cpp" />
     <ClCompile Include="World.cpp" />
@@ -120,7 +119,6 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockEmpty.h" />
     <ClInclude Include="Dinamite.h" />
-    <ClInclude Include="Extralife.h" />
     <ClInclude Include="GamesCollection.h" />
     <ClInclude Include="Creator.h" />
     <ClInclude Include="Coal.h" />
@@ -146,7 +144,6 @@
     <ClInclude Include="Shell.h" />
     <ClInclude Include="Sky.h" />
     <ClInclude Include="Soil.h" />
-    <ClInclude Include="SuperMiner.h" />
     <ClInclude Include="Tool.h" />
     <ClInclude Include="ToolsCollection.h" />
     <ClInclude Include="World.h" />

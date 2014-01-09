@@ -14,6 +14,9 @@ public:
 
 	int getBrightness() const;
 
+	int operator==(const Light& right) const;
+	int operator!=(const Light& right) const;
+
 	string getAsString() const;
 	const int classIs(const string& className) const { return className.compare("Light") == 0; };
 };

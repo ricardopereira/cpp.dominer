@@ -16,6 +16,9 @@
 #include "Light.h"
 #include "Picker.h"
 
+#include "Ladder.h"
+#include "Beam.h"
+
 void Creator::add(const string& value)
 {
 	listStrings.push_back(value);
@@ -69,86 +72,90 @@ void* Creator::create(const string& value, int cidx, int ridx) const
 {
 	if (!has(value)) return NULL;
 	// Shell retorna tudo com lowercase
-	if (value.compare("soilsoft") == 0)
+	if (isEqual(value,"soilsoft"))
 	{
 		Soil* b = new Soil(cidx,ridx);
 		b->setSoilType(stSoft);
 		return b;
 	}
-	else if (value.compare("soilhard") == 0)
+	else if (isEqual(value,"soilhard"))
 	{
 		Soil* b = new Soil(cidx,ridx);
 		b->setSoilType(stHard);
 		return b;
 	}
-	else if (value.compare("rock") == 0)
+	else if (isEqual(value,"rock"))
 	{
 		return new Rock(cidx,ridx);
 	}
-	else if (value.compare("aluminum") == 0)
+	else if (isEqual(value,"aluminum"))
 	{
 		return new Aluminum(cidx,ridx);
 	}
-	else if (value.compare("coal") == 0)
+	else if (isEqual(value,"coal"))
 	{
 		return new Coal(cidx,ridx);
 	}
-	else if (value.compare("diamond") == 0)
+	else if (isEqual(value,"diamond"))
 	{
 		return new Diamond(cidx,ridx);
 	}
-	else if (value.compare("gold") == 0)
+	else if (isEqual(value,"gold"))
 	{
 		return new Gold(cidx,ridx);
 	}
-	else if (value.compare("iron") == 0)
+	else if (isEqual(value,"iron"))
 	{
 		return new Iron(cidx,ridx);
 	}
 	// Ferramentas
 	// Picaretas
-	else if (value.compare("pickernormal") == 0)
+	else if (isEqual(value,"pickernormal"))
 	{
-		return new Picker();
+		return new Picker(PICKERNORMAL);
 	}
-	else if (value.compare("pickerpro") == 0)
+	else if (isEqual(value,"pickerpro"))
 	{
-		return new Picker();
+		return new Picker(PICKERPRO);
 	}
-	else if (value.compare("pickermaster") == 0)
+	else if (isEqual(value,"pickermaster"))
 	{
-		return new Picker();
+		return new Picker(PICKERMASTER);
 	}
 	// Mochilas
-	else if (value.compare("bagnormal") == 0)
+	else if (isEqual(value,"bagnormal"))
 	{
 		return new Bag(BAGNORMAL);
 	}
-	else if (value.compare("bagpro") == 0)
+	else if (isEqual(value,"bagpro"))
 	{
 		return new Bag(BAGPRO);
 	}
-	else if (value.compare("bagmaster") == 0)
+	else if (isEqual(value,"bagmaster"))
 	{
 		return new Bag(BAGMASTER);
 	}
 	// Iluminacao
-	else if (value.compare("lighter") == 0)
+	else if (isEqual(value,"lighter"))
 	{
-		return new Light();
+		return new Light(LIGHTNORMAL);
 	}
-	else if (value.compare("flashlight") == 0)
+	else if (isEqual(value,"flashlight"))
 	{
-		return new Light();
+		return new Light(LIGHTPRO);
 	}
-	else if (value.compare("spotlight") == 0)
+	else if (isEqual(value,"spotlight"))
 	{
-		return new Light();
+		return new Light(LIGHTMASTER);
 	}
 	// Outros
-	else if (value.compare("ladder") == 0)
+	else if (isEqual(value,"ladder"))
 	{
-		return NULL;
+		return new Ladder(cidx,ridx);
+	}
+	else if (isEqual(value,"beam"))
+	{
+		return new Beam();
 	}
 	else
 		return NULL;
