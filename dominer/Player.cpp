@@ -202,9 +202,6 @@ void Player::iteration()
 
 void Player::moved()
 {
-    // Decrementa a energia do mineiro
-	if (!onHometown())
-		consumeEnergy();
 	// Se caminhar para a superficie, recebe energia
 	if (goingToHometown())
 		restoreEnergy();
@@ -217,13 +214,15 @@ int Player::hasDied()
 
 int Player::gameOver() const
 {
-	return (energy < 0);
+	return (energy < 0 && extralifes <= 0);
 }
 
-void Player::consumeEnergy()
+// Movimento para cima é um caso particular
+void Player::consumeEnergy(int up)
 {
 	died = 0;
 	energy--;
+	if (up) energy--;
 	// Verificar se faleceu
 	if (energy == 0)
 	{
@@ -264,6 +263,18 @@ void Player::sell()
 		money += bag->getMaterial(i).getCost();
 	}
 	bag->clean();
+}
+
+// Movimento para cima é um caso particular
+int Player::breaking(Block* b, int up)
+{
+	if (up && !onLadder()) {}
+	else consumeEnergy(up);
+	// Verifica se pode quebrar
+	if (b)
+		return b->canBreak(getPicker());
+	else
+		return 1;
 }
 
 Block* Player::getLeftBlock()

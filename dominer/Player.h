@@ -103,7 +103,7 @@ public:
 	void moved();
 	int hasDied();
 	int gameOver() const;
-	void consumeEnergy();
+	void consumeEnergy(int up=0);
 	void restoreEnergy();
 	// Material
 	void addMaterial(Material* m);
@@ -126,6 +126,7 @@ public:
 	int onLastRow();
 
 	// Ferramentas
+	int breaking(Block* b, int up=0);
 	void createLadder();
 	int buyTool(int id);
 

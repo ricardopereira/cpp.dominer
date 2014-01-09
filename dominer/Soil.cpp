@@ -4,7 +4,7 @@
 
 Soil::~Soil()
 {
-	printf("\a");
+
 }
 
 char Soil::getDrawInfo(const int index)
@@ -32,17 +32,19 @@ soilType Soil::getSoilType()
 	return type;
 }
 
-void Soil::setHardness(const int h)
+const int Soil::canBreak(const Picker& p)
 {
-	hardness = h;
-}
-
-int Soil::getHardness()
-{
-	return hardness;
-}
-
-const int Soil::canBreak(Tool* t) const
-{
-	return 1;
+	if (type == stHard)
+	{
+		knocks++;
+		if (knocks == getHardness())
+		{
+			knocks = 0;
+			return 1;
+		}
+		else
+			return 0;
+	}
+	else
+		return 1;
 }

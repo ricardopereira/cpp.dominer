@@ -101,9 +101,9 @@ void Mine::createBlocks()
 		{
 			map[i] = new Soil(cidx,ridx);
 			prob = rand() % 100;
-			// 20% de Probabilidade de criar solo duro, restante fica mole
-			if (prob <= 20)
-				((Soil*)map[i])->setSoilType(stHard);
+			// 80% de Probabilidade de criar solo mole, restante fica duro
+			if (prob <= 80)
+				((Soil*)map[i])->setSoilType(stSoft);
 		}
 		
 		//Next

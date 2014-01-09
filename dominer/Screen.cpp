@@ -231,8 +231,15 @@ void Screen::clearLine(int offset)
 {
 	// Insere caracteres vazios na posicao atual
 	// de forma a limpar o conteudo
+	clearCaracts(35-offset);
+}
+
+void Screen::clearCaracts(int count)
+{
+	// Insere caracteres vazios na posicao atual
+	// de forma a limpar o conteudo
 	string spaces;
-	for (int i=0; i<=35-offset; i++)
+	for (int i=0; i<=count; i++)
 		spaces.push_back(' ');
 	cout << spaces;
 }
@@ -270,7 +277,7 @@ void Screen::gotoPanelText(int line)
 void Screen::printEnergy(const int value)
 {
 	gotoPanelInfo(1);
-	clearLine();
+	clearCaracts(5);
 	gotoPanelInfo(1);
 	c->setTextColor(VERMELHO_CLARO);
 	cout << (char)3;
@@ -281,7 +288,7 @@ void Screen::printEnergy(const int value)
 void Screen::printLives(const int value)
 {
 	gotoPanelInfo(2);
-	clearLine();
+	clearCaracts(5);
 	gotoPanelInfo(2);
 	c->setTextColor(AZUL_CLARO);
 	cout << (char)1;
@@ -292,7 +299,7 @@ void Screen::printLives(const int value)
 void Screen::printMoney(const int value)
 {
 	gotoPanelInfo(3);
-	clearLine();
+	clearCaracts(5);
 	gotoPanelInfo(3);
 	c->setTextColor(AMARELO);
 	cout << (char)36;

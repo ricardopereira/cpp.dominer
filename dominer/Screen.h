@@ -26,6 +26,7 @@ class Screen
 	void gotoPanelInfo(int line, int offset=0);
 	void gotoPanelText(int line);
 	void clearLine(int offset=0);
+	void clearCaracts(int count);
 public:
 	Screen(Consola* c);
 	~Screen();

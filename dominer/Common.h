@@ -14,7 +14,7 @@
 #define GAMEHARD 61
 #define MENULAST 5
 
-#define MINERENERGY 20
+#define MINERENERGY 50
 #define MINERMONEY 50
 #define MINERLIFES 2
 #define MINERLADDERS 10

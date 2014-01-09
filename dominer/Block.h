@@ -2,7 +2,7 @@
 #include <string.h>
 
 #include "Common.h"
-#include "Tool.h"
+#include "Picker.h"
 
 using namespace std;
 
@@ -38,7 +38,7 @@ public:
 	virtual string getAsString() const;
 	void setForceDestruction();
 
-	virtual const int canBreak(Tool* t) const { return 1; };
+	virtual const int canBreak(const Picker& p) { return 1; };
 
 	virtual Block* getCopy() const { return NULL; };
 	virtual const int autoDestroy() const { return 1; };

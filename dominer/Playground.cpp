@@ -185,9 +185,7 @@ void Playground::checkState()
 
 int Playground::moveLeft()
 {
-	// Verificar limite
 	if (!game->getMiner()) return 0;
-	if (game->getMiner()->onFirstColumn()) return 0;
 	// Bloco atual
 	game->getMiner()->setCurrentBlock(game->getMiner()->getLeftBlock());
 	// Validar movimento
@@ -199,9 +197,7 @@ int Playground::moveLeft()
 
 int Playground::moveRight()
 {
-	// Verificar limite
 	if (!game->getMiner()) return 0;
-	if (game->getMiner()->onLastColumn()) return 0;
 	// Bloco atual
 	game->getMiner()->setCurrentBlock(game->getMiner()->getRightBlock());
 	// Validar movimento
@@ -213,9 +209,7 @@ int Playground::moveRight()
 
 int Playground::moveUp()
 {
-	// Verificar limite
 	if (!game->getMiner()) return 0;
-	if (game->getMiner()->onFirstRow()) return 0;
 	// Bloco atual
 	game->getMiner()->setCurrentBlock(game->getMiner()->getUpBlock());
 	// Validar movimento
@@ -227,9 +221,7 @@ int Playground::moveUp()
 
 int Playground::moveDown()
 {
-	// Verificar limite
 	if (!game->getMiner()) return 0;
-	if (game->getMiner()->onLastRow()) return 0;
 	// Bloco atual
 	game->getMiner()->setCurrentBlock(game->getMiner()->getDownBlock());
 	// Validar movimento
@@ -304,22 +296,40 @@ void Playground::setGameBuffer(int shiftH, int shiftV)
 
 int Playground::canMoveLeft()
 {
+	if (game->getMiner()->onFirstColumn()) return 0;
+	// Bloco da Esquerda
 	Block* b = game->getMiner()->getLeftBlock();
-	if (!b) return 1;
-	return b->canBreak(NULL);
+	// Verifica se pode quebrar o bloco
+	int canBreak = game->getMiner()->breaking(b);
+	if (!canBreak)
+		ctrl.getScreen().printEnergy(game->getMiner()->getEnergy());
+	return canBreak;
 }
 
 int Playground::canMoveRight()
 {
+	if (game->getMiner()->onLastColumn()) return 0;
+	// Bloco da Direitra
 	Block* b = game->getMiner()->getRightBlock();
-	if (!b) return 1;
-	return b->canBreak(NULL);
+	// Verifica se pode quebrar o bloco
+	int canBreak = game->getMiner()->breaking(b);
+	if (!canBreak)
+		ctrl.getScreen().printEnergy(game->getMiner()->getEnergy());
+	return canBreak;
 }
 
 int Playground::canMoveUp()
 {
+	if (game->getMiner()->onFirstRow()) return 0;
+	// Bloco de Cima
 	Block* b = game->getMiner()->getUpBlock();
- 	if (!b || b->canBreak(NULL))
+
+	// Verifica se pode quebrar o bloco
+	int canBreak = game->getMiner()->breaking(b,1/*up*/);
+	if (!canBreak)
+		ctrl.getScreen().printEnergy(game->getMiner()->getEnergy());
+
+	if (canBreak)
 	{
 		// Verificar se tem escada para subir
 		if (game->getMiner()->onLadder())
@@ -343,12 +353,16 @@ int Playground::canMoveUp()
 
 int Playground::canMoveDown()
 {
+	if (game->getMiner()->onLastRow()) return 0;
+	// Bloco de Baixo
 	Block* b = game->getMiner()->getDownBlock();
-	if (!b) return 1;
 
-	int canBreak = b->canBreak(NULL);
-	//
-	if (canBreak)
+	// Verifica se pode quebrar o bloco
+	int canBreak = game->getMiner()->breaking(b);
+	if (!canBreak)
+		ctrl.getScreen().printEnergy(game->getMiner()->getEnergy());
+
+	if (b && canBreak)
 	{
 		//Test: Problemas com Rock
 		if (b->classIs("Hometown"))

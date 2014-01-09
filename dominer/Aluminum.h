@@ -13,6 +13,7 @@ public:
 
 	virtual int getWeight() const { return 1; };
 	virtual int getCost() const { return 5; };
+	const int getHardness() const { return 2; };
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);

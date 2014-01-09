@@ -14,7 +14,7 @@ public:
 	char getDrawInfo(const int index);
 	int getColor(const int index);
 
-	const int canBreak(Tool* t) const { return 0; };
+	const int canBreak(const Picker& p) { return 0; };
 
 	Block* getCopy() const { return new Rock(*this); };
 	const int classIs(const string& className) const { return className.compare("Rock") == 0; };
