@@ -69,12 +69,12 @@ int Playground::canMove(int cidx, int ridx)
 
 void Playground::moveTo(int cidx, int ridx, int refresh)
 {
-	// Se nao for valido, nao faz nada
-	if (!canMove(cidx,ridx)) return;
+    // Se nao for valido, nao faz nada
+    if (!canMove(cidx,ridx)) return;
 	// Deslocacao
 	shiftH = cidx - 3;
 	shiftV = ridx - 3;
-	// Movimenta tabuleiro com deslocação
+	// Movimenta tabuleiro com deslocacao
 	setGameBuffer(shiftH,shiftV);
 	// Actualizar
 	if (refresh)
@@ -141,6 +141,7 @@ void Playground::startGame()
 		{
 			if (!moveDown()) continue;
 		}
+		moveAfterEvent();
 
 		// Imprime o jogo no tabuleiro
 		setGameBuffer(shiftH,shiftV);
@@ -342,7 +343,7 @@ int Playground::canMoveUp()
 		// Verificar se tem escada para subir
 		if (game->getMiner()->onLadder())
 		{
-			//Test
+			//Test: Problemas com Rock
 			if (b)
 			{
 				if (b->classIs("Hometown"))
@@ -425,17 +426,21 @@ int Playground::visibility(int mode, int refresh)
 
 void Playground::teletransport(int cidx, int ridx)
 {
-	int savedLight;
 	// Se nao for valido, nao faz nada
 	if (!canMove(cidx,ridx)) return;
-	savedLight = game->getMiner()->getLight().getBrightness();
-	// Visibilidade
-	visibility(LIGHTMASTER);
 	// Tele-transporte
 	moveTo(cidx,ridx);
-	// Visibilidade
-	if (ridx)
-		visibility(savedLight,1);
+}
+
+void Playground::gravity()
+{
+	// Gravidade
+	//moveTo(game->getMiner()->getColumn(),game->getMiner()->getRow()+1);
+
+	if (!game->getMiner()->getDownBlock())
+	{
+		gravity();
+	}
 }
 
 void Playground::refreshInfo()
@@ -464,6 +469,13 @@ void Playground::moveEvent()
 	{
 		game->getMiner()->sell();
 	}
+}
+
+void Playground::moveAfterEvent()
+{
+	// Gravidade
+	//if (!game->getMiner()->getDownBlock())
+	//	gravity();
 }
 
 void Playground::openShell()

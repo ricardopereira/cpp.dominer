@@ -48,8 +48,11 @@ public:
 	void startGame();
 	void stopGame();
 	void refresh(int force=0);
+
 	void keyEvent(char key);
 	void checkState();
+
+	void gravity();
 	int visibility(int mode, int refresh=0);
 	void teletransport(int cidx, int ridx);
 
@@ -60,6 +63,7 @@ public:
 	int moveUp();
 	int moveDown();
 	void moveEvent();
+	void moveAfterEvent();
 };
 
 #endif
