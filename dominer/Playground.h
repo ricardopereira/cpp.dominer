@@ -5,6 +5,7 @@
 #include "Sky.h"
 #include "World.h"
 #include "Hometown.h"
+#include "Rock.h"
 
 #ifndef __PLAYGROUND_H__
 #define __PLAYGROUND_H__
@@ -27,6 +28,10 @@ class Playground
 	void setGameBuffer(int shiftH, int shiftV);
 	void refreshInfo();
 	void openShell();
+
+	void gravityMiner();
+	void gravityRocks();
+	void gravityRock(Rock& r, int recursive=0);
 
 	void shift(int cidx, int ridx);
 

@@ -212,9 +212,10 @@ void Playground::checkState()
 		ctrl.getScreen().showMessage("Extra Life used");
 		teletransport(3,0);
 	}
-
 	// Evento de iteracoes
 	m->iteration();
+	// Gravidade
+	gravityRocks();
 }
 
 int Playground::moveLeft()
@@ -424,11 +425,69 @@ void Playground::teletransport(int cidx, int ridx)
 void Playground::gravity()
 {
 	// Gravidade
+	// Mineiro
+	if (!game->getMiner()->getDownBlock() && !game->getMiner()->onLadder())
+		gravityMiner();
+	// Rochas / Pedras
+	gravityRocks();
+}
+
+void Playground::gravityMiner()
+{
+	// Gravidade
 	moveDown();
 	// Recursivo
 	if (!game->getMiner()->getDownBlock())
 	{
 		gravity();
+	}
+}
+	
+void Playground::gravityRocks()
+{
+	Player* m = game->getMiner();
+	if (!m) return;
+	for (int i=0; i<game->getMine()->getBlockCount(); i++)
+	{
+		Block* b = game->getMine()->getBlock(i);
+		if (!b) continue;
+		// Verifica se e rocha / pedra
+		Rock* r = dynamic_cast<Rock*>(b);
+		if (!r) continue;
+
+		// Esmaga mineiro?
+		if (r->getColumn() == m->getColumn() && r->getRow()+1 == m->getRow())
+		{
+			if (m->onBeam()) continue;
+			// Esmaga mineiro?
+			(*r)++;
+			if (r->getLapse() >= FALLTICK)
+			{
+				m->kill();
+				r->resetLapse();
+			}
+			continue;
+		}
+		// Verifica se tem um bloco vazio por baixo
+		b = r->getDownBlock(*game->getMine());
+		if (b) continue;
+		// Gravidade
+		gravityRock(*r);
+	}
+	refresh(1);
+}
+
+void Playground::gravityRock(Rock& r, int recursive)
+{
+	// Gravidade
+	r.moveDown(*game->getMine());
+	// Recursivo
+	if (recursive)
+	{
+		if (!r.getDownBlock(*game->getMine()))
+		{
+			gravityRock(r);
+		}
 	}
 }
 
@@ -463,8 +522,7 @@ void Playground::moveEvent()
 void Playground::moveAfterEvent()
 {
 	// Gravidade
-	if (!game->getMiner()->getDownBlock())
-		gravity();
+	gravity();
 }
 
 void Playground::openShell()

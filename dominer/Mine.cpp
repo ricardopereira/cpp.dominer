@@ -140,7 +140,7 @@ void Mine::copyBlocks(Block** base)
 	}
 }
 
-int Mine::isValidRange(int cidx, int ridx)
+int Mine::isValidRange(int cidx, int ridx) const
 {
 	if (cidx > maxc-1 || ridx > maxr-1 || cidx < 0 || ridx < 0)
 		return 0;
@@ -148,7 +148,7 @@ int Mine::isValidRange(int cidx, int ridx)
 		return 1;
 }
 
-int Mine::isValidRange(int index)
+int Mine::isValidRange(int index) const
 {
 	if (index >= 0 && index < getBlockCount())
 		return 1;
@@ -156,7 +156,7 @@ int Mine::isValidRange(int index)
 		return 0;
 }
 
-Block* Mine::getBlock(int index)
+Block* Mine::getBlock(int index) const
 {
 	if (isValidRange(index))
 		return map[index];
@@ -164,7 +164,7 @@ Block* Mine::getBlock(int index)
 		return NULL;
 }
 
-Block* Mine::getBlock(int cidx, int ridx)
+Block* Mine::getBlock(int cidx, int ridx) const
 {
 	if (!isValidRange(cidx,ridx))
 		return NULL;
@@ -213,17 +213,17 @@ void Mine::doBlockNull(int cidx, int ridx)
 	doBlockNull(ridx*this->maxc+cidx);
 }
 
-int Mine::getBlockCount()
+int Mine::getBlockCount() const
 {
 	return maxc*maxr;
 }
 
-int Mine::getColumnLimit()
+int Mine::getColumnLimit() const
 {
 	return maxc;
 }
 
-int Mine::getRowLimit()
+int Mine::getRowLimit() const
 {
 	return maxr;
 }
@@ -235,4 +235,14 @@ Mine& Mine::operator=(const Mine& base)
 	this->maxr = base.maxr;
 	copyBlocks(base.map);
 	return *this;
+}
+
+void Mine::swap(int a, int b)
+{
+	Block* aux;
+	if (!isValidRange(a)) return;
+	if (!isValidRange(b)) return;
+	aux = map[b];
+	map[b] = map[a];
+	map[a] = aux;
 }

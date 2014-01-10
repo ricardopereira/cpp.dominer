@@ -5,6 +5,7 @@
 
 #include "Block.h"
 #include "Common.h"
+#include "Mine.h"
 
 using namespace std;
 
@@ -33,31 +34,32 @@ Block::~Block()
 
 void Block::init()
 {
+	this->tick = 0;
 	this->visible = 1;
 	this->forceDestruction = 0;
 }
 
-int Block::getIndex(int maxc)
+int Block::getIndex(int maxc) const
 {
 	return row*maxc+column;
 }
 
-int Block::getColumn()
+int Block::getColumn() const
 {
 	return this->column;
 }
 
-int Block::getRow()
+int Block::getRow() const
 {
 	return this->row;
 }
 
-int Block::getWidth()
+int Block::getWidth() const
 {
 	return this->width;
 }
 
-int Block::getHeight()
+int Block::getHeight() const
 {
 	return this->height;
 }
@@ -77,7 +79,7 @@ void Block::setVisible(const int value)
 	visible = value;
 }
 
-int Block::getVisible()
+int Block::getVisible() const
 {
 	return visible;
 }
@@ -93,4 +95,54 @@ string Block::getAsString() const
 void Block::setForceDestruction()
 {
 	forceDestruction = 1;
+}
+
+Block* Block::getLeftBlock(const Mine& m) const
+{
+	return m.getBlock(getColumn()-1,getRow());
+}
+
+Block* Block::getRightBlock(const Mine& m) const
+{
+	return m.getBlock(getColumn()+1,getRow());
+}
+
+Block* Block::getUpBlock(const Mine& m) const
+{
+	return m.getBlock(getColumn(),getRow()-1);
+}
+
+Block* Block::getDownBlock(const Mine& m) const
+{
+	return m.getBlock(getColumn(),getRow()+1);
+}
+
+void Block::moveLeft(Mine& m)
+{
+	m.swap(this->getIndex(m.getColumnLimit()),row*m.getColumnLimit()+column-1);
+}
+
+void Block::moveRight(Mine& m)
+{
+	m.swap(this->getIndex(m.getColumnLimit()),row*m.getColumnLimit()+column+1);
+}
+
+void Block::moveUp(Mine& m)
+{
+	m.swap(this->getIndex(m.getColumnLimit()),(row-1)*m.getColumnLimit()+column);
+}
+
+void Block::moveDown(Mine& m)
+{
+	m.swap(this->getIndex(m.getColumnLimit()),(row+1)*m.getColumnLimit()+column);
+}
+
+int Block::operator==(const Block& right) const
+{
+	return this->column == right.getColumn() && this->row == right.getRow();
+}
+
+int Block::operator!=(const Block& right) const
+{
+	return this->column != right.getColumn() || this->row != right.getRow();
 }

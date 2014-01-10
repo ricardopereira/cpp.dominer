@@ -37,6 +37,10 @@
 #define PICKERPRO 2
 #define PICKERMASTER 4
 
+#define LADDERPACK 15
+#define BEAMPACK 15
+#define FALLTICK 2
+
 #define PRETO 0
 #define AZUL 1
 #define VERDE 2

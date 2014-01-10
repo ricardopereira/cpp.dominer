@@ -254,6 +254,22 @@ void Player::moved()
 		restoreEnergy();
 }
 
+void Player::kill()
+{
+	died = 1;
+	// Verificar vidas-extra
+	if (extralifes)
+	{
+		extralifes--;
+		restoreEnergy();
+	}
+	else
+	{
+		// Para indicar que o jogo terminou (negativo)
+		energy--;
+	}
+}
+
 int Player::hasDied()
 {
 	return died;
@@ -273,18 +289,7 @@ void Player::consumeEnergy(int up)
 	// Verificar se faleceu
 	if (energy <= 0)
 	{
-		died = 1;
-		// Verificar vidas-extra
-		if (extralifes)
-		{
-			extralifes--;
-			restoreEnergy();
-		}
-		else
-		{
-			// Para indicar que o jogo terminou (negativo)
-			energy--;
-		}
+		kill();
 	}
 }
 
@@ -432,13 +437,13 @@ int Player::buyTool(const ToolItem& t)
 	}
 	else if (isEqual(t.getName(),"Ladder"))
 	{
-		// Recarga de 10
-		ladders += 15;
+		// Recarga
+		ladders += LADDERPACK;
 	}
 	else if (isEqual(t.getName(),"Beam"))
 	{
-		// Recarga de 10
-		beams += 15;
+		// Recarga
+		beams += BEAMPACK;
 	}
 	else if (isEqual(t.getName(),"Parachute"))
 	{

@@ -102,6 +102,7 @@ public:
 	bool getSuperminer() const;
 
 	void iteration();
+	void kill();
 	void moved();
 	int hasDied();
 	int gameOver() const;
