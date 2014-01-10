@@ -317,7 +317,7 @@ int Player::breaking(Block* b, int up)
 {
 	// Consume energia ao trabalhar na mina
 	if (up && !onLadder()) {}
-	else if (b && b->isProtected()) {}
+	else if (b && b->classIs("Rock")) {}
 	else consumeEnergy(up);
 	// Verifica se pode quebrar
 	if (b)

@@ -48,10 +48,9 @@ void Playground::newGame(int maxc, int maxr)
 
 void Playground::initGame()
 {
+	// Deslocamento
 	shiftH = 0;
 	shiftV = 0;
-	// Iniciar visbilidade
-	visibility(LIGHTMASTER);
 
 	// Verificar se existe jogador
 	if (!game->getMiner())
@@ -71,22 +70,50 @@ void Playground::moveTo(int cidx, int ridx, int refresh)
 {
     // Se nao for valido, nao faz nada
     if (!canMove(cidx,ridx)) return;
+
+	// Visibilidade
+	if (ridx == 0)
+		visibility(LIGHTMASTER);
+	else
+		visibility(game->getMiner()->getLight().getBrightness());
+
 	// Deslocacao
-	shiftH = cidx - 3;
-	shiftV = ridx - 3;
-	// Movimenta tabuleiro com deslocacao
-	setGameBuffer(shiftH,shiftV);
+	shift(cidx,ridx);
+
 	// Actualizar
 	if (refresh)
-		this->refresh();
+	{
+		this->refresh(1);
+	}
+}
+
+void Playground::shift(int cidx, int ridx)
+{
+	switch (ctrl.getScreen().getSize())
+	{
+	case LIGHTNORMAL:
+		shiftH = cidx - 1;
+		shiftV = ridx - 1;
+		break;
+	case LIGHTPRO:
+		shiftH = cidx - 2;
+		shiftV = ridx - 2;
+		break;
+	case LIGHTMASTER:
+		shiftH = cidx - 3;
+		shiftV = ridx - 3;
+		break;
+	}
 }
 
 void Playground::refresh(int force)
 {
 	if (!game) return;
 	if (force)
+	{
 		// "Rescreve" buffer
 		setGameBuffer(shiftH,shiftV);
+	}
 	// Buffer
 	ctrl.getScreen().refresh();
 	// Informacao de jogo
@@ -142,10 +169,6 @@ void Playground::startGame()
 			if (!moveDown()) continue;
 		}
 		moveAfterEvent();
-
-		// Imprime o jogo no tabuleiro
-		setGameBuffer(shiftH,shiftV);
-		refresh();
 	}
 }
 
@@ -175,68 +198,78 @@ void Playground::keyEvent(char key)
 
 void Playground::checkState()
 {
+	Player* m = game->getMiner();
+	if (!m) return;
 	// Verifica fim do jogo
-	if (game->getMiner()->gameOver())
+	if (m->gameOver())
 	{
 		ctrl.getScreen().showMessage("Game Over");
 		quit = 1;
 	}
 	// Verifica se perdeu vida
-	else if (game->getMiner()->hasDied())
+	else if (m->hasDied())
 	{
 		ctrl.getScreen().showMessage("Extra Life used");
 		teletransport(3,0);
 	}
 
 	// Evento de iteracoes
-	game->getMiner()->iteration();
+	m->iteration();
 }
 
 int Playground::moveLeft()
 {
-	if (!game->getMiner()) return 0;
+	Player* m = game->getMiner();
+	if (!m) return 0;
 	// Bloco atual
-	game->getMiner()->setCurrentBlock(game->getMiner()->getLeftBlock());
+	m->setCurrentBlock(m->getLeftBlock());
 	// Validar movimento
 	if (!canMoveLeft()) return 0;
-	shiftH--;
+	//shiftH--;
 	moveEvent();
+	moveTo(m->getColumn()-1,m->getRow());
 	return 1;
 }
 
 int Playground::moveRight()
 {
-	if (!game->getMiner()) return 0;
+	Player* m = game->getMiner();
+	if (!m) return 0;
 	// Bloco atual
-	game->getMiner()->setCurrentBlock(game->getMiner()->getRightBlock());
+	m->setCurrentBlock(m->getRightBlock());
 	// Validar movimento
 	if (!canMoveRight()) return 0;
-	shiftH++;
+	//shiftH++;
 	moveEvent();
+	moveTo(m->getColumn()+1,m->getRow());
 	return 1;
 }
 
 int Playground::moveUp()
 {
-	if (!game->getMiner()) return 0;
+	Player* m = game->getMiner();
+	if (!m) return 0;
 	// Bloco atual
-	game->getMiner()->setCurrentBlock(game->getMiner()->getUpBlock());
+	m->setCurrentBlock(m->getUpBlock());
 	// Validar movimento
 	if (!canMoveUp()) return 0;
-	shiftV--;
+	//shiftV--;
 	moveEvent();
+	moveTo(m->getColumn(),m->getRow()-1);
 	return 1;
 }
 
 int Playground::moveDown()
 {
-	if (!game->getMiner()) return 0;
+	Player* m = game->getMiner();
+	if (!m) return 0;
 	// Bloco atual
 	game->getMiner()->setCurrentBlock(game->getMiner()->getDownBlock());
 	// Validar movimento
 	if (!canMoveDown()) return 0;
-	shiftV++;
+	//shiftV++;
 	moveEvent();
+	moveTo(m->getColumn(),m->getRow()+1);
 	return 1;
 }
 
@@ -341,20 +374,10 @@ int Playground::canMoveUp()
 	if (canBreak)
 	{
 		// Verificar se tem escada para subir
-		if (game->getMiner()->onLadder())
-		{
-			//Test: Problemas com Rock
-			if (b)
-			{
-				if (b->classIs("Hometown"))
-					visibility(LIGHTMASTER);
-				else
-					visibility(game->getMiner()->getLight().getBrightness());
-			}
-			return 1;
-		}
-		else
+		if (!game->getMiner()->onLadder())
 			return 0;
+		else
+			return 1;
 	}
 	else
 		return 0;
@@ -370,15 +393,6 @@ int Playground::canMoveDown()
 	int canBreak = game->getMiner()->breaking(b);
 	if (!canBreak)
 		ctrl.getScreen().printEnergy(game->getMiner()->getEnergy());
-
-	if (b && canBreak)
-	{
-		//Test: Problemas com Rock
-		if (b->classIs("Hometown"))
-			visibility(LIGHTMASTER);
-		else
-			visibility(game->getMiner()->getLight().getBrightness());
-	}
 	return canBreak;
 }
 
@@ -388,46 +402,21 @@ int Playground::visibility(int mode, int refresh)
 	// Alteracao da visibilidade
 	int size = ctrl.getScreen().getSize();
 	// Validacao
-	if (mode == LIGHTPRO && size == LIGHTNORMAL) return 0;
-	if (mode == LIGHTNORMAL && size == LIGHTPRO) return 0;
 	if (size == mode) return 0;
-	int diff = (size - mode);
-
-	int cidx = game->getMiner()->getColumn();
-	int ridx = game->getMiner()->getRow();
-	// Calculos para reposicionar o mineiro
-	if (diff > 0)
-	{
-		diff = (int)floor((double)diff/2);
-		// Da a folga necessaria para o limite
-		cidx += diff;
-		ridx += diff;
-	}
-	else
-	{
-		//Problemas ao mudar de 3 - 5 ou
-		//  5 - 3 mas é caso que não deve acontecer
-		diff = (int)ceil((double)diff/2);
-	}
 	// Alterar o buffer do ecra
 	ctrl.getScreen().setSize(mode);
-	// Ajustar
+	// Actualizar
 	if (refresh)
 	{
-		moveTo(cidx,ridx);
-	}
-	else
-	{
-		shiftH += diff;
-		shiftV += diff;
+		shift(game->getMiner()->getColumn(),
+			  game->getMiner()->getRow());
+		this->refresh(1);
 	}
 	return 1;
 }
 
 void Playground::teletransport(int cidx, int ridx)
 {
-	// Se nao for valido, nao faz nada
-	if (!canMove(cidx,ridx)) return;
 	// Tele-transporte
 	moveTo(cidx,ridx);
 }
@@ -435,8 +424,8 @@ void Playground::teletransport(int cidx, int ridx)
 void Playground::gravity()
 {
 	// Gravidade
-	//moveTo(game->getMiner()->getColumn(),game->getMiner()->getRow()+1);
-
+	moveDown();
+	// Recursivo
 	if (!game->getMiner()->getDownBlock())
 	{
 		gravity();
@@ -474,8 +463,8 @@ void Playground::moveEvent()
 void Playground::moveAfterEvent()
 {
 	// Gravidade
-	//if (!game->getMiner()->getDownBlock())
-	//	gravity();
+	if (!game->getMiner()->getDownBlock())
+		gravity();
 }
 
 void Playground::openShell()

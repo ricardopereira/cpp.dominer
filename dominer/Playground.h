@@ -28,6 +28,8 @@ class Playground
 	void refreshInfo();
 	void openShell();
 
+	void shift(int cidx, int ridx);
+
 	int canMove(int cidx, int ridx);
 	int canMoveLeft();
 	int canMoveRight();
