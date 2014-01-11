@@ -39,12 +39,23 @@ Mine::~Mine()
 
 void Mine::init()
 {
+	changed = 0;
+}
 
+int Mine::hasChanged()
+{
+	return changed;
+}
+
+void Mine::refresh()
+{
+	changed = 0;
 }
 
 void Mine::createMap()
 {
 	map = new Block*[this->maxc*this->maxr];
+	changed = 1;
 }
 
 void Mine::destroyMap()
@@ -182,6 +193,7 @@ void Mine::setBlock(int index, Block* b, int deleteBlock)
 		if (deleteBlock)
 			doBlockNull(index,1);
 		map[index] = b;
+		changed = 1;
 	}
 }
 
@@ -198,6 +210,7 @@ void Mine::doBlockNull(Block* b, int deleteBlock)
 				// Remove o bloco da memoria
 				delete map[idx];
 		map[idx] = NULL;
+		changed = 1;
 	}
 }
 
@@ -245,4 +258,5 @@ void Mine::swap(int a, int b)
 	aux = map[b];
 	map[b] = map[a];
 	map[a] = aux;
+	changed = 1;
 }

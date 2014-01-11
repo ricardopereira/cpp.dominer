@@ -9,6 +9,7 @@ class Mine
 {
 	int maxc,maxr;
 	Block** map;
+	int changed;
 
 	void init();
 	void createMap();
@@ -28,6 +29,8 @@ public:
 	void setBlock(int index, Block* b, int deleteBlock=0);
 
 	void swap(int a, int b);
+	int hasChanged();
+	void refresh();
 
 	void doBlockNull(Block* b, int deleteBlock=0);
 	void doBlockNull(int index);

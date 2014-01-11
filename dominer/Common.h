@@ -39,7 +39,7 @@
 
 #define LADDERPACK 15
 #define BEAMPACK 15
-#define FALLTICK 2
+#define FALLTICK 3
 
 #define PRETO 0
 #define AZUL 1

@@ -120,21 +120,25 @@ Block* Block::getDownBlock(const Mine& m) const
 void Block::moveLeft(Mine& m)
 {
 	m.swap(this->getIndex(m.getColumnLimit()),row*m.getColumnLimit()+column-1);
+	this->column--;
 }
 
 void Block::moveRight(Mine& m)
 {
 	m.swap(this->getIndex(m.getColumnLimit()),row*m.getColumnLimit()+column+1);
+	this->column++;
 }
 
 void Block::moveUp(Mine& m)
 {
 	m.swap(this->getIndex(m.getColumnLimit()),(row-1)*m.getColumnLimit()+column);
+	this->row--;
 }
 
 void Block::moveDown(Mine& m)
 {
 	m.swap(this->getIndex(m.getColumnLimit()),(row+1)*m.getColumnLimit()+column);
+	this->row++;
 }
 
 int Block::operator==(const Block& right) const

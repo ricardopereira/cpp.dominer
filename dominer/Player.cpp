@@ -177,7 +177,7 @@ const Light& Player::getLight()
 {
 	if (!light)
 	{
-		setLight(*new Light(LIGHTNORMAL));
+		setLight(*new Light(LIGHTMASTER)); //LIGHTNORMAL
 	}
 	return *light;
 }

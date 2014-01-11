@@ -113,6 +113,8 @@ void Playground::refresh(int force)
 	{
 		// "Rescreve" buffer
 		setGameBuffer(shiftH,shiftV);
+		// Refrescar mina
+		game->getMine()->refresh();
 	}
 	// Buffer
 	ctrl.getScreen().refresh();
@@ -200,6 +202,9 @@ void Playground::checkState()
 {
 	Player* m = game->getMiner();
 	if (!m) return;
+	// Gravidade
+	gravityRocks();
+
 	// Verifica fim do jogo
 	if (m->gameOver())
 	{
@@ -214,8 +219,6 @@ void Playground::checkState()
 	}
 	// Evento de iteracoes
 	m->iteration();
-	// Gravidade
-	gravityRocks();
 }
 
 int Playground::moveLeft()
@@ -465,16 +468,21 @@ void Playground::gravityRocks()
 			{
 				m->kill();
 				r->resetLapse();
+				break;
 			}
 			continue;
 		}
 		// Verifica se tem um bloco vazio por baixo
 		b = r->getDownBlock(*game->getMine());
 		if (b) continue;
+		// Verifica limite
+		if (r->getRow() == game->getMine()->getColumnLimit()-1) continue;
 		// Gravidade
 		gravityRock(*r);
 	}
-	refresh(1);
+	// Refresca se necessario
+	if (game->getMine()->hasChanged())
+		refresh(1);
 }
 
 void Playground::gravityRock(Rock& r, int recursive)
