@@ -83,6 +83,8 @@
     <ClCompile Include="BlockEmpty.cpp" />
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="Dinamite.cpp" />
+    <ClCompile Include="Extralife.cpp" />
+    <ClCompile Include="Food.cpp" />
     <ClCompile Include="GamesCollection.cpp" />
     <ClCompile Include="Creator.cpp" />
     <ClCompile Include="Coal.cpp" />
@@ -119,6 +121,8 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockEmpty.h" />
     <ClInclude Include="Dinamite.h" />
+    <ClInclude Include="Extralife.h" />
+    <ClInclude Include="Food.h" />
     <ClInclude Include="GamesCollection.h" />
     <ClInclude Include="Creator.h" />
     <ClInclude Include="Coal.h" />

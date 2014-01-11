@@ -11,13 +11,16 @@
 #include "Aluminum.h"
 #include "Coal.h"
 #include "Diamond.h"
+#include "Food.h"
+#include "Extralife.h"
 
 using namespace std;
 
-Mine::Mine(int c, int r)
+Mine::Mine(int c, int r, int d)
 {
 	this->maxc = c;
 	this->maxr = r;
+	this->dificulty = d;
 	createBlocks();
 	init();
 }
@@ -27,6 +30,7 @@ Mine::Mine(const Mine& base)
 	// Por copia
 	this->maxc = base.maxc;
 	this->maxr = base.maxr;
+	this->dificulty = base.dificulty;
 	copyBlocks(base.map);
 	init();
 }
@@ -71,9 +75,53 @@ void Mine::createBlocks()
 	// Block
 	int cidx=0, ridx=0;
 	// Probabilidades
-	int prob;
+	int prob, probs[8];
+	int level;
 	// Randomize
 	srand((unsigned int)time(NULL));
+
+	// Patamares de Dificuldade
+	switch (dificulty)
+	{
+	case NORMAL:
+		probs[0] = 3; //Extralife
+		probs[1] = 6; //Diamond
+		probs[2] = 11; //Gold
+		probs[3] = 14; //Food
+		probs[4] = 18; //Aluminum
+		probs[5] = 26; //Iron
+		probs[6] = 34; //Coal
+		probs[7] = 50; //Rock
+
+		// Calcular o limite
+		level = (int)ceil((double)maxr/2);
+		break;
+	case HARD:
+		probs[0] = 3; //Extralife
+		probs[1] = 6; //Diamond
+		probs[2] = 11; //Gold
+		probs[3] = 15; //Food
+		probs[4] = 20; //Aluminum
+		probs[5] = 30; //Iron
+		probs[6] = 40; //Coal
+		probs[7] = 48; //Rock
+
+		// Calcular o limite
+		level =(int)floor((double)maxr/4);
+		level = maxr - level;
+		break;
+	default:
+		probs[0] = 3; //Extralife
+		probs[1] = 6; //Diamond
+		probs[2] = 11; //Gold
+		probs[3] = 15; //Food
+		probs[4] = 20; //Aluminum
+		probs[5] = 30; //Iron
+		probs[6] = 40; //Coal
+		probs[7] = 45; //Rock
+		level = -1;
+		break;
+	}
 
 	for (int i=0; i<getBlockCount(); i++)
 	{
@@ -84,27 +132,35 @@ void Mine::createBlocks()
 			// Linha da superficie
 			map[i] = new Hometown(cidx,ridx);
 		}
-		else if (prob <= 2)
+		else if (prob <= probs[0] && ridx > level)
+		{
+			map[i] = new Extralife(cidx,ridx);
+		}
+		else if (prob <= probs[1] && ridx > level)
 		{
 			map[i] = new Diamond(cidx,ridx);
 		}
-		else if (prob <= 4)
+		else if (prob <= probs[2] && ridx > level)
 		{
 			map[i] = new Gold(cidx,ridx);
 		}
-		else if (prob <= 8)
+		else if (prob <= probs[3] && ridx > level)
+		{
+			map[i] = new Food(cidx,ridx);
+		}
+		else if (prob <= probs[4])
 		{
 			map[i] = new Aluminum(cidx,ridx);
 		}
-		else if (prob <= 15)
+		else if (prob <= probs[5])
 		{
 			map[i] = new Iron(cidx,ridx);
 		}
-		else if (prob <= 30)
+		else if (prob <= probs[6])
 		{
 			map[i] = new Coal(cidx,ridx);
 		}
-		else if (prob <= 45)
+		else if (prob <= probs[7])
 		{
 			map[i] = new Rock(cidx,ridx);
 		}
@@ -241,11 +297,17 @@ int Mine::getRowLimit() const
 	return maxr;
 }
 
+int Mine::getDificulty() const
+{
+	return dificulty;
+}
+
 Mine& Mine::operator=(const Mine& base)
 {
 	destroyMap();
 	this->maxc = base.maxc;
 	this->maxr = base.maxr;
+	this->dificulty = base.dificulty;
 	copyBlocks(base.map);
 	return *this;
 }

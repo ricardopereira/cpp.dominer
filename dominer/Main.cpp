@@ -42,21 +42,21 @@ int main()
 				case 1:
 					// Facil
 					ctrl.getConfig().load();
-					playground.newGame(GAMEEASY,GAMEEASY);
+					playground.newGame(MINEEASY,MINEEASY,EASY);
 					playground.startGame();
 					playground.stopGame();
 					break;
 				case 2:
 					// Normal
 					ctrl.getConfig().load();
-					playground.newGame(GAMENORMAL,GAMENORMAL);
+					playground.newGame(MINENORMAL,MINENORMAL,NORMAL);
 					playground.startGame();
 					playground.stopGame();
 					break;
 				case 3:
 					// Dificil
 					ctrl.getConfig().load();
-					playground.newGame(GAMEHARD,GAMEHARD);
+					playground.newGame(MINEHARD,MINEHARD,HARD);
 					playground.startGame();
 					playground.stopGame();
 					break;
@@ -64,7 +64,7 @@ int main()
 					// Personlizado
 					ctrl.getScreen().clear();
 					ctrl.getScreen().showCursor();
-					int maxc, maxr;
+					int maxc, maxr, dificulty;
 
 					cout << "Please, feel free to customize your game..." << endl;
 					cout << "Columns: ";
@@ -83,11 +83,23 @@ int main()
 					}
 					cin.clear();
 					cin.ignore();
+					// Dificuldade
+					do
+					{
+						cout << "Level (1-EASY, 2-NORMAL, 3-HARD): ";
+						// Em caso de falha
+						if (!(cin >> dificulty))
+						{
+							dificulty = 1;
+						}
+						cin.clear();
+						cin.ignore();
+					} while (dificulty <= 0 || dificulty > 3);
 
 					ctrl.getScreen().hideCursor();
 
 					ctrl.getConfig().load();
-					playground.newGame(maxc,maxr);
+					playground.newGame(maxc,maxr,dificulty);
 					playground.startGame();
 					playground.stopGame();
 					break;

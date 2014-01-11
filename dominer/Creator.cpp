@@ -11,6 +11,9 @@
 #include "Aluminum.h"
 #include "Coal.h"
 #include "Diamond.h"
+#include "Dinamite.h"
+#include "Food.h"
+#include "Extralife.h"
 
 #include "Bag.h"
 #include "Light.h"
@@ -156,6 +159,18 @@ void* Creator::create(const string& value, int cidx, int ridx) const
 	else if (isEqual(value,"beam"))
 	{
 		return new Beam(cidx,ridx);
+	}
+	else if (isEqual(value,"food"))
+	{
+		return new Food(cidx,ridx);
+	}
+	else if (isEqual(value,"extralife"))
+	{
+		return new Extralife(cidx,ridx);
+	}
+	else if (isEqual(value,"dinamite"))
+	{
+		return new Dinamite(cidx,ridx);
 	}
 	else
 		return NULL;

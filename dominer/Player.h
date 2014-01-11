@@ -13,6 +13,7 @@
 
 #include "Ladder.h"
 #include "Beam.h"
+#include "Dinamite.h"
 
 #ifndef __PLAYER_H__
 #define __PLAYER_H__
@@ -40,6 +41,7 @@ class Player: public Block
 	bool superminer;
 
 	int onBlock(const string& blockName);
+	void setBlock(Block* b);
 	int goingToBlock(const string& blockName);
 	// Ferramentas
 	void setPicker(Picker& p);
@@ -127,6 +129,7 @@ public:
 	// Posicionado
 	int onLadder();
 	int onBeam();
+	int onDinamite();
 	int onHometown();
 	// Proximo posicao
 	int goingToHometown();
@@ -141,6 +144,7 @@ public:
 	int buyTool(const ToolItem& t);
 	void createLadder();
 	void createBeam();
+	void createDinamite();
 
 	// Operadores
 	Player& operator=(const Player& base);

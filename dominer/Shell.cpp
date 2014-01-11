@@ -103,7 +103,7 @@ int Shell::readCommand()
 
 void Shell::internalInterpret()
 {
-	if (isCommand("h"))
+	if (isCommand("h") || isCommand("help"))
 	{
 		showCommands();
 	}
@@ -113,7 +113,7 @@ void Shell::notFound(const string& c)
 {
 	ostringstream out;
 	// De sistema
-	if (c.compare("j") == 0 || c.compare("h") == 0) return;
+	if (c.compare("j") == 0 || c.compare("h") == 0 || c.compare("help") == 0) return;
 	// Comando nao existe
 	screen->hideCursor();
 	out << "Command '" << c << "' not found";
@@ -175,14 +175,14 @@ const vector<CommandItem>& Shell::getCommandsList()
 		listCommands->push_back(CommandItem("u","nome_utensilio")); //Comprar utensilio
 		listCommands->push_back(CommandItem("b","tipo coluna linha")); //Criar bloco
 		listCommands->push_back(CommandItem("t","coluna linha")); //Teletransporte
-		listCommands->push_back(CommandItem("d","valor")); //Modificar dinheiro
+		listCommands->push_back(CommandItem("g","valor")); //Modificar dinheiro
 		listCommands->push_back(CommandItem("e","valor")); //Modificar energia
 		listCommands->push_back(CommandItem("c","novo_nome")); //Copia de jogo atual
 		listCommands->push_back(CommandItem("f","nome")); //Carregar jogo da memoria
 		listCommands->push_back(CommandItem("a","nome_origem nome_destino")); //Copia mina para o destino
-		listCommands->push_back(CommandItem("lu","")); //rp - Lista utensilios
-		listCommands->push_back(CommandItem("lb","")); //rp - Lista blocos
-		listCommands->push_back(CommandItem("lj","")); //rp - Lista jogos em memoria
+		listCommands->push_back(CommandItem("shop","")); //rp - Lista utensilios
+		listCommands->push_back(CommandItem("blocks","")); //rp - Lista blocos
+		listCommands->push_back(CommandItem("games","")); //rp - Lista jogos em memoria
 		listCommands->push_back(CommandItem("x",""));
 	}
 	return *listCommands;

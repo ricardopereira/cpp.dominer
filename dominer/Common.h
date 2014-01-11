@@ -11,9 +11,14 @@
 #define MESSAGETIME 2000
 #define MODEDEBUG 0
 
-#define GAMEEASY 21
-#define GAMENORMAL 41
-#define GAMEHARD 61
+#define MINEEASY 21
+#define MINENORMAL 41
+#define MINEHARD 61
+#define MINEMAX 500
+
+#define EASY 1
+#define NORMAL 2
+#define HARD 3
 #define MENULAST 5
 
 #define MINERENERGY 50

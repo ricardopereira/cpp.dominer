@@ -16,7 +16,7 @@ void Playground::init()
 	game = NULL;
 }
 
-void Playground::newGame(int maxc, int maxr)
+void Playground::newGame(int maxc, int maxr, int dificulty)
 {
 	quit = 0;
 	pause = 0;
@@ -27,16 +27,20 @@ void Playground::newGame(int maxc, int maxr)
 	if (game)
 		stopGame();
 
+	// Ter em conta o consumo de memoria e performance
+	if (maxc > MINEMAX) maxc = MINEMAX;
+	if (maxr > MINEMAX) maxr = MINEMAX;
+
 	int size = ctrl.getScreen().getSize();
 	// Criar o objecto Game e verificar minimos de tabuleiro
 	if (maxc < size && maxr < size)
-		tempGame = new Game(size,size);
+		tempGame = new Game(size,size,dificulty);
 	else if (maxc < size)
-		tempGame = new Game(size,maxr);
+		tempGame = new Game(size,maxr,dificulty);
 	else if (maxr < size)
-		tempGame = new Game(maxc,size);
+		tempGame = new Game(maxc,size,dificulty);
 	else
-		tempGame = new Game(maxc,maxr);
+		tempGame = new Game(maxc,maxr,dificulty);
 	game = tempGame;
 
 	// Limpar o ecra
@@ -194,6 +198,11 @@ void Playground::keyEvent(char key)
 		game->getMiner()->createBeam();
 		refresh(1);
 	}
+	else if (tolower(key) == 'd')
+	{
+		game->getMiner()->createDinamite();
+		refresh(1);
+	}
 	else if (tolower(key) == 'p')
 		pause = !pause;
 }
@@ -204,6 +213,8 @@ void Playground::checkState()
 	if (!m) return;
 	// Gravidade
 	gravityRocks();
+	// Refrescar
+	refreshInfo();
 
 	// Verifica fim do jogo
 	if (m->gameOver())
@@ -574,6 +585,7 @@ void Playground::openShell()
 							// Refrescar o painel de informacao
 							ctrl.getScreen().printMoney(game->getMiner()->getMoney());
 							ctrl.getScreen().printExtralifes(game->getMiner()->getExtralifes());
+							ctrl.getScreen().clearAllText();
 							ctrl.getScreen().printTools(*game->getMiner());
 						}
 						else
@@ -598,8 +610,10 @@ void Playground::openShell()
 					Block* b = (Block*)ctrl.getBlocksList().create(shell->getArgument(0),cidx,ridx);
 					if (b)
 						game->getMine()->setBlock(b->getIndex(game->getMine()->getColumnLimit()),b,1);
+
+					ctrl.getScreen().clearAllText();
+					refresh(1);
 				}
-				refresh(1);
 				// Resultado
 				if (ctrl.getBlocksList().has(shell->getArgument(0)))
 					ctrl.getScreen().printCommandInfo("Block created ("+shell->getArgument(1)+","+shell->getArgument(2)+") - " + shell->getArgument(0));
@@ -616,14 +630,14 @@ void Playground::openShell()
 			{
 				//g <valor> - O valor das moedas passa a ter o valor indicado
 				game->getMiner()->setMoney(shell->getArgumentAsInt(0));
-				refreshInfo();
+				ctrl.getScreen().printMoney(game->getMiner()->getMoney());
 				ctrl.getScreen().printCommandInfo("Updated");
 			}
 			else if (shell->isCommand("e"))
 			{
 				//e <valor> - O valor da energia passa a ter o valor indicado
 				game->getMiner()->setEnergy(shell->getArgumentAsInt(0));
-				refreshInfo();
+				ctrl.getScreen().printEnergy(game->getMiner()->getEnergy());
 				ctrl.getScreen().printCommandInfo("Updated");
 			}
 			else if (shell->isCommand("c"))
@@ -683,7 +697,7 @@ void Playground::openShell()
 				if (!visibility(shell->getArgumentAsInt(0),1))
 					ctrl.getScreen().printCommandInfo("Not valid");
 			}
-			else if (shell->isCommand("lu"))
+			else if (shell->isCommand("shop"))
 			{
 				//lu - listar utensilios
 				ctrl.getScreen().clearAllText();
@@ -691,7 +705,7 @@ void Playground::openShell()
 				for (int i=0; i<ctrl.getConfig().getToolsList().size(); i++)
 					ctrl.getScreen().printText(" " + ctrl.getConfig().getToolsList().item(i).getAsString(),i+3);
 			}
-			else if (shell->isCommand("lb"))
+			else if (shell->isCommand("blocks"))
 			{
 				//lb - listar blocos
 				ctrl.getScreen().clearAllText();
@@ -699,7 +713,7 @@ void Playground::openShell()
 				for (int i=0; i<ctrl.getBlocksList().size(); i++)
 					ctrl.getScreen().printText(" " + ctrl.getBlocksList().item(i),i+3);
 			}
-			else if (shell->isCommand("lj"))
+			else if (shell->isCommand("games"))
 			{
 				//lj - listar jogos em memória
 				ctrl.getScreen().clearAllText();

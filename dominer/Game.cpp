@@ -4,9 +4,9 @@
 #include "Material.h"
 #include "Ladder.h"
 
-Game::Game(int cmax, int rmax)
+Game::Game(int cmax, int rmax, int dificulty)
 {
-	mine = new Mine(cmax,rmax);
+	mine = new Mine(cmax,rmax,dificulty);
 	init();
 }
 

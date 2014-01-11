@@ -51,7 +51,7 @@ public:
 	}
 	~Playground();
 
-	void newGame(int maxc, int maxr);
+	void newGame(int maxc, int maxr, int dificulty);
 	void startGame();
 	void stopGame();
 	void refresh(int force=0);

@@ -13,7 +13,7 @@ class Game
 
 	void init();
 public:
-	Game(int cmax, int rmax);
+	Game(int cmax, int rmax, int dificulty);
 	Game(const Game& base);
 	~Game();
 

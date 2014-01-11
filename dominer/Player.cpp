@@ -17,6 +17,7 @@ char Player::getDrawInfo(const int index)
 		return (char)219;
 	else if (index == 16 || index == 17 || index == 18)
 		return (char)223;
+	// Com viga
 	else if (onBeam())
 	{
 		if (index == 0 || index == 4)
@@ -27,6 +28,7 @@ char Player::getDrawInfo(const int index)
 		else
 			return ' ';
 	}
+	// Com escada
 	else if (onLadder())
 	{
 		if (index == 1 || index == 21)
@@ -38,12 +40,23 @@ char Player::getDrawInfo(const int index)
 		else
 			return ' ';
 	}
+	// Com dinamite
+	else if (onDinamite())
+	{
+		if (index == 10)
+			return (char)179;
+		else if (index == 15 || index == 20)
+			return (char)219;
+		else
+			return ' ';
+	}
 	else
 		return ' ';
 }
 
 int Player::getColor(const int index)
 {
+	// Com viga
 	if (onBeam())
 	{
 		if (index == 0 || index == 4)
@@ -54,6 +67,7 @@ int Player::getColor(const int index)
 		else
 			return BRANCO;
 	}
+	// Com escada
 	else if (onLadder())
 	{
 		if (index == 1 || index == 21)
@@ -62,6 +76,16 @@ int Player::getColor(const int index)
 			return AMARELO;
 		else if (index == 2 || index == 22)
 			return AMARELO;
+		else
+			return BRANCO;
+	}
+	// Com dinamite
+	else if (onDinamite())
+	{
+		if (index == 10)
+			return AMARELO_CLARO;
+		else if (index == 15 || index == 20)
+			return VERMELHO_CLARO;
 		else
 			return BRANCO;
 	}
@@ -417,6 +441,11 @@ int Player::onBeam()
 	return onBlock("Beam");
 }
 
+int Player::onDinamite()
+{
+	return onBlock("Dinamite");
+}
+
 int Player::onHometown()
 {
 	return onBlock("Hometown");
@@ -480,6 +509,18 @@ int Player::buyTool(const ToolItem& t)
 	return 1;
 }
 
+void Player::setBlock(Block* b)
+{
+	mine->setBlock(getIndex(mine->getColumnLimit()),b);
+	// Coloca o bloco novo à disposicao do mineiro
+	if (!getLastBlock())
+		destroyLastBlock();
+	// Colocar o bloco como último bloco
+	setLastBlock(b);
+	// Bloco atual
+	setCurrentBlock(b);
+}
+
 void Player::createLadder()
 {
 	if (!mine) return;
@@ -491,14 +532,7 @@ void Player::createLadder()
 		return;
 	
 	Block* b = new Ladder(getColumn(),getRow());
-	mine->setBlock(getIndex(mine->getColumnLimit()),b);
-	// Coloca a escada à disposicao do mineiro
-	if (!getLastBlock())
-		destroyLastBlock();
-	// Colocar a escada como último bloco
-	setLastBlock(b);
-	// Bloco atual
-	setCurrentBlock(b);
+	setBlock(b);
 	// Gastou uma escada
 	ladders--;
 }
@@ -506,24 +540,33 @@ void Player::createLadder()
 void Player::createBeam()
 {
 	if (!mine) return;
-	// Se nao tiver escadas, nao pode criar
+	// Se nao tiver vigas, nao pode criar
 	if (beams <= 0) return;
 
-	// Se já existir uma escada?
-	if (onBeam() || onHometown())
+	// Se já existir uma viga?
+	if (onBeam() || onHometown() || onDinamite())
 		return;
 
 	Block* b = new Beam(getColumn(),getRow());
-	mine->setBlock(getIndex(mine->getColumnLimit()),b);
-	// Coloca a escada à disposicao do mineiro
-	if (!getLastBlock())
-		destroyLastBlock();
-	// Colocar a escada como último bloco
-	setLastBlock(b);
-	// Bloco atual
-	setCurrentBlock(b);
-	// Gastou uma escada
+	setBlock(b);
+	// Gastou uma viga
 	beams--;
+}
+
+void Player::createDinamite()
+{
+	if (!mine) return;
+	// Se nao tiver dinamites, nao pode criar
+	if (dinamites <= 0) return;
+
+	// Se já existir um dinamite?
+	if (onDinamite() || onHometown())
+		return;
+
+	Block* b = new Dinamite(getColumn(),getRow());
+	setBlock(b);
+	// Gastou um dinamite
+	dinamites--;
 }
 
 Player& Player::operator=(const Player& base)
