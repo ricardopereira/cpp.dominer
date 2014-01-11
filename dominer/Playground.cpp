@@ -429,20 +429,30 @@ void Playground::gravity()
 {
 	// Gravidade
 	// Mineiro
-	if (!game->getMiner()->getDownBlock() && !game->getMiner()->onLadder())
-		gravityMiner();
+	if (game->getMiner()->getRow() < game->getMine()->getColumnLimit()-1)
+		if (!game->getMiner()->getDownBlock() && !game->getMiner()->onLadder())
+		{
+			gravityMiner();
+			game->getMiner()->falled();
+		}
 	// Rochas / Pedras
 	gravityRocks();
+	// Consequencia da queda
 }
 
 void Playground::gravityMiner()
 {
+	game->getMiner()->falling();
+	// Verifica se morreu
+	if (game->getMiner()->hasDied()) return;
 	// Gravidade
 	moveDown();
+	// Ultima linha
+	if (game->getMiner()->getRow() == game->getMine()->getColumnLimit()-1) return;
 	// Recursivo
 	if (!game->getMiner()->getDownBlock())
 	{
-		gravity();
+		gravityMiner();
 	}
 }
 	

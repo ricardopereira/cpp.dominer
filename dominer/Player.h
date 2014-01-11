@@ -26,6 +26,8 @@ class Player: public Block
 	int money;
 	int energy;
 	int died;
+	int isfalling;
+	int nfall;
 
 	Picker* picker;
 	Bag* bag;
@@ -52,6 +54,8 @@ public:
 		this->money = MINERMONEY;
 		this->energy = MINERENERGY;
 		this->died = 0;
+		this->nfall = 0;
+		this->isfalling = 0;
 		this->picker = NULL;
 		this->bag = NULL;
 		this->light = NULL;
@@ -101,12 +105,15 @@ public:
 	void setSuperminer(const bool value);
 	bool getSuperminer() const;
 
-	void iteration();
 	void kill();
 	void moved();
 	int hasDied();
 	int gameOver() const;
-	void consumeEnergy(int up=0);
+	void falling();
+	void falled();
+
+	void iteration();
+	void consumeEnergy(int up=0, int dec=1);
 	void restoreEnergy();
 	// Material
 	void addMaterial(Material* m);

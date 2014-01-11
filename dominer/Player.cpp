@@ -247,6 +247,23 @@ void Player::iteration()
 	died = 0;
 }
 
+void Player::falling()
+{
+	isfalling = 1;
+	if (parachutes > 0) return;
+	nfall++;
+	if (nfall >= 2)
+		consumeEnergy(0,10);
+}
+
+void Player::falled()
+{
+	if (parachutes > 0)
+		parachutes--;
+	nfall = 0;
+	isfalling = 0;
+}
+
 void Player::moved()
 {
 	// Se caminhar para a superficie, recebe energia
@@ -281,10 +298,10 @@ int Player::gameOver() const
 }
 
 // Movimento para cima é um caso particular
-void Player::consumeEnergy(int up)
+void Player::consumeEnergy(int up, int dec)
 {
 	died = 0;
-	energy--;
+	energy -= dec;
 	if (up) energy--;
 	// Verificar se faleceu
 	if (energy <= 0)
@@ -323,6 +340,7 @@ int Player::breaking(Block* b, int up)
 	// Consume energia ao trabalhar na mina
 	if (up && !onLadder()) {}
 	else if (b && b->classIs("Rock")) {}
+	else if (isfalling) {}
 	else consumeEnergy(up);
 	// Verifica se pode quebrar
 	if (b)
@@ -515,6 +533,8 @@ Player& Player::operator=(const Player& base)
 	this->money = base.money;
 	this->energy = base.energy;
 	this->died = 0;
+	this->nfall = 0;
+	this->isfalling = 0;
 
 	this->picker = NULL;
 	this->bag = NULL;

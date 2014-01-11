@@ -119,24 +119,28 @@ Block* Block::getDownBlock(const Mine& m) const
 
 void Block::moveLeft(Mine& m)
 {
+	if (column == 0) return;
 	m.swap(this->getIndex(m.getColumnLimit()),row*m.getColumnLimit()+column-1);
 	this->column--;
 }
 
 void Block::moveRight(Mine& m)
 {
+	if (column == m.getColumnLimit()+1) return;
 	m.swap(this->getIndex(m.getColumnLimit()),row*m.getColumnLimit()+column+1);
 	this->column++;
 }
 
 void Block::moveUp(Mine& m)
 {
+	if (row == 0) return;
 	m.swap(this->getIndex(m.getColumnLimit()),(row-1)*m.getColumnLimit()+column);
 	this->row--;
 }
 
 void Block::moveDown(Mine& m)
 {
+	if (row == m.getRowLimit()-1) return;
 	m.swap(this->getIndex(m.getColumnLimit()),(row+1)*m.getColumnLimit()+column);
 	this->row++;
 }
