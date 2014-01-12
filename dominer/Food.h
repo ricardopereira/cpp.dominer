@@ -11,7 +11,7 @@ class Food: public Block
 public:
 	Food(int c, int r) : Block(c,r) {}
 
-	int energy() const { return MINERENERGY; };
+	int getEnergy() const { return MINERENERGY; };
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);

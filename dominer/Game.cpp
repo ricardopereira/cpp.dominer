@@ -1,8 +1,6 @@
 #include <iostream>
 
 #include "Game.h"
-#include "Material.h"
-#include "Ladder.h"
 
 Game::Game(int cmax, int rmax, int dificulty)
 {
@@ -40,10 +38,8 @@ Mine* Game::getMine() const
 
 void Game::breakIt(Block* b)
 {
-	// Recolhe mineral
-	Material* m = dynamic_cast<Material*>(b);
-	if (m) miner->addMaterial(m);
-
+	// Extrai o que o bloco tiver
+	miner->extract(b);
 	// NULL na mina, ou seja, quebrou o bloco
 	mine->doBlockNull(b);
 }

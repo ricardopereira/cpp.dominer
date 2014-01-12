@@ -6,6 +6,7 @@
 #include "World.h"
 #include "Hometown.h"
 #include "Rock.h"
+#include "Dinamite.h"
 
 #ifndef __PLAYGROUND_H__
 #define __PLAYGROUND_H__
@@ -60,6 +61,7 @@ public:
 	void checkState();
 
 	void gravity();
+	void detonation();
 	int visibility(int mode, int refresh=0);
 	void teletransport(int cidx, int ridx);
 

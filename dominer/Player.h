@@ -77,6 +77,7 @@ public:
 
 	void setColumn(const int cidx);
 	void setRow(const int ridx);
+	void setMine(Mine* m);
 
 	void setCurrentBlock(Block* b);
 	Block* getCurrentBlock();
@@ -109,6 +110,7 @@ public:
 	void setSuperminer(const bool value);
 	bool getSuperminer() const;
 
+	void extract(Block* b);
 	int hasChanged();
 	void refresh();
 	void cleanBag();

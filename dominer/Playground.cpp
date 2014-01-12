@@ -203,6 +203,11 @@ void Playground::keyEvent(char key)
 		game->getMiner()->createDinamite();
 		refresh(1);
 	}
+	else if (tolower(key) == 'x')
+	{
+		detonation();
+		refresh(1);
+	}
 	else if (tolower(key) == 'p')
 		pause = !pause;
 }
@@ -434,6 +439,12 @@ void Playground::teletransport(int cidx, int ridx)
 {
 	// Tele-transporte
 	moveTo(cidx,ridx);
+	// Hometown
+	if (cidx == 0)
+	{
+		game->getMiner()->setCurrentBlock(game->getMine()->getBlock(cidx,ridx));
+		moveEvent();
+	}
 }
 
 void Playground::gravity()
@@ -504,6 +515,22 @@ void Playground::gravityRocks()
 	// Refresca se necessario
 	if (game->getMine()->hasChanged())
 		refresh(1);
+}
+
+void Playground::detonation()
+{
+	Player* m = game->getMiner();
+	if (!m) return;
+	for (int i=0; i<game->getMine()->getBlockCount(); i++)
+	{
+		Block* b = game->getMine()->getBlock(i);
+		if (!b) continue;
+		// Verifica se e rocha / pedra
+		Dinamite* d = dynamic_cast<Dinamite*>(b);
+		if (!d) continue;
+
+		//d->detonate(mine);
+	}
 }
 
 void Playground::gravityRock(Rock& r, int recursive)
@@ -675,6 +702,12 @@ void Playground::openShell()
 			{
 				//a <nome_origem nome_dest> - Copia a mina para uma nova (previamente criada - ex: tecla c), 
 				//e a atribuicao deve ser feita pelo operador atribuicao
+				if (!game->getMiner()->onHometown())
+				{
+					ctrl.getScreen().printCommandInfo("Please go to hometown to copy a mine");
+					continue;
+				}
+
 				Game* gameSource = ctrl.getGamesList().get(shell->getArgument(0));
 				Game* gameTarget = ctrl.getGamesList().get(shell->getArgument(1));
 
@@ -689,6 +722,7 @@ void Playground::openShell()
 				else
 				{
 					gameTarget->getMine()->operator=(*gameSource->getMine());
+					gameTarget->getMiner()->setMine(gameTarget->getMine());
 					refresh(1);
 				}
 			}

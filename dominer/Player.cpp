@@ -2,6 +2,8 @@
 #include <string>
 
 #include "Player.h"
+#include "Extralife.h"
+#include "Food.h"
 
 Player::~Player()
 {
@@ -101,6 +103,11 @@ void Player::setColumn(const int cidx)
 void Player::setRow(const int ridx)
 {
 	row = ridx;
+}
+
+void Player::setMine(Mine* m)
+{
+	mine = m;
 }
 
 void Player::setCurrentBlock(Block* b)
@@ -389,6 +396,34 @@ void Player::sell()
 		money += bag->getMaterial(i).getCost();
 	}
 	cleanBag();
+}
+
+void Player::extract(Block* b)
+{
+	if (!b) return;
+	// Recolhe mineral
+	Material* m = dynamic_cast<Material*>(b);
+	if (m)
+	{
+		addMaterial(m);
+		return;
+	}
+	// Recolhe vida extra 
+	Extralife* e = dynamic_cast<Extralife*>(b);
+	if (e)
+	{
+		extralifes++;
+		changed = 1;
+		return;
+	}
+	// Recolhe alimento
+	Food* f = dynamic_cast<Food*>(b);
+	if (f)
+	{
+		energy += f->getEnergy();
+		changed = 1;
+		return;
+	}
 }
 
 // Movimento para cima é um caso particular
