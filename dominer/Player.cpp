@@ -147,6 +147,7 @@ string Player::getLastAsString()
 void Player::setEnergy(const int value)
 {
 	energy = value;
+	changed = 1;
 }
 
 int Player::getEnergy()
@@ -157,6 +158,7 @@ int Player::getEnergy()
 void Player::setMoney(const int value)
 {
 	money = value;
+	changed = 1;
 }
 
 int Player::getMoney()
@@ -167,6 +169,7 @@ int Player::getMoney()
 void Player::setPicker(Picker& p)
 {
 	picker = &p;
+	changed = 1;
 }
 
 const Picker& Player::getPicker()
@@ -181,6 +184,7 @@ const Picker& Player::getPicker()
 void Player::setBag(Bag& b)
 {
 	bag = &b;
+	changed = 1;
 }
 
 const Bag& Player::getBag()
@@ -195,13 +199,14 @@ const Bag& Player::getBag()
 void Player::setLight(Light& l)
 {
 	light = &l;
+	changed = 1;
 }
 
 const Light& Player::getLight()
 {
 	if (!light)
 	{
-		setLight(*new Light(LIGHTMASTER)); //LIGHTNORMAL
+		setLight(*new Light(LIGHTNORMAL));
 	}
 	return *light;
 }
@@ -209,6 +214,7 @@ const Light& Player::getLight()
 void Player::setExtralifes(const int value)
 {
 	extralifes = value;
+	changed = 1;
 }
 
 int Player::getExtralifes() const
@@ -219,6 +225,7 @@ int Player::getExtralifes() const
 void Player::setLadders(const int value)
 {
 	ladders = value;
+	changed = 1;
 }
 
 int Player::getLadders() const
@@ -229,6 +236,7 @@ int Player::getLadders() const
 void Player::setBeams(const int value)
 {
 	beams = value;
+	changed = 1;
 }
 
 int Player::getBeams() const
@@ -239,6 +247,7 @@ int Player::getBeams() const
 void Player::setParachutes(const int value)
 {
 	parachutes = value;
+	changed = 1;
 }
 
 int Player::getParachutes() const
@@ -249,6 +258,7 @@ int Player::getParachutes() const
 void Player::setDinamites(const int value)
 {
 	dinamites = value;
+	changed = 1;
 }
 
 int Player::getDinamites() const
@@ -259,6 +269,7 @@ int Player::getDinamites() const
 void Player::setSuperminer(const bool value)
 {
 	superminer = value;
+	changed = 1;
 }
 
 bool Player::getSuperminer() const
@@ -274,16 +285,18 @@ void Player::iteration()
 void Player::falling()
 {
 	isfalling = 1;
-	if (parachutes > 0) return;
 	nfall++;
-	if (nfall >= 2)
+	if (nfall >= 2 && parachutes <= 0)
 		consumeEnergy(0,10);
 }
 
 void Player::falled()
 {
-	if (parachutes > 0)
+	if (nfall >= 2 && parachutes > 0)
+	{
 		parachutes--;
+		changed = 1;
+	}
 	nfall = 0;
 	isfalling = 0;
 }
@@ -309,6 +322,8 @@ void Player::kill()
 		// Para indicar que o jogo terminou (negativo)
 		energy--;
 	}
+	// Esvazia a mochila
+	cleanBag();
 }
 
 int Player::hasDied()
@@ -332,11 +347,13 @@ void Player::consumeEnergy(int up, int dec)
 	{
 		kill();
 	}
+	changed = 1;
 }
 
 void Player::restoreEnergy()
 {
 	energy = MINERENERGY;
+	changed = 1;
 }
 
 void Player::addMaterial(Material* m)
@@ -346,6 +363,22 @@ void Player::addMaterial(Material* m)
 	getBag();
 	// Adicionar material recolhido a mochila
 	bag->addMaterial(m);
+	// Refrescar
+	changed = 1;
+}
+
+void Player::cleanBag()
+{
+	changed = 1;
+	// Libertar memoria
+	for (int i=0; i<bag->getCountMaterials(); i++)
+		if (getLastBlock() == &bag->getMaterial(i))
+		{
+			setLastBlock(NULL);
+			break;
+		}
+	// Limpar mochila
+	bag->clean();
 }
 
 void Player::sell()
@@ -355,7 +388,7 @@ void Player::sell()
 	{
 		money += bag->getMaterial(i).getCost();
 	}
-	bag->clean();
+	cleanBag();
 }
 
 // Movimento para cima é um caso particular
@@ -506,6 +539,7 @@ int Player::buyTool(const ToolItem& t)
 	}
 	// Retira o custo
 	money -= t.getCost();
+	changed = 1;
 	return 1;
 }
 
@@ -519,6 +553,16 @@ void Player::setBlock(Block* b)
 	setLastBlock(b);
 	// Bloco atual
 	setCurrentBlock(b);
+}
+
+int Player::hasChanged()
+{
+	return changed;
+}
+
+void Player::refresh()
+{
+	changed = 0;
 }
 
 void Player::createLadder()
@@ -535,6 +579,7 @@ void Player::createLadder()
 	setBlock(b);
 	// Gastou uma escada
 	ladders--;
+	changed = 1;
 }
 
 void Player::createBeam()
@@ -551,6 +596,7 @@ void Player::createBeam()
 	setBlock(b);
 	// Gastou uma viga
 	beams--;
+	changed = 1;
 }
 
 void Player::createDinamite()
@@ -567,6 +613,7 @@ void Player::createDinamite()
 	setBlock(b);
 	// Gastou um dinamite
 	dinamites--;
+	changed = 1;
 }
 
 Player& Player::operator=(const Player& base)
@@ -578,6 +625,7 @@ Player& Player::operator=(const Player& base)
 	this->died = 0;
 	this->nfall = 0;
 	this->isfalling = 0;
+	this->changed = 1;
 
 	this->picker = NULL;
 	this->bag = NULL;

@@ -68,6 +68,10 @@ public:
 	void printPicker(const Picker& p);
 	void printBag(const Bag& b);
 	void printLight(const Light& l);
+	void printLadders(const Player& p);
+	void printBeams(const Player& p);
+	void printParachutes(const Player& p);
+	void printDinamites(const Player& p);
 	void printTools(Player& p);
 };
 

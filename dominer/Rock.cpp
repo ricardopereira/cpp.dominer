@@ -31,5 +31,5 @@ const Rock Rock::operator++(int)
 void Rock::moveDown(Mine& m)
 {
 	Block::moveDown(m);
-	// Debug
+	resetLapse();
 }

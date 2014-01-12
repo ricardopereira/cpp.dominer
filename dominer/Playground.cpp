@@ -213,8 +213,6 @@ void Playground::checkState()
 	if (!m) return;
 	// Gravidade
 	gravityRocks();
-	// Refrescar
-	refreshInfo();
 
 	// Verifica fim do jogo
 	if (m->gameOver())
@@ -228,6 +226,8 @@ void Playground::checkState()
 		ctrl.getScreen().showMessage("Extra Life used");
 		teletransport(3,0);
 	}
+	// Refrescar
+	refreshInfo();
 	// Evento de iteracoes
 	m->iteration();
 }
@@ -524,12 +524,13 @@ void Playground::refreshInfo()
 {
 	if (!game) return;
 	Player* miner = game->getMiner();
-	if (miner)
+	if (miner && miner->hasChanged())
 	{
 		ctrl.getScreen().printEnergy(miner->getEnergy());
 		ctrl.getScreen().printMoney(miner->getMoney());
 		ctrl.getScreen().printExtralifes(miner->getExtralifes());
 		ctrl.getScreen().printTools(*miner);
+		miner->refresh();
 
 		// Debug: Índice do Mineiro
 		if (MODEDEBUG)
@@ -699,15 +700,22 @@ void Playground::openShell()
 			}
 			else if (shell->isCommand("shop"))
 			{
-				//lu - listar utensilios
-				ctrl.getScreen().clearAllText();
-				ctrl.getScreen().printText("Utensilios:",1);
-				for (int i=0; i<ctrl.getConfig().getToolsList().size(); i++)
-					ctrl.getScreen().printText(" " + ctrl.getConfig().getToolsList().item(i).getAsString(),i+3);
+				//shop - listar utensilios
+				if (!game->getMiner()->onHometown())
+				{
+					ctrl.getScreen().printCommandInfo("Please go to hometown for shopping");
+				}
+				else
+				{
+					ctrl.getScreen().clearAllText();
+					ctrl.getScreen().printText("Utensilios:",1);
+					for (int i=0; i<ctrl.getConfig().getToolsList().size(); i++)
+						ctrl.getScreen().printText(" " + ctrl.getConfig().getToolsList().item(i).getAsString(),i+3);
+				}
 			}
 			else if (shell->isCommand("blocks"))
 			{
-				//lb - listar blocos
+				//blocks - listar blocos
 				ctrl.getScreen().clearAllText();
 				ctrl.getScreen().printText("Blocos:",1);
 				for (int i=0; i<ctrl.getBlocksList().size(); i++)
@@ -715,7 +723,7 @@ void Playground::openShell()
 			}
 			else if (shell->isCommand("games"))
 			{
-				//lj - listar jogos em memória
+				//games - listar jogos em memória
 				ctrl.getScreen().clearAllText();
 				ctrl.getScreen().printText("Jogos em memoria: "+to_string(ctrl.getGamesList().size()),1);
 				for (int i=0; i<ctrl.getGamesList().size(); i++)

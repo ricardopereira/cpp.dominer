@@ -370,9 +370,8 @@ void Screen::printLight(const Light& l)
 	cout << " " << l.getAsString();
 }
 
-void Screen::printTools(Player& p)
+void Screen::printLadders(const Player& p)
 {
-	// Ferramenta: Escada
 	gotoPanelInfo(5);
 	clearLine();
 	gotoPanelInfo(5);
@@ -380,8 +379,10 @@ void Screen::printTools(Player& p)
 	cout << (char)23;
 	restoreColor();
 	cout << " " << p.getLadders();
+}
 
-	// Ferramenta: Viga
+void Screen::printBeams(const Player& p)
+{
 	gotoPanelInfo(6);
 	clearLine();
 	gotoPanelInfo(6);
@@ -389,8 +390,10 @@ void Screen::printTools(Player& p)
 	cout << (char)203;
 	restoreColor();
 	cout << " " << p.getBeams();
+}
 
-	//Ferramenta: Para-quedas
+void Screen::printParachutes(const Player& p)
+{
 	gotoPanelInfo(7);
 	clearLine();
 	gotoPanelInfo(7);
@@ -398,8 +401,10 @@ void Screen::printTools(Player& p)
 	cout << (char)237;
 	restoreColor();
 	cout << " " << p.getParachutes();
+}
 
-	//Ferramenta: Dinamites
+void Screen::printDinamites(const Player& p)
+{
 	gotoPanelInfo(8);
 	clearLine();
 	gotoPanelInfo(8);
@@ -407,6 +412,21 @@ void Screen::printTools(Player& p)
 	cout << (char)42;
 	restoreColor();
 	cout << " " << p.getDinamites();
+}
+
+void Screen::printTools(Player& p)
+{
+	// Ferramenta: Escada
+	printLadders(p);
+
+	// Ferramenta: Viga
+	printBeams(p);
+
+	//Ferramenta: Para-quedas
+	printParachutes(p);
+
+	//Ferramenta: Dinamites
+	printDinamites(p);
 
 	// Restantes
 	printPicker(p.getPicker());

@@ -29,6 +29,7 @@ class Player: public Block
 	int died;
 	int isfalling;
 	int nfall;
+	int changed;
 
 	Picker* picker;
 	Bag* bag;
@@ -58,6 +59,7 @@ public:
 		this->died = 0;
 		this->nfall = 0;
 		this->isfalling = 0;
+		this->changed = 0;
 		this->picker = NULL;
 		this->bag = NULL;
 		this->light = NULL;
@@ -107,6 +109,9 @@ public:
 	void setSuperminer(const bool value);
 	bool getSuperminer() const;
 
+	int hasChanged();
+	void refresh();
+	void cleanBag();
 	void kill();
 	void moved();
 	int hasDied();

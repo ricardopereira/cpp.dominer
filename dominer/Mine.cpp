@@ -84,41 +84,41 @@ void Mine::createBlocks()
 	switch (dificulty)
 	{
 	case NORMAL:
-		probs[0] = 3; //Extralife
-		probs[1] = 6; //Diamond
-		probs[2] = 11; //Gold
-		probs[3] = 14; //Food
-		probs[4] = 18; //Aluminum
-		probs[5] = 26; //Iron
-		probs[6] = 34; //Coal
-		probs[7] = 50; //Rock
+		probs[0] = 1; //Extralife
+		probs[1] = 2; //Diamond
+		probs[2] = 5; //Gold
+		probs[3] = 6; //Food
+		probs[4] = 11; //Aluminum
+		probs[5] = 21; //Iron
+		probs[6] = 31; //Coal
+		probs[7] = 41; //Rock
 
 		// Calcular o limite
 		level = (int)ceil((double)maxr/2);
 		break;
 	case HARD:
-		probs[0] = 3; //Extralife
-		probs[1] = 6; //Diamond
-		probs[2] = 11; //Gold
-		probs[3] = 15; //Food
-		probs[4] = 20; //Aluminum
-		probs[5] = 30; //Iron
-		probs[6] = 40; //Coal
-		probs[7] = 48; //Rock
+		probs[0] = 1; //Extralife
+		probs[1] = 2; //Diamond
+		probs[2] = 5; //Gold
+		probs[3] = 6; //Food
+		probs[4] = 11; //Aluminum
+		probs[5] = 21; //Iron
+		probs[6] = 31; //Coal
+		probs[7] = 51; //Rock
 
 		// Calcular o limite
 		level =(int)floor((double)maxr/4);
 		level = maxr - level;
 		break;
 	default:
-		probs[0] = 3; //Extralife
-		probs[1] = 6; //Diamond
-		probs[2] = 11; //Gold
-		probs[3] = 15; //Food
-		probs[4] = 20; //Aluminum
-		probs[5] = 30; //Iron
-		probs[6] = 40; //Coal
-		probs[7] = 45; //Rock
+		probs[0] = 1; //Extralife
+		probs[1] = 2; //Diamond
+		probs[2] = 5; //Gold
+		probs[3] = 6; //Food
+		probs[4] = 11; //Aluminum
+		probs[5] = 21; //Iron
+		probs[6] = 31; //Coal
+		probs[7] = 35; //Rock
 		level = -1;
 		break;
 	}
@@ -132,35 +132,35 @@ void Mine::createBlocks()
 			// Linha da superficie
 			map[i] = new Hometown(cidx,ridx);
 		}
-		else if (prob <= probs[0] && ridx > level)
+		else if (prob <= probs[0] && ridx > level && prob > 0)
 		{
 			map[i] = new Extralife(cidx,ridx);
 		}
-		else if (prob <= probs[1] && ridx > level)
+		else if (prob <= probs[1] && ridx > level && prob > 0)
 		{
 			map[i] = new Diamond(cidx,ridx);
 		}
-		else if (prob <= probs[2] && ridx > level)
+		else if (prob <= probs[2] && ridx > level && prob > 0)
 		{
 			map[i] = new Gold(cidx,ridx);
 		}
-		else if (prob <= probs[3] && ridx > level)
+		else if (prob <= probs[3] && ridx > level && prob > 0)
 		{
 			map[i] = new Food(cidx,ridx);
 		}
-		else if (prob <= probs[4])
+		else if (prob <= probs[4] && prob > 0)
 		{
 			map[i] = new Aluminum(cidx,ridx);
 		}
-		else if (prob <= probs[5])
+		else if (prob <= probs[5] && prob > 0)
 		{
 			map[i] = new Iron(cidx,ridx);
 		}
-		else if (prob <= probs[6])
+		else if (prob <= probs[6] && prob > 0)
 		{
 			map[i] = new Coal(cidx,ridx);
 		}
-		else if (prob <= probs[7])
+		else if (prob <= probs[7] && prob > 0)
 		{
 			map[i] = new Rock(cidx,ridx);
 		}
