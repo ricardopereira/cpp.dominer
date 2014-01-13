@@ -3,6 +3,11 @@
 
 #include "Light.h"
 
+Light::Light(const Light& base)
+{
+	*this = base;
+}
+
 int Light::operator==(const Light& right) const
 {
 	return brightness == right.getBrightness();
@@ -35,4 +40,10 @@ string Light::getAsString() const
 		break;
 	}
 	return out.str();
+}
+
+Light& Light::operator=(const Light& base)
+{
+	this->brightness = base.brightness;
+	return *this;
 }

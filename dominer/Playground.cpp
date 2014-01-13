@@ -206,7 +206,6 @@ void Playground::keyEvent(char key)
 	else if (tolower(key) == 'x')
 	{
 		detonation();
-		refresh(1);
 	}
 	else if (tolower(key) == 'p')
 		pause = !pause;
@@ -451,7 +450,7 @@ void Playground::gravity()
 {
 	// Gravidade
 	// Mineiro
-	if (game->getMiner()->getRow() < game->getMine()->getColumnLimit()-1)
+	if (game->getMiner()->getRow() > 0 && game->getMiner()->getRow() < game->getMine()->getColumnLimit()-1)
 		if (!game->getMiner()->getDownBlock() && !game->getMiner()->onLadder())
 		{
 			gravityMiner();
@@ -459,7 +458,6 @@ void Playground::gravity()
 		}
 	// Rochas / Pedras
 	gravityRocks();
-	// Consequencia da queda
 }
 
 void Playground::gravityMiner()
@@ -528,9 +526,12 @@ void Playground::detonation()
 		// Verifica se e rocha / pedra
 		Dinamite* d = dynamic_cast<Dinamite*>(b);
 		if (!d) continue;
-
-		//d->detonate(mine);
+		// Detonar dinamite
+		d->detonate(*game->getMine());
+		game->getMine()->doBlockNull(d,1,1);
 	}
+	// Verificar gravidade
+	gravity();
 }
 
 void Playground::gravityRock(Rock& r, int recursive)
@@ -721,6 +722,8 @@ void Playground::openShell()
 				}
 				else
 				{
+					// Copia a mina da origem para o destino
+					gameTarget->getMiner()->destroyLastBlock();
 					gameTarget->getMine()->operator=(*gameSource->getMine());
 					gameTarget->getMiner()->setMine(gameTarget->getMine());
 					refresh(1);

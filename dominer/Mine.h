@@ -33,7 +33,7 @@ public:
 	int hasChanged();
 	void refresh();
 
-	void doBlockNull(Block* b, int deleteBlock=0);
+	void doBlockNull(Block* b, int deleteBlock=0, int force=0);
 	void doBlockNull(int index);
 	void doBlockNull(int cidx, int ridx);
 

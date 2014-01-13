@@ -15,13 +15,15 @@ class Bag: public Tool
 	// Lista de minerais
 	Material** materials;
 
+	void init();
+	void add(Material* m);
 	void destroyMinerals();
 public:
 	Bag(const int kind=BAGNORMAL) : Tool(), limit(kind)
 	{ 
-		countMaterials = 0;
-		materials = NULL;
+		init();
 	}
+	Bag(const Bag& base);
 	~Bag();
 
 	int getLimit() const;
@@ -35,6 +37,7 @@ public:
 	void clean();
 	int howMany(const string& name) const;
 
+	Bag& operator=(Bag base);
 	int operator==(const Bag& right) const;
 	int operator!=(const Bag& right) const;
 

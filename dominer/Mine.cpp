@@ -253,11 +253,11 @@ void Mine::setBlock(int index, Block* b, int deleteBlock)
 	}
 }
 
-void Mine::doBlockNull(Block* b, int deleteBlock)
+void Mine::doBlockNull(Block* b, int deleteBlock, int force)
 {
 	if (!b) return;
 	// Se não for um bloco protegido pode remover da mina
-	if (!b->isProtected())
+	if (force || !b->isProtected())
 	{
 		int idx = b->getIndex(maxc);
 		// Verifica se é para remover da memoria

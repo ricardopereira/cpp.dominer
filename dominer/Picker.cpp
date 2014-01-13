@@ -3,6 +3,11 @@
 
 #include "Picker.h"
 
+Picker::Picker(const Picker& base)
+{
+	*this = base;
+}
+
 int Picker::operator==(const Picker& right) const
 {
 	return strength == right.getStrength();
@@ -35,4 +40,10 @@ string Picker::getAsString() const
 		break;
 	}
 	return out.str();
+}
+
+Picker& Picker::operator=(const Picker& base)
+{
+	this->strength = base.strength;
+	return *this;
 }

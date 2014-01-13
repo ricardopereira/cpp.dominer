@@ -153,7 +153,10 @@ string Player::getLastAsString()
 
 void Player::setEnergy(const int value)
 {
-	energy = value;
+	if (value > 50000)
+		energy = 50000;
+	else
+		energy = value;
 	changed = 1;
 }
 
@@ -164,7 +167,10 @@ int Player::getEnergy()
 
 void Player::setMoney(const int value)
 {
-	money = value;
+	if (value > 50000)
+		money = 50000;
+	else
+		money = value;
 	changed = 1;
 }
 
@@ -662,16 +668,16 @@ Player& Player::operator=(const Player& base)
 	this->isfalling = 0;
 	this->changed = 1;
 
-	this->picker = NULL;
-	this->bag = NULL;
-	this->light = NULL;
+	this->picker = new Picker(*base.picker);
+	this->bag = new Bag(*base.bag);
+	this->light = new Light(*base.light);
 
-	this->extralifes = MINERLIFES;
-	this->ladders = MINERLADDERS;
-	this->beams = MINERBEAMS;
-	this->parachutes = MINERPARACHUTES;
-	this->dinamites = MINERDINAMITES;
-	this->superminer = MINERSUPER;
+	this->extralifes = base.extralifes;
+	this->ladders = base.ladders;
+	this->beams = base.beams;
+	this->parachutes = base.parachutes;
+	this->dinamites = base.dinamites;
+	this->superminer = base.superminer;
 
 	return *this;
 }

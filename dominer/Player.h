@@ -70,6 +70,10 @@ public:
 		this->dinamites = MINERDINAMITES;
 		this->superminer = MINERSUPER;
 	}
+	Player(const Player& base) : Block(0,0)
+	{
+		*this = base;
+	}
 	~Player();
 
 	char getDrawInfo(const int index);

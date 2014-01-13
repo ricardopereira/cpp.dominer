@@ -21,3 +21,49 @@ int Dinamite::getColor(const int index)
 	else
 		return BRANCO;
 }
+
+void Dinamite::detonate(Mine& m)
+{
+	Block* b;
+	b = m.getBlock(column,row-1);
+	if (b)
+		m.doBlockNull(b,1,1);
+	b = m.getBlock(column,row+1);
+	if (b)
+		m.doBlockNull(b,1,1);
+
+	b = m.getBlock(column-1,row-1);
+	if (b)
+		m.doBlockNull(b,1,1);
+	b = m.getBlock(column+1,row-1);
+	if (b)
+		m.doBlockNull(b,1,1);
+
+	b = m.getBlock(column+1,row+1);
+	if (b)
+		m.doBlockNull(b,1,1);
+	b = m.getBlock(column-1,row+1);
+	if (b)
+		m.doBlockNull(b,1,1);
+
+	b = m.getBlock(column+1,row);
+	if (b)
+		m.doBlockNull(b,1,1);
+	b = m.getBlock(column-1,row);
+	if (b)
+		m.doBlockNull(b,1,1);
+
+	b = m.getBlock(column+1,row+1);
+	if (b)
+		m.doBlockNull(b,1,1);
+	b = m.getBlock(column+1,row-1);
+	if (b)
+		m.doBlockNull(b,1,1);
+
+	b = m.getBlock(column-1,row+1);
+	if (b)
+		m.doBlockNull(b,1,1);
+	b = m.getBlock(column-1,row-1);
+	if (b)
+		m.doBlockNull(b,1,1);
+}

@@ -3,6 +3,7 @@
 #include "Block.h"
 #include "Tool.h"
 #include "Common.h"
+#include "Mine.h"
 
 #ifndef __DINAMITE_H__
 #define __DINAMITE_H__
@@ -11,6 +12,8 @@ class Dinamite: public Block
 {
 public:
 	Dinamite(int c, int r) : Block(c,r) {}
+
+	void detonate(Mine& m);
 
 	char getDrawInfo(const int index);
 	int getColor(const int index);

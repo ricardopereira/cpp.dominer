@@ -3,6 +3,14 @@
 
 #include "Bag.h"
 
+Bag::Bag(const Bag& base)
+{
+	init();
+	this->limit = base.limit;
+	for (int i=0; i<base.getCountMaterials(); i++)
+		this->add(base.materials[i]);
+}
+
 Bag::~Bag()
 {
 	delete [] materials;
@@ -19,9 +27,25 @@ void Bag::destroyMinerals()
 	}
 }
 
+void Bag::init()
+{
+	countMaterials = 0;
+	materials = NULL;
+}
+
 int Bag::getLimit() const
 {
 	return limit;
+}
+
+Bag& Bag::operator=(Bag base) //Obriga a criar copia
+{
+	destroyMinerals();
+	this->limit = base.limit;
+	// Swap
+	this->materials = base.materials;
+	base.materials = NULL;
+	return *this;
 }
 
 int Bag::operator==(const Bag& right) const
@@ -34,17 +58,8 @@ int Bag::operator!=(const Bag& right) const
 	return limit != right.getLimit();
 }
 
-void Bag::addMaterial(Material* m)
+void Bag::add(Material* m)
 {
-	if (!m) return;
-
-	//Se atingiu o limite da mochila, entao "perde" o material
-	if (getTotalWeight()+m->getWeight() > limit)
-	{
-		m->setForceDestruction();
-		return;
-	}
-
 	Material** aux = new Material*[getCountMaterials()+1];
 	if (aux != NULL)
 	{
@@ -55,7 +70,20 @@ void Bag::addMaterial(Material* m)
 		countMaterials++;
 		delete [] materials;
 		materials = aux;
-	} 
+	}
+}
+
+void Bag::addMaterial(Material* m)
+{
+	if (!m) return;
+	// Se atingiu o limite da mochila, entao "perde" o material
+	if (getTotalWeight()+m->getWeight() > limit)
+	{
+		m->setForceDestruction();
+		return;
+	}
+	// Adicionar
+	add(m);
 }
 
 void Bag::removeMaterial(int index)

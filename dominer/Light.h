@@ -11,9 +11,11 @@ class Light: public Tool
 	int brightness;
 public:
 	Light(const int kind=LIGHTNORMAL) : Tool(), brightness(kind) {}
+	Light(const Light& base);
 
 	int getBrightness() const;
 
+	Light& operator=(const Light& base);
 	int operator==(const Light& right) const;
 	int operator!=(const Light& right) const;
 
